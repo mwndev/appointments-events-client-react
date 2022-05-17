@@ -42,7 +42,7 @@ function App() {
 
 
       <Routes>
-        {links.map((link => ( <Route path={link[0]} element={link[2]} /> )))}
+        {links.map((link => ( <Route path={link[0]} element={link[2]} key={link[0]} /> )))}
       </Routes>
 
 

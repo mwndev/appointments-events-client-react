@@ -6,15 +6,15 @@ import arrow from '../svgs/arrowup.svg'
 
 
 const daysObject = {
-    '1': 31,
-    '2': 28,
-    '3': 31,
-    '4': 30,
-    '5': 31,
-    '6': 30,
-    '7': 31,
-    '8': 31,
-    '9': 30,
+    '01': 31,
+    '02': 28,
+    '03': 31,
+    '04': 30,
+    '05': 31,
+    '06': 30,
+    '07': 31,
+    '08': 31,
+    '09': 30,
     '10': 31,
     '11': 30,
     '12': 31
@@ -55,10 +55,11 @@ const StyledArrowWrapper = styled.div`
         aspect-ratio: 1 / 1;
         cursor: pointer;
         border-radius: 50%;
-        margin: 0.06cm;
+        margin: 0.03cm;
+        padding: 0.03cm;
     }
     img:hover{
-        background-color: grey;
+        background-color: rgba(0, 0, 0, 0.3);
     }
     .down{
         transform: rotate(180deg)
@@ -66,15 +67,18 @@ const StyledArrowWrapper = styled.div`
 `
 const StyledDay = styled.div`
     height: 14%;
-    aspect-ratio: 1 / 1;
-    margin: 1%;
-    justify-self: right;
+    aspect-ratio: 1 / 1 ;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 1;
-    flex-grow: 1;
-    pre{
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover{
+        background-color: ${props => props.activeColor};
+    }
+    span{
         font-size: 1rem;
         margin: 0;
     }
@@ -86,66 +90,87 @@ const StyledCalendarBoxBody = styled.div`
     align-items: center;
     justify-content: left;
     flex-wrap: wrap;
+    padding: 0.2cm;
 `
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 //TODO apply gradient to header
 const Book = () => {
 
-    
-    let nowString = Temporal.Now.plainDateISO().toString()
-    console.log(nowString)
+    const now = Temporal.Now.plainDateISO()
 
-    const getMonthFromISODateAsNum = (ISODate) => {
-        return Number(ISODate.substring(5, 7))
-    }
-    const currentMonth = getMonthFromISODateAsNum(nowString)
+    let e = now.with({day: 2})
+    console.log(e)
 
-    
-    const [month, setMonth] = useState(getMonthFromISODateAsNum(nowString))
+    const [date, setDate] = useState(now)
 
-    const [date, setDate] = useState(nowString)
-
-    const decrementMonth = () => {
-        if(month === currentMonth){
-            return
-        }
-        if(month === 1){
-            setMonth(12)//and decrement the year
-        }
-        setMonth(previousMonth => previousMonth - 1)
-    }
     const incrementMonth = () => {
-        if(month === 12){
-            setMonth(1)
-        }else{
-            setMonth(previousMonth => previousMonth + 1)
-        }
+        setDate(previous => previous.add({months: 1}))
     }
-
-    //why do i need to use .map() to render the days
-    const buildDaysArray = () => {
-        let daysArray = []
-
-        for(let i = 0 ; i < daysObject[parseInt(month)] ; i += 1){
-
-            daysArray.push(parseInt(i+1))
-        }
-        return daysArray       
+    const decrementMonth = () => {
+        let testDate = date.subtract({months: 1}).since(now).toString();
+        if( testDate.substring(0, 1) === 'P')
+        setDate(previous => previous.subtract({months: 1}))
     }
+    console.log(date)
+    
+
+    //const daysInMonthArray = () => {
+    //
+    //    let arr = []
+    //    for(let day = 1 ; day <= date.daysInMonth ; day +=1){
+    //        arr.push(<Day d={1}/>)
+    //    }
+    //    return arr
+    //}
+        
+   
 
     return(
         <StyledCalendarBox>
         <StyledCalendarBoxHeader>
-            <StyledMonthName>{month}</StyledMonthName>
+            <StyledMonthName>{date.toString()}</StyledMonthName>
             <StyledArrowWrapper>
             <img src={arrow} alt='up' onClick={decrementMonth} />
             <img className='down' src={arrow} alt='down' onClick={incrementMonth} />
             </StyledArrowWrapper>
         </StyledCalendarBoxHeader>
         <StyledCalendarBoxBody>
-            {buildDaysArray().map(day => <StyledDay><pre>{day}</pre></StyledDay>)}
+        {daysInMonthArray().map(day => day)}
+            
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
     )
