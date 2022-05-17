@@ -22,6 +22,8 @@ const StyledMiddle = styled.div`
     div > a{
       padding: 0.3cm;
       border: 0.07cm solid ${props => props.theme.c1};
+      flex-shrink: 1;
+      
       
     }
     div > a:hover{
