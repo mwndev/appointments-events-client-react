@@ -1,6 +1,8 @@
-import { Temporal } from "@js-temporal/polyfill";
+//import { Temporal } from "@js-temporal/polyfill";
+const Temporal = require('@js-temporal/polyfill').Temporal
 
-let now = Temporal.Now.plainDateISO()
-console.log(now)
-inamonth = now.with({day: 12})
-console.log(inamonth)
+console.log(Temporal)
+
+const now = Temporal.Now.plainDateISO()
+
+console.log(now.with({day: 26}).toString())

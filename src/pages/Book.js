@@ -28,10 +28,6 @@ const StyledFlexContainer = styled.div`
     justify-content: space-evenly;
     align-items: center;
     width: 67%;
-
-
-
-
 `
 
 const StyledCalendarBox = styled.div`
@@ -194,17 +190,23 @@ const Calendar = () => {
 
 
     const decrementMonth = () => {
+        //TODO doesn't work if you go ahead by one year
         if(date.month > now.month){
             setDate(previous => previous.subtract({months: 1}))
         }
     }
+    const debugSetDate = (newDate) => {
+        console.log(date)
+        setDate(prev => prev.with({day: newDate}))
+    }
 
     
     useEffect(() => {
-        
+        //TODO the last day in the array is 30 even if there are 31 days. [1, ..., 30, 30]
         let arr = []
-        for(let i = 1 ; i < date.daysInMonth + 1 ; i +=1){
-            arr.push(now.with({day: i}))
+        //daysInMonth works, meaning something is preventing arr[30] from increasing to the value of 31
+        for(let i = 0 ; i < date.daysInMonth ; i +=1){
+            arr.push(now.with({day: i + 1}))
         }
         setCalendarDays(arr)        
     },[date.month])
@@ -226,9 +228,12 @@ const Calendar = () => {
     const [appointmentContextValue, setAppointmentContextValue] = useContext(AppointmentContext)
 
     //TODO use object.assign to modify the global date-appointment object upon making requests
-    useEffect(() => setAppointmentContextValue(prev => getAvailableAppointments(date.month)) , [date])
+    useEffect(() => setAppointmentContextValue(prev => getAvailableAppointments(date.month)), [date])
 
+    //this checks when the date changes, what format it is, etc and logs it to the console
+    useEffect(() => console.log(date), [date])
 
+    
 
     return(
         <>
@@ -246,7 +251,7 @@ const Calendar = () => {
         </StyledCalendarBoxHeader>
         <StyledCalendarBoxBody>
        
-        {calendarDays.map(calendarDay => <StyledDay onClick={() => setDate(prev => calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
+        {calendarDays.map(calendarDay => <StyledDay key={calendarDay.day.toString()} onClick={() => setDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
