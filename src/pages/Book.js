@@ -74,7 +74,7 @@ const StyledArrowWrapper = styled.div`
         transform: rotate(180deg)
     }
 `
-export const StyledDay = styled.div`
+const StyledDay = styled.div`
     height: 14%;
     aspect-ratio: 1 / 1 ;
     margin: 0;
