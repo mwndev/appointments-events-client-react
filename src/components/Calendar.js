@@ -120,10 +120,10 @@ const StyledAppointment = styled.div`
     }
 `
 
-const Calendar = ({ initialISODate, setDateForParent }) => {
+const Calendar = ({ parentISODate, setDateForParent }) => {
     const now = Temporal.Now.plainDateISO()
 
-    const [selectedDate, setSelectedDate] = useState(initialISODate)
+    const [selectedDate, setSelectedDate] = useState(parentISODate)
     const [daysArray, setDaysArray] = useState([])
 
     useEffect(() => {
@@ -139,7 +139,7 @@ const Calendar = ({ initialISODate, setDateForParent }) => {
     }, [selectedDate])
 
     const decrementMonth = () => {
-        if(now.month < selectedDate.month && now.year <= selectedDate.year){setSelectedDate(prev => prev.subtract({months: 1}))} 
+        if(now.month < selectedDate.month || now.year < selectedDate.year){setSelectedDate(prev => prev.subtract({months: 1}))} 
     }
     const incrementMonth = () => {
         
@@ -152,7 +152,7 @@ const Calendar = ({ initialISODate, setDateForParent }) => {
         <>
         <StyledCalendarBox>
         <StyledCalendarBoxHeader>
-            <StyledMonthName>{selectedDate.toString()}</StyledMonthName>
+            <StyledMonthName>{parentISODate.toString()}</StyledMonthName>
             <StyledArrowWrapper>
             <img src={arrow} alt='up' onClick={incrementMonth} />
             <img className='down' src={arrow} alt='down' onClick={decrementMonth} />

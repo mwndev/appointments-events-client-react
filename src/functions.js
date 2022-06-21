@@ -1,10 +1,8 @@
 //import { Temporal } from "@js-temporal/polyfill";
 const Temporal = require('@js-temporal/polyfill').Temporal
 
-console.log(Temporal)
+let arr = [1, 2, 3, 4, 5, 6]
 
-const now = Temporal.Now.plainDateISO()
-console.log(now)
-console.log('////////////////')
-const other = now.add({years: -1})
-console.log(now.until(other).days)
+arr.splice(1, 3, 'yearr')
+
+console.log(arr)
