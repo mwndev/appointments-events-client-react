@@ -37,6 +37,9 @@ const ViewAsTimeframe = () => {
     const [startingDate, setStartingDate] = useState(now)
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
+    const [appointmentsFromServer, setAppointmentsFromServer] = useState()
+
+
     console.log(daysOfWeek)
     /*
     body would be structured as: 
@@ -56,10 +59,11 @@ const ViewAsTimeframe = () => {
             endTime: Number,
         }
     } 
-
-
     */
-    const serverSetAppointments = async() => {
+   //returns [1, 3, 5]
+   
+
+    const serverDeleteAppointments = async() => {
         try {
             const bodyObj = {
                 startDate: {
@@ -67,7 +71,101 @@ const ViewAsTimeframe = () => {
                     month: startingDate.month,
                     year: startingDate.year,
                     dayOfWeek: startingDate.dayOfWeek,
-                    dateISOString: startingDate.toString()
+                    dateISOString: startingDate.toString(),
+                },
+                endDate: {
+                    day: finishingDate.day,
+                    month: finishingDate.month,
+                    year: finishingDate.year,
+                    dayOfWeek: finishingDate.dayOfWeek,
+                    dateISOString: finishingDate.toString(),
+                },
+                period: {
+                    startTime: 1800,
+                    endTime: 2000,
+                },
+                onDaysOfWeek: daysOfWeek,
+            }
+        
+
+
+            const bodyAsJSON = JSON.stringify(bodyObj)
+
+
+            
+            const res = await fetch('http://localhost:5040/appointment/admin', {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: bodyAsJSON
+            })
+            const data = await res.json()
+
+
+        } catch (error) {
+            console.log(error)
+            window.alert('appointments could not be set')
+        }
+    }
+
+
+    const serverGetAppointments = async() => {
+        try {
+            const bodyObj = {
+                startDate: {
+                    day: startingDate.day,
+                    month: startingDate.month,
+                    year: startingDate.year,
+                    dayOfWeek: startingDate.dayOfWeek,
+                    dateISOString: startingDate.toString(),
+                },
+                endDate: {
+                    day: finishingDate.day,
+                    month: finishingDate.month,
+                    year: finishingDate.year,
+                    dayOfWeek: finishingDate.dayOfWeek,
+                    dateISOString: finishingDate.toString(),
+                },
+                period: {
+                    startTime: 1800,
+                    endTime: 2000,
+                },
+                onDaysOfWeek: daysOfWeek,
+            }
+            
+            const bodyAsJSON = JSON.stringify(bodyObj)
+
+            const res = await fetch('http://localhost:5040/appointment/admin/get', {
+                method: 'POST',
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: bodyAsJSON
+            })
+
+            //const obj = JSON.stringify(res)
+            const obj = await res.json()
+
+
+
+            setAppointmentsFromServer(JSON.stringify(obj))
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const serverPostAppointments = async() => {
+        try {
+
+            const bodyObj = {
+                startDate: {
+                    day: startingDate.day,
+                    month: startingDate.month,
+                    year: startingDate.year,
+                    dayOfWeek: startingDate.dayOfWeek,
+                    dateISOString: startingDate.toString(),
                 },
                 endDate: {
                     day: finishingDate.day,
@@ -83,11 +181,12 @@ const ViewAsTimeframe = () => {
                 onDaysOfWeek: daysOfWeek,
             }
 
-
+            console.log(bodyObj)
             const bodyAsJSON = JSON.stringify(bodyObj)
 
 
             console.log(bodyAsJSON)
+            
             const res = await fetch('http://localhost:5040/appointment/admin', {
                 method: 'POST',
                 headers: {
@@ -103,6 +202,8 @@ const ViewAsTimeframe = () => {
             window.alert('appointments could not be set')
         }
     }
+
+    
     
     return(
         <>
@@ -120,11 +221,13 @@ const ViewAsTimeframe = () => {
             <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate}  />
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
 
-            <h4>starting date: {startingDate.toString()}</h4>
-            <h4>finishing date: {finishingDate.toString()}</h4>
-            <button onClick={() => serverSetAppointments()}>send to server</button>
+            <button onClick={() => serverPostAppointments()}>send to server</button>
+            <button onClick={() => serverDeleteAppointments()} >delete from server</button>
+            <button onClick={() => serverGetAppointments()} >get from server</button>
             </StyledFlexContainer>
-
+            <div>
+                {appointmentsFromServer}
+            </div>
         </>
         )
 }

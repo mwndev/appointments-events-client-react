@@ -98,17 +98,16 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, weekday, day}) => {
         let newArr = a
         newArr.splice(i, 1, !a[i])
         setParentWeekdays(prev => newArr)
-        console.log(parentWeekdays[i])
-        console.log(isActive)
+        
     }
     const [isActive, setActive] = useState(parentWeekdays[weekday])
 
     const theOnclick = () => {
-        if(updateParentWeekdays[weekday] !== isActive){
+        console.log(parentWeekdays[weekday])
+        console.log(isActive)
+        
             updateParentWeekdays(parentWeekdays, weekday) 
             setActive(prev => !prev)
-            
-        }
     }
 
     return(

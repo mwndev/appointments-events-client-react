@@ -1,8 +1,18 @@
-//import { Temporal } from "@js-temporal/polyfill";
-const Temporal = require('@js-temporal/polyfill').Temporal
 
-let arr = [1, 2, 3, 4, 5, 6]
 
-arr.splice(1, 3, 'yearr')
+const ar = [1, 2, 3, 4, 5, 6, 7]
 
-console.log(arr)
+const aar = [{hello: 'fuck off'}, {bobb: 'fuck off'}, {niga: 'fuck off'}, {yooo: 'fuck off'}   ]
+
+
+console.log(Object.keys(aar))
+
+
+
+
+
+
+
+
+
+
