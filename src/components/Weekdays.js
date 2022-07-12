@@ -103,9 +103,6 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, weekday, day}) => {
     const [isActive, setActive] = useState(parentWeekdays[weekday])
 
     const theOnclick = () => {
-        console.log(parentWeekdays[weekday])
-        console.log(isActive)
-        
             updateParentWeekdays(parentWeekdays, weekday) 
             setActive(prev => !prev)
     }
