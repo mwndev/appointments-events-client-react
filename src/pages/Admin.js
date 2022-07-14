@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Temporal } from '@js-temporal/polyfill'
 import Calendar from '../components/Calendar'
 import Weekdays from '../components/Weekdays'
+import SingleDate from '../components/SingleDate'
 
 const StyledFlexContainer = styled.div`
     display: flex;
@@ -79,7 +80,7 @@ const ViewAsTimeframe = () => {
     const [startingDate, setStartingDate] = useState(now)
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
-    const [appointmentsFromServer, setAppointmentsFromServer] = useState()
+    const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
     const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
 
 
@@ -168,34 +169,20 @@ const ViewAsTimeframe = () => {
 
             //const obj = JSON.stringify(res)
             const arr = await res.json()
-            setAppointmentsFromServer(prev => arr)
-
-            const datesOnClickFunction = (i) => {
-                console.log(i)
-                if(i in appointmentIDsToDelete){
-                    console.log('i in appointmentidstodelete is true')
-                    setAppointmentsToDelete(prev => prev.filter(e => e !== i))
-                }else{
-                    console.log('i in appointmentidstodelete is false')
-                    setAppointmentsToDelete(prev => [...prev, i])
-                }
-
+            setAppointmentsFromServer(arr)
+           
+           }
+        const onClickFunction = (identifier) => {
+            console.log(identifier in appointmentIDsToDelete)
+            if(identifier in appointmentIDsToDelete){
+                console.log(appointmentIDsToDelete.filter(e => e ))
+                setAppointmentsToDelete(prev => prev.filter(e => e != identifier))
+            }else{
+                setAppointmentsToDelete(prev => [...prev, identifier])
+                console.log(appointmentIDsToDelete)
             }
-
-            setAppointmentsFromServer(prev => prev.map(obj => (
-                <StyledBoxItem onClick={() => datesOnClickFunction(obj.appointment._id)} key={obj.appointment._id} objID={obj.appointment._id}>
-                    <span>
-                        {obj.appointment.date.dateAsString}
-                    </span>
-                    <div>
-                        <img src={appointmentIDsToDelete.includes(obj.appointment._id) ? warning : check} />
-                    </div>
-                </StyledBoxItem> 
-            )))
-        }
-
-
-    const deleteAppointmentsById = async (objectID, object ) => {
+                
+const deleteAppointmentsById = async (objectID, object ) => {
         
         console.log(objectID)
         const bodyAsJSON = JSON.stringify(object)
@@ -290,16 +277,28 @@ const ViewAsTimeframe = () => {
             <button onClick={() => serverDeleteAppointments()} >delete from server</button>
             <button onClick={() => serverGetAppointments()} >get from server</button>
             </StyledFlexContainer>
+            <span>
             {appointmentIDsToDelete}
+            </span>
             <StyledFlexContainer>
-            {appointmentsFromServer}
+            {appointmentsFromServer.map(obj => (
+                <SingleDate  
+                parentFunction={ onClickFunction}
+                object={obj} 
+                id={obj._id} 
+                setAppointmentsToDeleteForParent={setAppointmentsToDelete} 
+                appointmentIDsFromParent={appointmentIDsToDelete}
+                key={obj._id}  
+
+                />
+            ))}
             </StyledFlexContainer>
             </c.Provider>
 
 
         </>
         )
-}
+}}
 
 
 export default Admin

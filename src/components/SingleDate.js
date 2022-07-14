@@ -44,40 +44,32 @@ const StyledBoxItem = styled.div`
 
 
 
+// idk if this is gonna work
 
 
 
 
 
-
-const SingleDate = ({object, id, setAppointmentsToDeleteForParent, appointmentIDsFromParent, key, startingDate, finishingDate}) => {
+const SingleDate = ({object, id, setAppointmentsToDeleteForParent, appointmentIDsFromParent, key, parentFunction,  startingDate, finishingDate}) => {
 
     const componentDate = Temporal.PlainDate.from(object.appointment.date.dateAsString)
-    const [isActive, setActive] = useState(false)
-    const onClickFunction = () => {
-        setActive(prev => !prev)
-        if(id in appointmentIDsFromParent){
-            console.log('it work')
-            setAppointmentsToDeleteForParent(prev => prev.filter(e => e != id))
-        }else{
-            console.log('dis work')
-            setAppointmentsToDeleteForParent(prev => [...prev, id])
-            console.log(appointmentIDsFromParent)
-        }
-    }
+
+
+    
+
     useEffect(() => {
-        console.log(`component ${id} has rerendered`)
+        //console.log(`component ${id} has rerendered`)
     })
 
 
 
     return(
-        <StyledBoxItem key={key} isActive={isActive} onClick={() => onClickFunction()}>
+        <StyledBoxItem key={key} onClick={() => parentFunction(id)} >
             <span>
                 {object.appointment.date.dateAsString} {object.appointment.period.start}
             </span>
             <div>
-                <img src={isActive ? activeIcon : icon}  />
+                <img src={appointmentIDsFromParent.includes(id) ? activeIcon : icon}  />
             </div>
         </StyledBoxItem>
     )
