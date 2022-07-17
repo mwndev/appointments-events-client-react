@@ -6,6 +6,7 @@ import { Temporal } from '@js-temporal/polyfill'
 import Calendar from '../components/Calendar'
 import Weekdays from '../components/Weekdays'
 import SingleDate from '../components/SingleDate'
+import Period from '../components/Period'
 
 const StyledFlexContainer = styled.div`
     display: flex;
@@ -54,7 +55,17 @@ const StyledBoxItem = styled.div`
     }
 `
 
+
+
+
+
 const now = Temporal.Now.plainDateISO()
+const time = Temporal.PlainTime.from({
+    hour: 18,
+    minute: 0,
+})
+
+console.log(time.with({hour: 20}).toString())
 
 
 const Admin = () => {
@@ -82,6 +93,14 @@ const ViewAsTimeframe = () => {
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
     const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
+    const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
+
+    
+    
+
+  
+
+   
 
 
     
@@ -96,6 +115,7 @@ const ViewAsTimeframe = () => {
                     year: startingDate.year,
                     dayOfWeek: startingDate.dayOfWeek,
                     dateISOString: startingDate.toString(),
+                    dateAsNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
                 },
                 endDate: {
                     day: finishingDate.day,
@@ -103,6 +123,7 @@ const ViewAsTimeframe = () => {
                     year: finishingDate.year,
                     dayOfWeek: finishingDate.dayOfWeek,
                     dateISOString: finishingDate.toString(),
+                    dateAsNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
                 },
                 period: {
                     startTime: 1800,
@@ -142,6 +163,7 @@ const ViewAsTimeframe = () => {
                     year: startingDate.year,
                     dayOfWeek: startingDate.dayOfWeek,
                     dateISOString: startingDate.toString(),
+                    asNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
                 },
                 endDate: {
                     day: finishingDate.day,
@@ -149,6 +171,7 @@ const ViewAsTimeframe = () => {
                     year: finishingDate.year,
                     dayOfWeek: finishingDate.dayOfWeek,
                     dateISOString: finishingDate.toString(),
+                    asNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
                 },
                 period: {
                     startTime: 1800,
@@ -171,21 +194,19 @@ const ViewAsTimeframe = () => {
             const arr = await res.json()
             setAppointmentsFromServer(arr)
            
-           }
+        }
         const onClickFunction = (identifier) => {
-            console.log(identifier in appointmentIDsToDelete)
-            if(identifier in appointmentIDsToDelete){
-                console.log(appointmentIDsToDelete.filter(e => e ))
+            if(appointmentIDsToDelete.includes(identifier)){
                 setAppointmentsToDelete(prev => prev.filter(e => e != identifier))
             }else{
                 setAppointmentsToDelete(prev => [...prev, identifier])
-                console.log(appointmentIDsToDelete)
             }
+        }
                 
-const deleteAppointmentsById = async (objectID, object ) => {
+const deleteAppointmentsById = async (objectIDArray, object ) => {
         
-        console.log(objectID)
-        const bodyAsJSON = JSON.stringify(object)
+        
+        const bodyAsJSON = JSON.stringify({objectIDArray: objectIDArray})
         const res = await fetch('http://localhost:5040/appointment/admin/byid', {
             method: 'DELETE', 
             headers: {
@@ -193,7 +214,11 @@ const deleteAppointmentsById = async (objectID, object ) => {
             },
             body: bodyAsJSON,
         })
-        const js = await res.json()
+        const data = await res.json()
+
+        console.log(data)
+
+        window.alert(`${data.mongoRes.deletedCount} appointments were deleted`)
 
 
     }
@@ -250,7 +275,7 @@ const deleteAppointmentsById = async (objectID, object ) => {
     
 
 
-            
+    
             
 
 
@@ -273,13 +298,14 @@ const deleteAppointmentsById = async (objectID, object ) => {
             <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate}  />
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
 
+            <Period period={period} setPeriod={setPeriod} />
+
+
             <button onClick={() => serverPostAppointments()}>send to server</button>
             <button onClick={() => serverDeleteAppointments()} >delete from server</button>
             <button onClick={() => serverGetAppointments()} >get from server</button>
+            <button onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>delete by id</button>
             </StyledFlexContainer>
-            <span>
-            {appointmentIDsToDelete}
-            </span>
             <StyledFlexContainer>
             {appointmentsFromServer.map(obj => (
                 <SingleDate  
@@ -298,8 +324,7 @@ const deleteAppointmentsById = async (objectID, object ) => {
 
         </>
         )
-}}
-
+}
 
 export default Admin
 
