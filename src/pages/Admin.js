@@ -94,10 +94,10 @@ const ViewAsTimeframe = () => {
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
     const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
+    const [startPeriod, setStartPeriod] = useState(time)
+    const [endPeriod, setEndPeriod] = useState(time.add({hours: 2}))
 
-    
-    
-
+   
   
 
    
@@ -298,14 +298,19 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate}  />
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
 
-            <Period period={period} setPeriod={setPeriod} />
+            <Period 
+            period={period} setPeriod={setPeriod}
+            startPeriod={startPeriod} setStartPeriod={setStartPeriod}
+            endPeriod={endPeriod} setEndPeriod={setEndPeriod}
+            />
 
+           </StyledFlexContainer>
 
             <button onClick={() => serverPostAppointments()}>send to server</button>
             <button onClick={() => serverDeleteAppointments()} >delete from server</button>
             <button onClick={() => serverGetAppointments()} >get from server</button>
             <button onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>delete by id</button>
-            </StyledFlexContainer>
+ 
             <StyledFlexContainer>
             {appointmentsFromServer.map(obj => (
                 <SingleDate  

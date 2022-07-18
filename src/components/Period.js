@@ -25,25 +25,10 @@ const StyledPeriodBody = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-direction: column;
-        width: 1rem;
-        height: 2cm;
-        
-    }
-    span{
-        width: 90%;
-        height: 60%;
-    }
-    
 `
 const StyledArrow = styled.img`
     aspect-ratio: 1 / 1;
-    width: 90%;
+    width: 0.5cm;
     &:hover{
         cursor: pointer;
     }
@@ -51,9 +36,21 @@ const StyledArrow = styled.img`
         transform: rotate(180deg);
     }
 `
-const Arrow = () => <StyledArrow src={arrowup} />
 
-const Period = ({children, period, setPeriod}) => {
+//for Number and buttons
+const StyledWrapper = styled.div`
+    height: 4cm;
+    width: 1.5cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+`
+
+
+
+
+const Period = ({children, period, setPeriod, startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
 
 
         
@@ -76,20 +73,51 @@ const Period = ({children, period, setPeriod}) => {
     return(
         <StyledPeriodContainer>
         <StyledPeriodHeader>
-            <span>{period.start.hour}</span>
+            Period
         </StyledPeriodHeader>
         <StyledPeriodBody>
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: 10}))} />
+            {Math.floor(startPeriod.hour / 10)}
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: -10}))} />
+        </StyledWrapper>
+         <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: 1}))} />
+            {startPeriod.hour - (Math.floor(startPeriod.hour / 10) * 10)}
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: -1}))} />
+        </StyledWrapper>
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: 10}))} />
+            {Math.floor(startPeriod.minute / 10)}
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: -10}))} />
+        </StyledWrapper>
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: 1}))} />
+            {startPeriod.minute - (Math.floor(startPeriod.minute / 10) * 10)}
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: -1}))} />
+        </StyledWrapper>
 
-
-        <div>
-            <Arrow onClick={() => setStartingHour(10)}/>
-            {Math.floor(period.start.hour / 10 )}
-            <Arrow className={'down'} onClick={() => setStartingHour(-10)}/>
-        </div>
-        <div>
-            <Arrow onClick={() => setStartingHour(1)}/>
-            {}
-        </div>
+        -
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: 10}))} />
+            {Math.floor(endPeriod.hour / 10)}
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: -10}))} />
+        </StyledWrapper>
+         <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: 1}))} />
+            {endPeriod.hour - (Math.floor(endPeriod.hour / 10) * 10)}
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: -1}))} />
+        </StyledWrapper>
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: 10}))} />
+            {Math.floor(endPeriod.minute / 10)}
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: -10}))} />
+        </StyledWrapper>
+        <StyledWrapper>
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: 1}))} />
+            {endPeriod.minute - (Math.floor(endPeriod.minute / 10) * 10)}
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: -1}))} />
+        </StyledWrapper>
         </StyledPeriodBody>
         </StyledPeriodContainer>
     )
