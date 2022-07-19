@@ -105,7 +105,7 @@ const ViewAsTimeframe = () => {
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
-    const [sortedAppointments, setSortedAppointments] = useState([])
+    const [sortedAppointments, setSortedAppointments] = useState([null, null, null, null, null, null, null, null])
     
 
 
@@ -217,8 +217,10 @@ const ViewAsTimeframe = () => {
 
             //const obj = JSON.stringify(res)
             const arr = await res.json()
+
+            //put state changes outside the async
             
-            setAppointmentsFromServer(arr)
+            await setAppointmentsFromServer(arr)
 
             let sortedArr = [null, null, null, null, null, null, null, null]
             for(let l = 1 ; l <= 7 ; l += 1){
@@ -226,7 +228,9 @@ const ViewAsTimeframe = () => {
             }
             //this seems to work
             //console.log(sortedArr)
-            setSortedAppointments(sortedArr)
+           await setSortedAppointments(sortedArr)
+
+            
            
         }
 
@@ -354,7 +358,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
            
             </StyledFlexContainer>
-
+            <button onClick={() => console.log(sortedAppointments)}>asdf</button>
 
         </>
         )
