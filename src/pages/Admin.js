@@ -8,6 +8,7 @@ import Weekdays from '../components/Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
 
+
 const StyledFlexContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -15,8 +16,16 @@ const StyledFlexContainer = styled.div`
     width: 90%;
     flex-shrink: 0;
     flex-wrap: wrap;
-
 `
+const weekDayFlexContainer = styled.div`
+    height: 4cm;
+    width: 1.5cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+`
+
 const StyledDateContainer = styled.div`
     width: 10cm;
     height: 2.5cm;
@@ -94,10 +103,26 @@ const ViewAsTimeframe = () => {
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
     const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
-    const [startPeriod, setStartPeriod] = useState(time)
-    const [endPeriod, setEndPeriod] = useState(time.add({hours: 2}))
+    const [startPeriod, setStartPeriodRaw] = useState(time)
+    const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
+    const [sortedAppointments, setSortedAppointments] = useState([])
+    
 
-   
+
+
+
+   const setStartPeriod = (amount) => {
+    const placeHolder = startPeriod.add(amount)
+    if( (placeHolder.hour * 100) + placeHolder.minute < (endPeriod.hour*100) + endPeriod.minute){
+        setStartPeriodRaw(prev => prev.add(amount))
+    }
+   }
+   const setEndPeriod = (amount) => {
+    const placeHolder = endPeriod.add(amount)
+    if((startPeriod.hour * 100)+ startPeriod.minute < (placeHolder.hour * 100 + placeHolder.minute)){
+        setEndPeriodRaw(prev => prev.add(amount))
+    }
+   }
   
 
    
@@ -192,9 +217,20 @@ const ViewAsTimeframe = () => {
 
             //const obj = JSON.stringify(res)
             const arr = await res.json()
+            
             setAppointmentsFromServer(arr)
+
+            let sortedArr = [null, null, null, null, null, null, null, null]
+            for(let l = 1 ; l <= 7 ; l += 1){
+                sortedArr[l] = (arr.filter(e => e.appointment.date.dayOfWeek === l))
+            }
+            //this seems to work
+            //console.log(sortedArr)
+            setSortedAppointments(sortedArr)
            
         }
+
+
         const onClickFunction = (identifier) => {
             if(appointmentIDsToDelete.includes(identifier)){
                 setAppointmentsToDelete(prev => prev.filter(e => e != identifier))
@@ -270,18 +306,10 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
         }
     }
 
-
-    const c = createContext()
-    
-
-
-    
-            
-
+    const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
     return(
         <>
-            <c.Provider value={[]}>
 
 
             <div>
@@ -323,8 +351,9 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
                 />
             ))}
+
+           
             </StyledFlexContainer>
-            </c.Provider>
 
 
         </>

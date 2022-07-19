@@ -77,46 +77,46 @@ const Period = ({children, period, setPeriod, startPeriod, setStartPeriod, endPe
         </StyledPeriodHeader>
         <StyledPeriodBody>
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: 10}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({hours: 10})} />
             {Math.floor(startPeriod.hour / 10)}
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: -10}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({hours: -10})} />
         </StyledWrapper>
          <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: 1}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({hours: 1})} />
             {startPeriod.hour - (Math.floor(startPeriod.hour / 10) * 10)}
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({hours: -1}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({hours: -1})} />
         </StyledWrapper>
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: 10}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({minutes: 10})} />
             {Math.floor(startPeriod.minute / 10)}
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: -10}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({minutes: -10})} />
         </StyledWrapper>
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: 1}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({minutes: 1})} />
             {startPeriod.minute - (Math.floor(startPeriod.minute / 10) * 10)}
-            <StyledArrow src={arrowup} onClick={() => setStartPeriod(prev => prev.add({minutes: -1}))} />
+            <StyledArrow src={arrowup} onClick={() => setStartPeriod({minutes: -1})} />
         </StyledWrapper>
 
         -
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: 10}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({hours: 10})} />
             {Math.floor(endPeriod.hour / 10)}
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: -10}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({hours: -10})} />
         </StyledWrapper>
          <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: 1}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({hours: 1})} />
             {endPeriod.hour - (Math.floor(endPeriod.hour / 10) * 10)}
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({hours: -1}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({hours: -1})} />
         </StyledWrapper>
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: 10}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({minutes: 10})} />
             {Math.floor(endPeriod.minute / 10)}
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: -10}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({minutes: -10})} />
         </StyledWrapper>
         <StyledWrapper>
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: 1}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({minutes: 1})} />
             {endPeriod.minute - (Math.floor(endPeriod.minute / 10) * 10)}
-            <StyledArrow src={arrowup} onClick={() => setEndPeriod(prev => prev.add({minutes: -1}))} />
+            <StyledArrow src={arrowup} onClick={() => setEndPeriod({minutes: -1})} />
         </StyledWrapper>
         </StyledPeriodBody>
         </StyledPeriodContainer>

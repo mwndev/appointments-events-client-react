@@ -15,7 +15,7 @@ const StyledBoxItem = styled.div`
     margin: 0.1cm 0.2cm;
     flex-shrink: 0;
     flex-grow: 0;
-    width: 6cm;
+    width: 8cm;
     height: 1.3cm;
     display: flex;
     align-items: center;
@@ -44,8 +44,6 @@ const StyledBoxItem = styled.div`
 
 
 
-// idk if this is gonna work
-
 
 
 
@@ -54,19 +52,14 @@ const SingleDate = ({object, id, setAppointmentsToDeleteForParent, appointmentID
 
     const componentDate = Temporal.PlainDate.from(object.appointment.date.dateAsString)
 
-
     
-
-    useEffect(() => {
-        //console.log(`component ${id} has rerendered`)
-    })
-
+    
 
 
     return(
         <StyledBoxItem  onClick={() => parentFunction(id)} >
             <span>
-                {object.appointment.date.dateAsString} {object.appointment.period.start}
+                {object.appointment.date.dateAsString} {object.appointment.period.start}-{object.appointment.period.end}
             </span>
             <div>
                 <img src={appointmentIDsFromParent.includes(id) ? activeIcon : icon}  />
