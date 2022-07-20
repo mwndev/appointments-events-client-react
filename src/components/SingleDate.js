@@ -48,18 +48,16 @@ const StyledBoxItem = styled.div`
 
 
 
-const SingleDate = ({object, daysOfWeek, id, setAppointmentsToDeleteForParent, appointmentIDsFromParent, parentFunction,  startingDate, finishingDate}) => {
+const SingleDate = ({dayNameShort, object, daysOfWeek, id, monthName, appointmentIDsFromParent, parentFunction,  startingDate, finishingDate}) => {
 
     const componentDate = Temporal.PlainDate.from(object.appointment.date.dateAsString)
-
     
-    
-
 
     return(
         <StyledBoxItem dOW={daysOfWeek[object.appointment.date.dayOfWeek - 1]}  onClick={() => parentFunction(id)} >
             <span>
-                {object.appointment.date.dateAsString} {object.appointment.period.start}-{object.appointment.period.end}
+                 { dayNameShort }, {object.appointment.date.day}. {monthName}
+               
             </span>
             <div>
                 <img src={appointmentIDsFromParent.includes(id) ? activeIcon : icon}  />

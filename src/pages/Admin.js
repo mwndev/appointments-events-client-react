@@ -7,7 +7,7 @@ import Calendar from '../components/Calendar'
 import Weekdays from '../components/Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
-
+import adminRequests from '../serverRequests/adminRequests'
 
 const StyledFlexContainer = styled.div`
     display: flex;
@@ -101,11 +101,20 @@ const ViewAsTimeframe = () => {
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
+    const [appointmentsOnPage, setAppointmentsOnPage] = useState([])
     const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
     const [sortedAppointments, setSortedAppointments] = useState([null, null, null, null, null, null, null, null])
+
+
+    const [appoints, setAppoints] = useState([])
+    const [postResponse, setPostResponse] = useState()
+    const [deleteResponse, setDeleteResponse] = useState()
+    const [putResponse, setPutResponse] = useState()
+
+    
     
 
 
@@ -309,8 +318,12 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             window.alert('appointments could not be set')
         }
     }
+    
+
+    
 
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     return(
         <>
@@ -344,7 +357,8 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             <button onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>delete by id</button>
  
             <StyledFlexContainer>
-            {appointmentsFromServer.map(obj => (
+            {appointmentsFromServer.map(obj =>  (
+                
                 <SingleDate  
                 parentFunction={ onClickFunction}
                 object={obj} 
@@ -353,15 +367,23 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
                 appointmentIDsFromParent={appointmentIDsToDelete}
                 key={obj._id}  
                 daysOfWeek={daysOfWeek}
-
+                dayNameShort={dayNames[obj.appointment.date.dayOfWeek].substring(0, 3)}
+                monthName={monthNames[obj.appointment.date.month]}
                 />
             ))}
 
            
             </StyledFlexContainer>
-            <button onClick={() => console.log(sortedAppointments)}>asdf</button>
-            <h1>as;dlfjas;dlfjsldjfa;sldkjfl;asjdfl;sakjdf;lakjsdf;laskjdf;alskjdf;lsakjdf;laksjdf</h1>
-            
+            <button onClick={() => console.log(appointmentsOnPage)}>appointmentsonpage</button>
+
+
+            <h3>div h2h2h2h33h3h3hh3</h3>
+            <button onClick={() => setAppoints(adminRequests.serverGetAppointments())}>admingetappointments</button>
+            <button onClick={() => setPostResponse(adminRequests.serverPostAppointments())}>post</button>
+            <button onClick={() => setDeleteResponse(adminRequests.serverDeleteAppointments())}>delete</button>
+            <button onClick={() => setPutResponse(adminRequests.serverUpdateAppointments())}>put</button>
+
+            {appoints.map(item => <div>{item._id.toString()}</div>)}
 
         </>
         )
