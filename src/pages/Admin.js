@@ -17,7 +17,7 @@ const StyledFlexContainer = styled.div`
     flex-shrink: 0;
     flex-wrap: wrap;
 `
-const weekDayFlexContainer = styled.div`
+const StyledWeekDayFlexContainer = styled.div`
     height: 4cm;
     width: 1.5cm;
     display: flex;
@@ -220,7 +220,7 @@ const ViewAsTimeframe = () => {
 
             //put state changes outside the async
             
-            await setAppointmentsFromServer(arr)
+            setAppointmentsFromServer(arr)
 
             let sortedArr = [null, null, null, null, null, null, null, null]
             for(let l = 1 ; l <= 7 ; l += 1){
@@ -228,7 +228,7 @@ const ViewAsTimeframe = () => {
             }
             //this seems to work
             //console.log(sortedArr)
-           await setSortedAppointments(sortedArr)
+           setSortedAppointments(sortedArr)
 
             
            
@@ -352,6 +352,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
                 setAppointmentsToDeleteForParent={setAppointmentsToDelete} 
                 appointmentIDsFromParent={appointmentIDsToDelete}
                 key={obj._id}  
+                daysOfWeek={daysOfWeek}
 
                 />
             ))}
@@ -359,6 +360,8 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
            
             </StyledFlexContainer>
             <button onClick={() => console.log(sortedAppointments)}>asdf</button>
+            <h1>as;dlfjas;dlfjsldjfa;sldkjfl;asjdfl;sakjdf;lakjsdf;laskjdf;alskjdf;lsakjdf;laksjdf</h1>
+            
 
         </>
         )

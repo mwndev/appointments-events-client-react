@@ -8,7 +8,7 @@ const StyledDateContainer = styled.div`
     width: 10cm;
     height: 2.5cm;
     border: 0.02cm black;
-    display: flex;
+    display: ${props => props.dOW ? 'flex' : 'none'};
     align-items: center;
 `
 const StyledBoxItem = styled.div`
@@ -48,7 +48,7 @@ const StyledBoxItem = styled.div`
 
 
 
-const SingleDate = ({object, id, setAppointmentsToDeleteForParent, appointmentIDsFromParent, parentFunction,  startingDate, finishingDate}) => {
+const SingleDate = ({object, daysOfWeek, id, setAppointmentsToDeleteForParent, appointmentIDsFromParent, parentFunction,  startingDate, finishingDate}) => {
 
     const componentDate = Temporal.PlainDate.from(object.appointment.date.dateAsString)
 
@@ -57,7 +57,7 @@ const SingleDate = ({object, id, setAppointmentsToDeleteForParent, appointmentID
 
 
     return(
-        <StyledBoxItem  onClick={() => parentFunction(id)} >
+        <StyledBoxItem dOW={daysOfWeek[object.appointment.date.dayOfWeek - 1]}  onClick={() => parentFunction(id)} >
             <span>
                 {object.appointment.date.dateAsString} {object.appointment.period.start}-{object.appointment.period.end}
             </span>
