@@ -234,7 +234,8 @@ const Calendar = () => {
     useEffect(() => console.log(date), [date])
 
     
-
+    //<Calendar parentISODate={date} setDateForParent={setDate}/>
+       
     return(
         <>
         <StyledFlexContainer>

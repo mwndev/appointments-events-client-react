@@ -69,8 +69,9 @@ const StyledDay = styled.div`
     flex-shrink: 1;
     border-radius: 50%;
     cursor: pointer;
+    background-color: ${props => props.state === props.day ? 'rgba(0, 62, 201, 0.62)' : 'rgba(0, 0, 0, 0)'};
     &:hover{
-        background-color: ${props => props.activeColor};
+        background-color: ${props => props.state === props.day ? 'rgba(0, 62, 201, 0.62)' : 'rgba(0, 62, 201, 0.3)'};
     }
     span{
         font-size: 1rem;
@@ -146,13 +147,16 @@ const Calendar = ({ parentISODate, setDateForParent }) => {
         if(now.month != selectedDate.month ||  now.year === selectedDate.year){setSelectedDate(prev=> prev.add({months : 1}))}
     }
     
+    const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 
 
     return(
         <>
         <StyledCalendarBox>
         <StyledCalendarBoxHeader>
-            <StyledMonthName>{parentISODate.toString()}</StyledMonthName>
+            <StyledMonthName>{monthNames[parentISODate.month]} {parentISODate.year}</StyledMonthName>
             <StyledArrowWrapper>
             <img src={arrow} alt='up' onClick={incrementMonth} />
             <img className='down' src={arrow} alt='down' onClick={decrementMonth} />
@@ -160,7 +164,7 @@ const Calendar = ({ parentISODate, setDateForParent }) => {
         </StyledCalendarBoxHeader>
         <StyledCalendarBoxBody>
        
-        {daysArray.map(calendarDay => <StyledDay  key={calendarDay.day} onClick={() => setSelectedDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
+        {daysArray.map(calendarDay => <StyledDay state={parentISODate} day={calendarDay}  key={calendarDay.day} onClick={() => setSelectedDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>

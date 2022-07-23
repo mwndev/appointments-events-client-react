@@ -94,7 +94,7 @@ const Admin = () => {
 
 
 
-const ViewAsTimeframe = () => {
+export const ViewAsTimeframe = () => {
 
 
     const [startingDate, setStartingDate] = useState(now)
@@ -107,15 +107,6 @@ const ViewAsTimeframe = () => {
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
     const [sortedAppointments, setSortedAppointments] = useState([null, null, null, null, null, null, null, null])
-
-
-    const [appoints, setAppoints] = useState([])
-    const [postResponse, setPostResponse] = useState()
-    const [deleteResponse, setDeleteResponse] = useState()
-    const [putResponse, setPutResponse] = useState()
-
-    
-    
 
 
 
@@ -133,8 +124,14 @@ const ViewAsTimeframe = () => {
     }
    }
   
-
-   
+    const timeAsNumber = (plainTime) => {
+        return plainTime.hour * 100 + plainTime.minute
+    }
+    const dateAsNumber = (plainDate) => {
+        return (
+            (plainDate.year * 10000) + (plainDate.month * 100) + plainDate.day
+        )
+    }
 
 
     
@@ -142,6 +139,8 @@ const ViewAsTimeframe = () => {
 
     const serverDeleteAppointments = async() => {
         try {
+            if(!window.confirm('Are you sure you want to DELETE ALL appointments within the specified timeframe?')) return
+
             const bodyObj = {
                 startDate: {
                     day: startingDate.day,
@@ -160,8 +159,8 @@ const ViewAsTimeframe = () => {
                     dateAsNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
                 },
                 period: {
-                    startTime: 1800,
-                    endTime: 2000,
+                    startTime: timeAsNumber(startPeriod),
+                    endTime: timeAsNumber(endPeriod),
                 },
                 onDaysOfWeek: daysOfWeek,
             }
@@ -181,10 +180,11 @@ const ViewAsTimeframe = () => {
             })
             const data = await res.json()
 
+            window.alert(`Number of appointments deleted: ${data.mongoRes.deletedCount}`)
 
         } catch (error) {
             console.log(error)
-            window.alert('appointments could not be set')
+            window.alert('server error')
         }
     }
 
@@ -208,9 +208,10 @@ const ViewAsTimeframe = () => {
                     asNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
                 },
                 period: {
-                    startTime: 1800,
-                    endTime: 2000,
-                },
+                    startTime: timeAsNumber(startPeriod),
+                    endTime: timeAsNumber(endPeriod),
+ 
+               },
                 onDaysOfWeek: daysOfWeek,
             }
             
@@ -291,8 +292,8 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
                     dateISOString: finishingDate.toString(),
                 },
                 period: {
-                    startTime: 1800,
-                    endTime: 2000,
+                    startTime: timeAsNumber(startPeriod),
+                    endTime: timeAsNumber(endPeriod),
                 },
                 onDaysOfWeek: daysOfWeek,
             }
@@ -327,16 +328,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
     return(
         <>
-
-
-            <div>
-
-            <input type="radio" value="GET" name="gender"/> get<br></br>
-            <input type="radio" value="SET" name="gender" />default set
-            <input type="radio" value="DELETE" name="gender" /> delete
-
-            </div>
-            <h1 onClick={() => console.log(appointmentIDsToDelete)}>ViewAsTimeframe</h1>
+            
             <StyledFlexContainer>
             <Calendar parentISODate={startingDate} setDateForParent={setStartingDate}  />
             
@@ -369,21 +361,15 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
                 daysOfWeek={daysOfWeek}
                 dayNameShort={dayNames[obj.appointment.date.dayOfWeek].substring(0, 3)}
                 monthName={monthNames[obj.appointment.date.month]}
+                
                 />
             ))}
 
            
             </StyledFlexContainer>
-            <button onClick={() => console.log(appointmentsOnPage)}>appointmentsonpage</button>
 
 
-            <h3>div h2h2h2h33h3h3hh3</h3>
-            <button onClick={() => setAppoints(adminRequests.serverGetAppointments())}>admingetappointments</button>
-            <button onClick={() => setPostResponse(adminRequests.serverPostAppointments())}>post</button>
-            <button onClick={() => setDeleteResponse(adminRequests.serverDeleteAppointments())}>delete</button>
-            <button onClick={() => setPutResponse(adminRequests.serverUpdateAppointments())}>put</button>
-
-            {appoints.map(item => <div>{item._id.toString()}</div>)}
+            
 
         </>
         )

@@ -56,7 +56,7 @@ const SingleDate = ({dayNameShort, object, daysOfWeek, id, monthName, appointmen
     return(
         <StyledBoxItem dOW={daysOfWeek[object.appointment.date.dayOfWeek - 1]}  onClick={() => parentFunction(id)} >
             <span>
-                 { dayNameShort }, {object.appointment.date.day}. {monthName}
+                 { dayNameShort }, {object.appointment.date.day}. {monthName} &nbsp; {object.appointment.period.start} - {object.appointment.period.end}
                
             </span>
             <div>
