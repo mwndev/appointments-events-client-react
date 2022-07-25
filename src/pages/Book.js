@@ -183,21 +183,22 @@ export const Book = () => {
     const [date, setDate] = useState(now)
     const [appointments, setAppointments] = useState([])
 
+
     const serverGetAppointments = async() => {
         const res = await fetch('http://localhost:5040/appointment')
         const data = await res.json()
 
-        const appointmentsAsDates = data.map(item => date.from(item.appointment.date.dateAsString()))
-        setAppointments()
+        setAppointments(data)
     }
-
-
+    useEffect(() => {
+        serverGetAppointments()
+    } ,[])
        
     return(
         <>
         <StyledFlexContainer>
 
-        <Calendar parentISODate={date} setDateForParent={setDate} />
+        <Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/>
      
         <AppointmentsBox dateISO={date}/>
 

@@ -69,7 +69,7 @@ const StyledDay = styled.div`
     flex-shrink: 1;
     border-radius: 50%;
     cursor: pointer;
-    background-color: ${props => props.state === props.day ? 'rgba(0, 62, 201, 0.62)' : 'rgba(0, 0, 0, 0)'};
+    background-color: ${props => props.state === props.day ?  'rgba(0, 62, 201, 0.62)' :`rgba(${props.appointmentsOnDate * 100}, 0, 0, 0.1 )`};
     &:hover{
         background-color: ${props => props.state === props.day ? 'rgba(0, 62, 201, 0.62)' : 'rgba(0, 62, 201, 0.3)'};
     }
@@ -121,7 +121,7 @@ const StyledAppointment = styled.div`
     }
 `
 
-const Calendar = ({ parentISODate, setDateForParent, color }) => {
+const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const now = Temporal.Now.plainDateISO()
 
     const [selectedDate, setSelectedDate] = useState(parentISODate)
@@ -149,7 +149,14 @@ const Calendar = ({ parentISODate, setDateForParent, color }) => {
     
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
+    if(daysArray[1] !== undefined){
+        console.log(daysArray[1].toString())
+    }
+    if(appointments[1] !== undefined){
+        console.log(appointments[1].appointment.date.dateAsString)
+        console.log(appointments.filter(e => e.appointment.date.dateAsString === daysArray[29].toString()))
+        console.log(daysArray.filter(e => e.toString() === appointments[0].appointment.date.dateAsString).length)
+    }
 
 
     return(
@@ -164,7 +171,16 @@ const Calendar = ({ parentISODate, setDateForParent, color }) => {
         </StyledCalendarBoxHeader>
         <StyledCalendarBoxBody>
        
-        {daysArray.map(calendarDay => <StyledDay color={color} state={parentISODate} day={calendarDay}  key={calendarDay.day} onClick={() => setSelectedDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
+        {daysArray.map(calendarDay => 
+            (<StyledDay 
+                appointmentsOnDate={appointments.filter(e => e.appointment.date.dateAsString === calendarDay.toString()).length} 
+                state={parentISODate} 
+                day={calendarDay}  
+                key={calendarDay.day} 
+                onClick={() => setSelectedDate(calendarDay)} >
+                <span>{calendarDay.day.toString()}</span>
+            </StyledDay>))
+        }
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
