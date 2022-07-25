@@ -10,7 +10,7 @@ import Prices from './pages/Prices'
 import Info from './pages/Info'
 import Banner from './nav/Banner'
 import Admin from './pages/Admin'
-import {Calendar} from './pages/Book'
+import {Book} from './pages/Book'
 import { AppointmentContext } from './contexts/AppointmentContext'
 import React, {useState} from 'react'
 import Test from './pages/Test'
@@ -32,7 +32,7 @@ function App() {
     ['/', 'home', <Home />], ['/about', 'o mnie', <About />], ['/patient', 'oferta dla pacjenta', <Patient />], 
     ['/corporate', 'oferta dla firm', <Corporate />], ['/e_consultation', 'e-konsultacje', <EConsultation />],
     ['/info', 'warto wiedzieć', <Info />], ['/prices', 'cennik', <Prices />], ,['/contact', 'kontakt', <Contact />],
-    ['/book', 'book appointment', <Calendar />], ['/admin', 'admin', <Admin />], ['/test', 'test', <Test />]
+    ['/book', 'book appointment', <Book />], ['/admin', 'admin', <Admin />], ['/test', 'test', <Test />]
   ]
 
   let bannerLinks = [];

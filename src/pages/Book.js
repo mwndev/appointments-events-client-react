@@ -4,6 +4,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import arrow from '../svgs/arrowup.svg'
 import calendarCheck from '../svgs/calendarcheck.svg'
 import {AppointmentContext} from '../contexts/AppointmentContext'
+import Calendar from '../components/Calendar';
 
 
 
@@ -173,91 +174,31 @@ const AppointmentsBox = ({dateISO}) => {
         </>
     )
 }
+   
 
-const Calendar = () => {
+export const Book = () => {
+
 
     const now = Temporal.Now.plainDateISO()
-
     const [date, setDate] = useState(now)
-    const [calendarDays, setCalendarDays] = useState([now])
+    const [appointments, setAppointments] = useState([])
 
-    //appointments is structured as: month
-    const [appointments, setAppointments] = useState(useContext(AppointmentContext))
+    const serverGetAppointments = async() => {
+        const res = await fetch('http://localhost:5040/appointment')
+        const data = await res.json()
 
-    const incrementMonth = () => {
-        setDate(previous => previous.add({months: 1}))
+        const appointmentsAsDates = data.map(item => date.from(item.appointment.date.dateAsString()))
+        setAppointments()
     }
 
 
-    const decrementMonth = () => {
-        //TODO doesn't work if you go ahead by one year
-        if(date.month > now.month){
-            setDate(previous => previous.subtract({months: 1}))
-        }
-    }
-    const debugSetDate = (newDate) => {
-        console.log(date)
-        setDate(prev => prev.with({day: newDate}))
-    }
-
-    
-    useEffect(() => {
-        //TODO the last day in the array is 30 even if there are 31 days. [1, ..., 30, 30]
-        let arr = []
-        //daysInMonth works, meaning something is preventing arr[30] from increasing to the value of 31
-        for(let i = 0 ; i < date.daysInMonth ; i +=1){
-            arr.push(now.with({day: i + 1}))
-        }
-        setCalendarDays(arr)        
-    },[date.month])
-
-    const getAvailableAppointments = async() => {
-        const res = await fetch(`http://localhost:5040/appointment?month=${date.month}`, {
-            method: 'GET',
-            headers:{
-                "Content-Type" : "application/json"
-            },
-        })
-        const rV = await res.json()
-        console.log(rV)
-        return rV
-
-    };
-
-    
-    const [appointmentContextValue, setAppointmentContextValue] = useContext(AppointmentContext)
-
-    //TODO use object.assign to modify the global date-appointment object upon making requests
-    useEffect(() => setAppointmentContextValue(prev => getAvailableAppointments(date.month)), [date])
-
-    //this checks when the date changes, what format it is, etc and logs it to the console
-    useEffect(() => console.log(date), [date])
-
-    
-    //<Calendar parentISODate={date} setDateForParent={setDate}/>
        
     return(
         <>
         <StyledFlexContainer>
 
-
+        <Calendar parentISODate={date} setDateForParent={setDate} />
      
-        <StyledCalendarBox>
-        <StyledCalendarBoxHeader>
-            <StyledMonthName>{`${monthNameEN[date.month]} ${date.year}`}</StyledMonthName>
-            <StyledArrowWrapper>
-            <img src={arrow} alt='up' onClick={decrementMonth} />
-            <img className='down' src={arrow} alt='down' onClick={incrementMonth} />
-            </StyledArrowWrapper>
-        </StyledCalendarBoxHeader>
-        <StyledCalendarBoxBody>
-       
-        {calendarDays.map(calendarDay => <StyledDay key={calendarDay.day.toString()} onClick={() => setDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
-             
-        </StyledCalendarBoxBody>
-        </StyledCalendarBox>
-
-
         <AppointmentsBox dateISO={date}/>
 
 
@@ -274,5 +215,3 @@ const Calendar = () => {
         </>
     )
 }
-
-export {Calendar}

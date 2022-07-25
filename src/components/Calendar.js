@@ -121,7 +121,7 @@ const StyledAppointment = styled.div`
     }
 `
 
-const Calendar = ({ parentISODate, setDateForParent }) => {
+const Calendar = ({ parentISODate, setDateForParent, color }) => {
     const now = Temporal.Now.plainDateISO()
 
     const [selectedDate, setSelectedDate] = useState(parentISODate)
@@ -164,7 +164,7 @@ const Calendar = ({ parentISODate, setDateForParent }) => {
         </StyledCalendarBoxHeader>
         <StyledCalendarBoxBody>
        
-        {daysArray.map(calendarDay => <StyledDay state={parentISODate} day={calendarDay}  key={calendarDay.day} onClick={() => setSelectedDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
+        {daysArray.map(calendarDay => <StyledDay color={color} state={parentISODate} day={calendarDay}  key={calendarDay.day} onClick={() => setSelectedDate(calendarDay)} ><span>{calendarDay.day.toString()}</span></StyledDay>)}
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
