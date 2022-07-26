@@ -117,6 +117,7 @@ const StyledAppointment = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.3rem;
     }
     span > span{
         display: inline;
@@ -139,14 +140,14 @@ const StyledAppointment = styled.div`
 
 
 
-const SingleAppointmentBox = ({dateISO}) => {
+const SingleAppointmentBox = ({dateISO, end, start}) => {
     
         return(
   
             
             <StyledAppointment>
             <span>
-                {dateISO.toString()}
+                {start} - {end}
             </span>
             <div>
             <img src={calendarCheck} alt=''/>
@@ -156,9 +157,11 @@ const SingleAppointmentBox = ({dateISO}) => {
     
 }
 
-const AppointmentsBox = ({dateISO}) => {
+const AppointmentsBox = ({dateISO, appointments}) => {
     
-
+    let filtered = appointments.sort((a, b) => {
+        return a.appointment.period.start - b.appointment.period.start
+    })
 
     return(
         <>
@@ -167,8 +170,7 @@ const AppointmentsBox = ({dateISO}) => {
                     Available Appointments
                 </StyledCalendarBoxHeader>
                 <StyledCalendarBoxBody>
-                <StyledAppointment></StyledAppointment>
-                <SingleAppointmentBox dateISO={dateISO} />
+                {appointments.map(item => <SingleAppointmentBox end={item.appointment.period.end} start={item.appointment.period.start} dateISO={dateISO} />)}
                 </StyledCalendarBoxBody>
             </StyledCalendarBox>
         </>
@@ -200,7 +202,7 @@ export const Book = () => {
 
         <Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/>
      
-        <AppointmentsBox dateISO={date}/>
+        <AppointmentsBox dateISO={date} appointments={appointments.filter(e => e.appointment.date.dateAsString === date.toString())}/>
 
 
         <StyledCalendarBox>

@@ -21,8 +21,10 @@ const StyledMiddle = styled.div`
     }
     div > a{
       padding: 0.3cm;
-      border: 0.07cm solid ${props => props.theme.c1};
-      flex-shrink: 1;
+      border: 0.07cm solid ${props => props.theme.c3};
+      flex-shrink: 0;
+      font-size: 1.1em;
+
       
       
     }
@@ -51,12 +53,7 @@ const StyledMiddle = styled.div`
 export default function Middle({links}) {
   return (
     <StyledMiddle>
-      <Link to='/'>
-      <Name>
-        Żaneta Olcak
-      </Name>
-      </Link>
-      <div>
+     <div>
         {links.map((link) => (<Link to={link[0]} key={link[0]}>{link[1]}</Link>))}
       </div>
 

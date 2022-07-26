@@ -106,8 +106,8 @@ export const ViewAsTimeframe = () => {
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
-    const [sortedAppointments, setSortedAppointments] = useState([null, null, null, null, null, null, null, null])
-
+    const [rawAppointments, setRawAppointments] = useState([])
+    const [sortedAppointments, setSortedAppointments] = useState([])
 
 
 
@@ -319,7 +319,15 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             window.alert('appointments could not be set')
         }
     }
-    
+    const serverGetAppointmentsRaw = async() => {
+        const res = await fetch('http://localhost:5040/appointment')
+        const data = await res.json()
+
+        setRawAppointments(data)
+    }
+    useEffect(() => {
+        serverGetAppointmentsRaw()
+    } ,[])
 
     
 
@@ -330,9 +338,9 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
         <>
             
             <StyledFlexContainer>
-            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate}  />
+            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={rawAppointments} />
             
-            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate}  />
+            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={rawAppointments} />
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
 
             <Period 
