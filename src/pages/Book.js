@@ -219,7 +219,6 @@ const AppointmentsBox = ({dateISO, appointments, setSelectedAppointment}) => {
 }
 
 const SendBookingBox = ({ selectedAppointment }) => {
-    console.log(selectedAppointment)
 
 
     return(

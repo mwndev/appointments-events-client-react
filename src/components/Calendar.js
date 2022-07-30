@@ -4,7 +4,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import arrow from '../svgs/arrowup.svg'
 import calendarCheck from '../svgs/calendarcheck.svg'
 import {AppointmentContext} from '../contexts/AppointmentContext'
-import { faRugbyBall } from '@fortawesome/pro-duotone-svg-icons';
+import { v4 as uuidv4 } from 'uuid';
 
 
 //styles and at line 130
@@ -149,7 +149,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
 
     const [selectedDate, setSelectedDate] = useState(parentISODate)
     const [daysArray, setDaysArray] = useState([])
-    const [blankBoxes, setBlankBoxes] = useState([])
+    const [sn, setsn] = useState([])
 
     useEffect(() => {
         let arr = []
@@ -174,7 +174,20 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     
-    console.log(daysArray)
+    useEffect(() => {
+        if(daysArray.length !== 0){
+            console.log(daysArray[0].dayOfWeek)
+        }
+        try {
+            setsn([1, 2, 3, 4 ,5 ,6 ,7].slice(0, daysArray[0].dayOfWeek - 1))
+            console.log(sn)
+        } catch (error) {
+            console.log(error)
+        }
+
+
+
+    }, [selectedDate.month, daysArray])
     return(
         <>
         <StyledCalendarBox>
@@ -198,7 +211,11 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
                 )
             )
         }
+        {
+            sn.map(e=> (<StyledBlankBox key={uuidv4()}/>))
+        }
         {daysArray.map(calendarDay => 
+            
             (<StyledDay 
                 appointmentsOnDate={appointments.filter(e => e.appointment.date.dateAsString === calendarDay.toString()).length} 
                 state={parentISODate} 
@@ -207,6 +224,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
                 onClick={() => setSelectedDate(calendarDay)} >
                 <span>{calendarDay.day}</span>
             </StyledDay>))
+        
         }
              
         </StyledCalendarBoxBody>

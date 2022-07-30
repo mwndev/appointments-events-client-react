@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const StyledMiddle = styled.div`
-    width: 80%;
+    width: 90%;
     height: 90%;
     display: flex;
     justify-content: center;
