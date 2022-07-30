@@ -46,76 +46,27 @@ const StyledSectionWrapper = styled.section`
 `
 
 const StyledBoxSmall = styled.div`
-    aspect-ratio: 10 / 14;
+    aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
     border: 0.07cm solid ${props => props.theme.tc};
     margin: 1cm;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
 `
-const StyledBoxSmaller = styled.div`
-
-`
-const StyledBoxHeader = styled.div`
-    height: 1cm;
+const StyledSmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(100% + 2px);
-    
-`
-const StyledCalendarBoxBody = styled.div`
-    height: ${p => p.theme.boxBodyHeight};
-    display: grid;
-    grid-template-columns: repeat(1fr, 7);
-    grid-template-rows: repeat(1fr, 6);
-    grid-auto-rows: 1fr;
-`
-const StyledMonthName = styled.div`
-    font-size: 150%;
-    font-weight: 500;
-    justify-self: left;
-    margin-left: 2rem;
-`
-const StyledArrowWrapper = styled.div`
-    width: 3cm;
-    height: 0.9cm;
-    display: flex;
     justify-content: center;
     align-items: center;
-
-
-    img{
-        height: 80%;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-        border-radius: 50%;
-        margin: 0.03cm;
-        padding: 0.03cm;
-    }
-    img:hover{
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-    .down{
-        transform: rotate(180deg)
-    }
-`
-const StyledDay = styled.div`
-    height: 14%;
-    aspect-ratio: 1 / 1 ;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 1;
-    border-radius: 50%;
-    cursor: pointer;
-    &:hover{
-        background-color: ${props => props.activeColor};
-    }
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    background-color: ${props => props.theme.ic4};
     span{
-        font-size: 1rem;
-        margin: 0;
+        font-weight: 500;
+        font-size: 1.3em;
     }
+    
 `
 const StyledBoxBody= styled.div`
     width: calc(100% + 2px);
@@ -126,11 +77,21 @@ const StyledBoxBody= styled.div`
     flex-wrap: wrap;
     padding: 0.2cm;
 `
-
+const StyledAppointmentContainer = styled.div`
+    height: 100%;
+    width: 100%;
+    padding: 0.3cm 0.3cm 0 0.3cm;
+    grid-column: 1 / -1;
+    grid-row: ${props => props.index + 2} / ${props => props.index + 3};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.selectedAppointment === props.appointment ? 'rgba(0, 62, 201, 0.5)' : 'white'};
+`
 
 const StyledAppointment = styled.div`
-    height: 1cm;
-    width: 80%;
+    height: 100%;
+    width: 100%;
     border: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     align-items: center;
@@ -149,7 +110,7 @@ const StyledAppointment = styled.div`
         font-size: 1.4rem;
     }
     div{
-        width: 1cm;
+        height: 1cm;
         aspect-ratio: 1 / 1;
         border-left: 0.07cm solid ${props => props.theme.tc};
         display: flex;
@@ -165,7 +126,7 @@ const StyledAppointment = styled.div`
 
 
 
-const SingleAppointmentBox = ({dateISO, end, start}) => {
+const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointment, setSelectedAppointment}) => {
 
     const numToTimeString = (fourDigitNumber) => {
         const s = fourDigitNumber.toString()
@@ -176,7 +137,12 @@ const SingleAppointmentBox = ({dateISO, end, start}) => {
     
         return(
   
-            
+            <StyledAppointmentContainer 
+            selectedAppointment={ selectedAppointment } 
+            appointment={appointment} 
+            onClick={() => setSelectedAppointment(appointment)} 
+            index={index}>
+
             <StyledAppointment>
             <span>
                 {numToTimeString(start)} - {numToTimeString(end)}
@@ -185,11 +151,12 @@ const SingleAppointmentBox = ({dateISO, end, start}) => {
             <img src={calendarCheck} alt=''/>
             </div>
             </StyledAppointment>
+            </StyledAppointmentContainer>
         )
     
 }
 
-const AppointmentsBox = ({dateISO, appointments, setSelectedAppointment}) => {
+const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelectedAppointment}) => {
     
     let filtered = appointments.sort((a, b) => {
         return a.appointment.period.start - b.appointment.period.start
@@ -199,37 +166,101 @@ const AppointmentsBox = ({dateISO, appointments, setSelectedAppointment}) => {
     return(
         <>
             <StyledBoxSmall>
-                <StyledBoxHeader>
-                    Available Appointments
-                </StyledBoxHeader>
-                <StyledBoxBody>
-                {appointments.map(item => (
+                <StyledSmallBoxHeader>
+                <span>
+                    Avaliable Appointments
+                </span>
+                </StyledSmallBoxHeader>
+                {appointments.map((item, index) => (
                     <SingleAppointmentBox 
+                    selectedAppointment={selectedAppointment}
+                    setSelectedAppointment={setSelectedAppointment}
+                    index={index}
                     end={item.appointment.period.end} 
                     start={item.appointment.period.start} 
+                    appointment={item}
                     dateISO={dateISO} 
-                    onClick={
-                        () => console.log('hi')
-                    }
+                    
                     />))}
-                </StyledBoxBody>
             </StyledBoxSmall>
         </>
     )
 }
 
+const StyledDescriptor= styled.div`
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    grid-column: 1 / 3;
+    grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
+`
+const StyledValue = styled.div`
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    grid-column: 3 / -1;
+    grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
+`
+
 const SendBookingBox = ({ selectedAppointment }) => {
+
+    const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const [info, setInfo] = useState([])
+
+    useEffect(() => {
+        try {
+            console.log(selectedAppointment)
+            if(selectedAppointment !== []){
+                const relevantInfo = [
+                    ['Weekday: ', `${dayNames[selectedAppointment.appointment.date.dayOfWeek]}`],
+                    ['Date: ', `${selectedAppointment.appointment.date.day}. ${monthNames[selectedAppointment.appointment.date.month]} ${selectedAppointment.appointment.date.year}`],
+                    ['Time: ', `${selectedAppointment.appointment.period.start} - ${selectedAppointment.appointment.period.end}`],
+                    ['Duration: ', `2 hours`],
+                    ['Type: ', `individual consultation`],
+                    ['Price: ', '300PLN'],
+                ]
+                console.log('relevant info: ')
+                console.log(relevantInfo)
+                setInfo(relevantInfo)
+                console.log('info: ')
+                console.log(info)
+            }
+
+        } catch (error) {
+            console.log(error)            
+        }
+
+
+    }
+        
+        , [selectedAppointment])
 
 
     return(
         <>
             <StyledBoxSmall>
-                <StyledBoxHeader>
-                    Confirm Booking
-                </StyledBoxHeader>
-                <StyledBoxBody>
-                    {selectedAppointment}
-                </StyledBoxBody>
+                <StyledSmallBoxHeader>
+                    <span>
+                        Confirm Appointment
+                    </span>
+                </StyledSmallBoxHeader>
+                {
+                    info.map((item, index) => (
+                        <>
+                            <StyledDescriptor index={index}>
+                                <span>
+                                    {item[0]}
+                                </span>
+                            </StyledDescriptor>
+                            <StyledValue index={index}>
+                                <span>{item[1]}</span>
+                            </StyledValue>
+                        </>
+                    ) )
+                }
+                
+                
             </StyledBoxSmall>
         </>
     )
@@ -242,8 +273,7 @@ export const Book = () => {
     const now = Temporal.Now.plainDateISO()
     const [date, setDate] = useState(now)
     const [appointments, setAppointments] = useState([])
-    const [selectedAppointment, setSelectedAppointment] = useState()
-
+    const [selectedAppointment, setSelectedAppointment] = useState([])
 
     const serverGetAppointments = async() => {
         const res = await fetch('http://localhost:5040/appointment')

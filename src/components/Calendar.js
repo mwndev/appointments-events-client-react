@@ -24,14 +24,13 @@ const StyledCalendarBox = styled.div`
 
 `
 const StyledCalendarBoxHeader = styled.div`
-    height: ${props => props.theme.boxHeaderHeight};
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: ${props => props.theme.ic4};
-    width: calc(100% + 1px);
-    
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
 `
 const StyledMonthName = styled.div`
     font-size: 1.8rem;
@@ -64,7 +63,7 @@ const StyledArrowWrapper = styled.div`
 `
 const StyledDay = styled.div`
     width: 100%;
-    aspect-ratio: 1 / 1 ;
+    height: 100%;
     margin: 0;
     display: flex;
     align-items: center;
@@ -84,7 +83,7 @@ const StyledDay = styled.div`
 `
 const StyledDayName = styled.div`
     width: 100%;
-    aspect-ratio: 1 / 1 ;
+    height: 100%;
     margin: 0;
     display: flex;
     align-items: center;
@@ -105,11 +104,11 @@ const StyledBlankBox = styled.div`
 
 `
 const StyledCalendarBoxBody = styled.div`
-    height: ${p => p.theme.boxBodyHeight};
+    height: 100%;
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-auto-rows: 1fr;
+    grid-template-rows: repeat(8, 1fr);
 `
 
 const StyledAppointment = styled.div`
@@ -174,13 +173,12 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     
+    
     useEffect(() => {
         if(daysArray.length !== 0){
-            console.log(daysArray[0].dayOfWeek)
         }
         try {
             setsn([1, 2, 3, 4 ,5 ,6 ,7].slice(0, daysArray[0].dayOfWeek - 1))
-            console.log(sn)
         } catch (error) {
             console.log(error)
         }
@@ -191,6 +189,8 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     return(
         <>
         <StyledCalendarBox>
+        
+        <StyledCalendarBoxBody>
         <StyledCalendarBoxHeader>
             <StyledMonthName>{monthNames[parentISODate.month]} {parentISODate.year}</StyledMonthName>
             <StyledArrowWrapper>
@@ -198,7 +198,6 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
             <img src={arrow} alt='up' onClick={incrementMonth} />
             </StyledArrowWrapper>
         </StyledCalendarBoxHeader>
-        <StyledCalendarBoxBody>
         {
             dayNames.filter(e => e !== null).map(
                 dayName => (
