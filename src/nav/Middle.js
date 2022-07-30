@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const StyledMiddle = styled.div`
-    width: 70%;
+    width: 80%;
     height: 90%;
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    flex-grow: 1;
     a{
       display: flex;
       justify-content: center;
@@ -16,20 +17,22 @@ const StyledMiddle = styled.div`
       color: ${props => props.theme.tc1};
       text-decoration: none;
       height: 60%;
-      border-radius: 0.5cm;
 
     }
     div > a{
-      padding: 0.3cm;
-      border: 0.07cm solid ${props => props.theme.c3};
+      padding: 0.4cm 0.2cm;
       flex-shrink: 0;
       font-size: 1.1em;
-
-      
-      
+      cursor: pointer;
+      margin: 1rem;
+      border-bottom: 0.08cm solid ${props => props.theme.c3};
+      flex-shrink: 1;
+      font-weight: 500;
+      display: ${props => props.messageBelowNav !== undefined ? 'none' : 'flex'};
+      transition: 0.5s;
     }
     div > a:hover{
-      border: 0.07cm solid #000;
+      border-bottom: 0.08cm solid ${props => props.theme.ic6};
     }
     div{
       width: 90%;

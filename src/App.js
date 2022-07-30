@@ -19,10 +19,24 @@ import Test from './pages/Test'
 function App() {
 
   const theme1 = {
-    c1: '#32e42f',
+    c1: '#26bb73',
     c2: '#6eda6c',
     c3: '#fafafa',
     tc1: '#000',
+    ic1: '#effff6',
+    ic2: '#c9f7dc',
+    ic3: '#a0ebc7',
+    ic4: '#72e3ac',
+    ic5: '#4ed996',
+    ic6: '#26bb74',
+    ic7: '#20a665',
+    ic8: '#179a5b',
+    ic9: '#14864f',
+    ic0:' #147b4a',
+    boxHeight: 'calc(200px + 30vh)',
+    boxHeaderHeight: '12.3%',
+    boxBodyHeight: '85%',
+
     //this is there to link the width of the left and right sides of the header
     narrowness: '10%'
   }
@@ -32,7 +46,7 @@ function App() {
     ['/', 'home', <Home />], ['/about', 'o mnie', <About />], ['/patient', 'oferta dla pacjenta', <Patient />], 
     ['/corporate', 'oferta dla firm', <Corporate />], ['/e_consultation', 'e-konsultacje', <EConsultation />],
     ['/info', 'warto wiedzieć', <Info />], ['/prices', 'cennik', <Prices />], ,['/contact', 'kontakt', <Contact />],
-    ['/book', 'book appointment', <Book />], ['/admin', 'admin', <Admin />], ['/test', 'test', <Test />]
+    ['/book', 'book appointment', <Book />], ['/admin', 'admin', <Admin />], 
   ]
 
   let bannerLinks = [];

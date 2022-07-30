@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import plus from '../svgs/calendarplus.svg'
 import minus from '../svgs/calendarminus.svg'
 import check from '../svgs/calendarcheck.svg'
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -74,18 +74,16 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
     
 
     return(
-        <>
-        <StyledBox>
+        <StyledBox key={uuidv4()}>
             <StyledBoxHeader>
             Weekdays
             </StyledBoxHeader>
             <StyledBoxBody>
             {
-                englishDays.map((day, index)=> (<SingleWeekday weekday={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
+                englishDays.map((day, index)=> (<SingleWeekday key={uuidv4()} weekday={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
             }
             </StyledBoxBody>
         </StyledBox>
-        </>
 
     )
 }
@@ -106,9 +104,8 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, weekday, day}) => {
             updateParentWeekdays(parentWeekdays, weekday) 
             setActive(prev => !prev)
     }
-
     return(
-        <StyledBoxItem onClick={() => theOnclick()}  >
+        <StyledBoxItem key={uuidv4()} onClick={() => theOnclick()}  >
                 <span>{day}</span>
                 <div>
                 <img src={isActive ? check : plus}  alt='checked' />

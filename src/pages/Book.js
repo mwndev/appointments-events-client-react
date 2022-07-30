@@ -28,23 +28,47 @@ const StyledFlexContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 67%;
+    width: 90%;
 `
 
-const StyledCalendarBox = styled.div`
-    width: 8cm;
-    height: 9cm;
+const StyledSectionWrapper = styled.section`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    h2{
+        font-family: inherit;
+
+        span{
+            background-color: ${props => props.theme.ic4};
+        }
+    }
+`
+
+const StyledBoxSmall = styled.div`
+    aspect-ratio: 10 / 14;
+    height: ${props => props.theme.boxHeight};
     border: 0.07cm solid ${props => props.theme.tc};
     margin: 1cm;
+`
+const StyledBoxSmaller = styled.div`
 
 `
-const StyledCalendarBoxHeader = styled.div`
+const StyledBoxHeader = styled.div`
     height: 1cm;
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: calc(100% + 2px);
     
+`
+const StyledCalendarBoxBody = styled.div`
+    height: ${p => p.theme.boxBodyHeight};
+    display: grid;
+    grid-template-columns: repeat(1fr, 7);
+    grid-template-rows: repeat(1fr, 6);
+    grid-auto-rows: 1fr;
 `
 const StyledMonthName = styled.div`
     font-size: 150%;
@@ -93,9 +117,9 @@ const StyledDay = styled.div`
         margin: 0;
     }
 `
-const StyledCalendarBoxBody = styled.div`
-    width: 8cm;
-    height: 8cm;
+const StyledBoxBody= styled.div`
+    width: calc(100% + 2px);
+    height: 85%;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -111,6 +135,7 @@ const StyledAppointment = styled.div`
     display: flex;
     align-items: center;
     justify-content: right;
+    cursor: pointer;
     span{
         width: 5cm;
         height: 1cm;
@@ -141,13 +166,20 @@ const StyledAppointment = styled.div`
 
 
 const SingleAppointmentBox = ({dateISO, end, start}) => {
+
+    const numToTimeString = (fourDigitNumber) => {
+        const s = fourDigitNumber.toString()
+        let k = ''
+        k = k.concat(s.slice(0, 2), ':', s.slice(2))
+        return k
+    }
     
         return(
   
             
             <StyledAppointment>
             <span>
-                {start} - {end}
+                {numToTimeString(start)} - {numToTimeString(end)}
             </span>
             <div>
             <img src={calendarCheck} alt=''/>
@@ -157,22 +189,49 @@ const SingleAppointmentBox = ({dateISO, end, start}) => {
     
 }
 
-const AppointmentsBox = ({dateISO, appointments}) => {
+const AppointmentsBox = ({dateISO, appointments, setSelectedAppointment}) => {
     
     let filtered = appointments.sort((a, b) => {
         return a.appointment.period.start - b.appointment.period.start
     })
+    
 
     return(
         <>
-            <StyledCalendarBox>
-                <StyledCalendarBoxHeader>
+            <StyledBoxSmall>
+                <StyledBoxHeader>
                     Available Appointments
-                </StyledCalendarBoxHeader>
-                <StyledCalendarBoxBody>
-                {appointments.map(item => <SingleAppointmentBox end={item.appointment.period.end} start={item.appointment.period.start} dateISO={dateISO} />)}
-                </StyledCalendarBoxBody>
-            </StyledCalendarBox>
+                </StyledBoxHeader>
+                <StyledBoxBody>
+                {appointments.map(item => (
+                    <SingleAppointmentBox 
+                    end={item.appointment.period.end} 
+                    start={item.appointment.period.start} 
+                    dateISO={dateISO} 
+                    onClick={
+                        () => console.log('hi')
+                    }
+                    />))}
+                </StyledBoxBody>
+            </StyledBoxSmall>
+        </>
+    )
+}
+
+const SendBookingBox = ({ selectedAppointment }) => {
+    console.log(selectedAppointment)
+
+
+    return(
+        <>
+            <StyledBoxSmall>
+                <StyledBoxHeader>
+                    Confirm Booking
+                </StyledBoxHeader>
+                <StyledBoxBody>
+                    {selectedAppointment}
+                </StyledBoxBody>
+            </StyledBoxSmall>
         </>
     )
 }
@@ -184,6 +243,7 @@ export const Book = () => {
     const now = Temporal.Now.plainDateISO()
     const [date, setDate] = useState(now)
     const [appointments, setAppointments] = useState([])
+    const [selectedAppointment, setSelectedAppointment] = useState()
 
 
     const serverGetAppointments = async() => {
@@ -199,20 +259,33 @@ export const Book = () => {
     return(
         <>
         <StyledFlexContainer>
+        <StyledSectionWrapper>
+
+
+        <h2>Select a <span>date</span>.</h2>
 
         <Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/>
-     
-        <AppointmentsBox dateISO={date} appointments={appointments.filter(e => e.appointment.date.dateAsString === date.toString())}/>
+        
+        </StyledSectionWrapper>
+        <StyledSectionWrapper>
 
+        <h2>Select your <span>appointment</span>.</h2>
 
-        <StyledCalendarBox>
-            <StyledCalendarBoxHeader>
-                Book Appointment
-            </StyledCalendarBoxHeader>
-            <StyledCalendarBoxBody>
+        <AppointmentsBox 
+            selectedAppointment={selectedAppointment} 
+            setSelectedAppointment={setSelectedAppointment} 
+            dateISO={date} 
+            appointments={appointments.filter(e => e.appointment.date.dateAsString === date.toString())}
+        />
+
+        </StyledSectionWrapper>
+        <StyledSectionWrapper>
             
-            </StyledCalendarBoxBody>
-        </StyledCalendarBox>
+        <h2><span>Confirm</span> your appointment!</h2>
+        
+        <SendBookingBox selectedAppointment={selectedAppointment}/>
+
+        </StyledSectionWrapper>
 
         </StyledFlexContainer>
         </>

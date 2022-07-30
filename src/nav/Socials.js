@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import facebook from '../svgs/facebook.svg'
 import instagram from '../svgs/instagram.svg'
 import styled from 'styled-components'
-import { faWindowAlt } from '@fortawesome/pro-duotone-svg-icons'
+import facebookgreen from '../svgs/facebookgreen.svg'
+import instagramgreen from '../svgs/instagramgreen.svg'
 
 const StyledSocials = styled.div`
     width: ${props => props.theme.narrowness};
@@ -19,10 +20,6 @@ const StyledSocials = styled.div`
         border-radius: 0.2cm;
         margin: 0 0.3cm;
     }
-    img:hover{
-        border: 0.07cm solid ${props => props.theme.tc1};
-
-    }
 
 `
 const openInsta = () => {
@@ -32,11 +29,16 @@ const openZucc = () => {
     window.open('https://facebook.com')
 }
 
+
 export default function Socials() {
+
+    const [src, setSrc] = useState({f: facebook, ig: instagram})
+
+
   return (
     <StyledSocials>
-        <img onClick={openInsta} src={instagram} alt="instagram" />
-        <img onClick={openZucc} src={facebook} alt='facebook' />
+        <img onClick={openInsta} src={src.ig} alt="instagram" onMouseOver={() => setSrc({f: facebook, ig: instagramgreen})} onMouseLeave={() => setSrc({f: facebook, ig: instagram})}/>
+        <img onClick={openZucc} src={src.f} alt='facebook'  onMouseOver={() => setSrc({f: facebookgreen, ig: instagram})} onMouseLeave={() => setSrc({f: facebook, ig: instagram})}/>
     </StyledSocials>
   )
 }
