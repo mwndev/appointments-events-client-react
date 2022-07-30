@@ -70,10 +70,10 @@ const StyledDay = styled.div`
     justify-content: center;
     flex-shrink: 1;
     cursor: pointer;
-    background-color: ${props => props.state === props.day ?  'rgba(0, 62, 201, 0.5)' : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
+    background-color: ${props => props.state === props.day ?  props.theme.hc1 : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
 
     &:hover{
-        background-color: ${props => props.state === props.day ? 'rgba(0, 62, 201, 0.5)' : 'rgba(0, 62, 201, 0.3)'};
+        background-color: ${props => props.state === props.day ? props.theme.hc1 : props.theme.hc2};
     }
     span{
         font-size: 1rem;
@@ -89,13 +89,12 @@ const StyledDayName = styled.div`
     align-items: center;
     justify-content: center;
     flex-shrink: 1;
-    cursor: pointer;
     border-bottom: 0.06cm solid ${props => props.theme.tc};
     span{
         font-size: 1.2em;
         font-weight: 500;
         margin: 0;
-        color: darkgreen;
+        color: ${props => props.theme.tc2};
     }
 `
 const StyledBlankBox = styled.div`

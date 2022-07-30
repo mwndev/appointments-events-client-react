@@ -86,7 +86,6 @@ const StyledAppointmentContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${props => props.selectedAppointment === props.appointment ? 'rgba(0, 62, 201, 0.5)' : 'white'};
 `
 
 const StyledAppointment = styled.div`
@@ -97,6 +96,8 @@ const StyledAppointment = styled.div`
     align-items: center;
     justify-content: right;
     cursor: pointer;
+    background-color: ${props => props.selectedAppointment === props.appointment ? props.theme.hc1 : 'inherit'};
+
     span{
         width: 5cm;
         height: 1cm;
@@ -138,12 +139,13 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
         return(
   
             <StyledAppointmentContainer 
-            selectedAppointment={ selectedAppointment } 
-            appointment={appointment} 
-            onClick={() => setSelectedAppointment(appointment)} 
+            key={index}
             index={index}>
 
-            <StyledAppointment>
+            <StyledAppointment 
+            selectedAppointment={ selectedAppointment } 
+            appointment={appointment} 
+            onClick={() => setSelectedAppointment(appointment)}>
             <span>
                 {numToTimeString(start)} - {numToTimeString(end)}
             </span>
@@ -193,6 +195,13 @@ const StyledDescriptor= styled.div`
     align-items: center;
     grid-column: 1 / 3;
     grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
+    span{
+        font-weight: 500;
+        font-size: 1.2rem;
+        color: ${props => props.theme.tc2};
+        margin-left: 0.18cm;
+    }
+
 `
 const StyledValue = styled.div`
     display: flex;
@@ -200,6 +209,29 @@ const StyledValue = styled.div`
     align-items: center;
     grid-column: 3 / -1;
     grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
+    span{
+        font-weight: 400;
+        font-size: 1.2rem;
+
+    }
+`
+const StyledConfirmButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.theme.ic4};
+    grid-column: 1 / -1;
+    grid-row: -2 / -1;
+    cursor: pointer;
+    border-top: 0.07cm solid ${props => props.theme.tc};
+    &:hover{
+        background-color: ${props => props.theme.hc2};
+        border: 0.07cm solid ${props => props.theme.tc};
+    }
+    span{
+        font-weight: 500;
+        font-size: 1.3rem;
+    }
 `
 
 const SendBookingBox = ({ selectedAppointment }) => {
@@ -259,11 +291,29 @@ const SendBookingBox = ({ selectedAppointment }) => {
                         </>
                     ) )
                 }
+                <StyledConfirmButton>
+                    <span>
+                        Send Booking
+                    </span>
+                </StyledConfirmButton>
                 
                 
             </StyledBoxSmall>
         </>
     )
+}
+
+
+const Consultation = () => {
+
+
+    return(
+        <>
+            
+        </>
+    )
+
+
 }
    
 
