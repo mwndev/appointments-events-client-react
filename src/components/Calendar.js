@@ -70,10 +70,10 @@ const StyledDay = styled.div`
     justify-content: center;
     flex-shrink: 1;
     cursor: pointer;
-    background-color: ${props => props.state === props.day ?  props.theme.hc1 : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
+    background-color: ${props => props.state === props.day ?  props.theme.hc5 : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
 
     &:hover{
-        background-color: ${props => props.state === props.day ? props.theme.hc1 : props.theme.hc2};
+        background-color: ${props => props.state === props.day ? props.theme.hc5 : props.theme.hc3};
     }
     span{
         font-size: 1rem;

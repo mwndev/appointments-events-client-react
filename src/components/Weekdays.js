@@ -4,6 +4,8 @@ import plus from '../svgs/calendarplus.svg'
 import minus from '../svgs/calendarminus.svg'
 import check from '../svgs/calendarcheck.svg'
 import { v4 as uuidv4 } from 'uuid';
+//import { StyledBoxSmall, StyledSmallBoxHeader, StyledAppointment, StyledAppointmentContainer } from "../styledComponents/styledComponents1";
+import { StyledItem } from "../styledComponents/styledComponents1";
 
 
 
@@ -14,15 +16,7 @@ const StyledBox = styled.div`
     margin: 1cm;
 
 `
-const StyledBoxHeader = styled.div`
-    text-align: center;
-    height: 1cm;
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-`
+
 const StyledBoxBody = styled.div`
     width: 8cm;
     height: 8cm;
@@ -60,10 +54,40 @@ const StyledBoxItem = styled.div`
 
     }
 `
+const StyledWeekdayContainer = styled.div`
+    height: 100%;
+    width: 100%;
+    padding:  ${props => props.index === 0 ? '0.3cm' : '0.15cm'} 0.3cm ;
+    grid-column: 1 / -1;
+    grid-row: ${props => props.index + 2} / ${props => props.index + 3};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
-
-
-
+const StyledBoxSmall = styled.div`
+    aspect-ratio: 5 / 8;
+    height: ${props => props.theme.boxHeight};
+    border: 0.07cm solid ${props => props.theme.tc};
+    margin: 1cm;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+`
+const StyledSmallBoxHeader = styled.div`
+    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    background-color: ${props => props.theme.ic4};
+    span{
+        font-weight: 500;
+        font-size: 1.3em;
+    }
+    
+`
 
 const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
     //parentWeekDays === [Boolean 7 times]
@@ -74,23 +98,21 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
     
 
     return(
-        <StyledBox key={uuidv4()}>
-            <StyledBoxHeader>
+        <StyledBoxSmall key={uuidv4()}>
+            <StyledSmallBoxHeader>
             Weekdays
-            </StyledBoxHeader>
-            <StyledBoxBody>
+            </StyledSmallBoxHeader>
             {
-                englishDays.map((day, index)=> (<SingleWeekday key={uuidv4()} weekday={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
+                englishDays.map((day, index, arr)=> (<SingleWeekday arrLength={arr.length} key={uuidv4()} index={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
             }
-            </StyledBoxBody>
-        </StyledBox>
+        </StyledBoxSmall>
 
     )
 }
 //<SingleWeekday parentWeekDay={parentWeekDays[index]} setParentWeekdays={setParentWeekdays} key={day.toString()} weekday={day}></SingleWeekday>)
 export default Weekdays
 
-const SingleWeekday = ({parentWeekdays, setParentWeekdays, weekday, day}) => {
+const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength}) => {
 
     const updateParentWeekdays = (a, i) => {
         let newArr = a
@@ -98,19 +120,26 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, weekday, day}) => {
         setParentWeekdays(prev => newArr)
         
     }
-    const [isActive, setActive] = useState(parentWeekdays[weekday])
+    const [isActive, setActive] = useState(parentWeekdays[index])
 
     const theOnclick = () => {
-            updateParentWeekdays(parentWeekdays, weekday) 
+            updateParentWeekdays(parentWeekdays, index) 
             setActive(prev => !prev)
     }
     return(
-        <StyledBoxItem key={uuidv4()} onClick={() => theOnclick()}  >
+        <StyledWeekdayContainer length={arrLength} index={index} >
+
+        <StyledItem 
+        key={uuidv4()} 
+        onClick={() => theOnclick()}
+        isActive={isActive}
+          >
                 <span>{day}</span>
                 <div>
                 <img src={isActive ? check : plus}  alt='checked' />
                 </div>
-        </StyledBoxItem>
+        </StyledItem>
+        </StyledWeekdayContainer>
     )
 
 }

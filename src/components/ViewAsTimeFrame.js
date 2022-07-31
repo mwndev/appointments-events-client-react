@@ -7,7 +7,7 @@ import Calendar from './Calendar'
 import Weekdays from './Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
-import { StyledSectionWrapper } from '../styledComponents/styledComponents1'
+import { StyledSectionWrapper, StyledButton, StyledPageWrapper, StyledButtonWrapper, StyledCommandsWrapper } from '../styledComponents/styledComponents1'
 
 
 const StyledFlexWrapper = styled.div`
@@ -266,7 +266,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     return(
-        <>
+        <StyledPageWrapper>
             
             <StyledFlexWrapper>
 
@@ -283,20 +283,38 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             <h2><span>Filter</span> by Weekdays</h2>
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
             </StyledSectionWrapper>
+            <StyledSectionWrapper>
+                <h2><span>Set</span> time period</h2>
+                <Period 
+                period={period} setPeriod={setPeriod}
+                startPeriod={startPeriod} setStartPeriod={setStartPeriod}
+                endPeriod={endPeriod} setEndPeriod={setEndPeriod}
+                />
+            </StyledSectionWrapper>
 
-            <Period 
-            period={period} setPeriod={setPeriod}
-            startPeriod={startPeriod} setStartPeriod={setStartPeriod}
-            endPeriod={endPeriod} setEndPeriod={setEndPeriod}
-            />
+            <StyledCommandsWrapper>
+            <StyledSectionWrapper>
+            <h2><span>Server commands</span> </h2>
+            <StyledButtonWrapper>
 
-           </StyledFlexWrapper>
+            <StyledButton onClick={() => serverPostAppointments()}>
+            <span>send to server</span>
+            </StyledButton>
+            <StyledButton onClick={() => serverDeleteAppointments()} >
+            <span>delete from server</span>
+            </StyledButton>
+            <StyledButton onClick={() => serverGetAppointments()} >
+            <span>get from server</span>
+            </StyledButton>
+            <StyledButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
+            <span>delete selected</span>
+            </StyledButton>
+            </StyledButtonWrapper>
+            </StyledSectionWrapper>
 
-            <button onClick={() => serverPostAppointments()}>send to server</button>
-            <button onClick={() => serverDeleteAppointments()} >delete from server</button>
-            <button onClick={() => serverGetAppointments()} >get from server</button>
-            <button onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>delete by id</button>
+            </StyledCommandsWrapper>
  
+           </StyledFlexWrapper>
             <StyledFlexWrapper>
             {appointmentsFromServer.map(obj =>  (
                 
@@ -320,7 +338,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
             
 
-        </>
+        </StyledPageWrapper>
         )
 }
 

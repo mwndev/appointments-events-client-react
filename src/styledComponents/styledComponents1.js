@@ -14,6 +14,10 @@ export const StyledFlexContainer = styled.div`
     width: 90%;
 `
 export const StyledPageWrapper = styled.div`
+    //display: flex;
+    //justify-content: space-evenly;
+    //align-items: center;
+    padding-bottom: 2cm;
 `
 
 export const StyledSectionWrapper = styled.section`
@@ -73,7 +77,7 @@ export const StyledAppointmentContainer = styled.div`
     align-items: center;
 `
 
-export const StyledAppointment = styled.div`
+export const StyledItem = styled.div`
     height: 100%;
     width: 100%;
     border: 0.07cm solid ${props => props.theme.tc};
@@ -81,7 +85,7 @@ export const StyledAppointment = styled.div`
     align-items: center;
     justify-content: right;
     cursor: pointer;
-    background-color: ${props => props.selectedAppointment === props.appointment ? props.theme.hc1 : 'inherit'};
+    background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
 
     span{
         width: 5cm;
@@ -106,5 +110,68 @@ export const StyledAppointment = styled.div`
     img{
         height: 60%;
         aspect-ratio: 1 / 1;
+    }
+`
+export const StyledButtonWrapper = styled.div`
+    width: ${props => props.theme.boxHeight};
+    aspect-ratio: 12 / 5;
+    border: ${props => props.theme.bthk};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+`
+export const StyledCommandsWrapper = styled.div`
+    width: 40vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+`
+
+export const StyledButton = styled.div`
+    border: ${props => props.theme.bthn};
+    border-radius: 0%;
+    background-color: ${props => props.theme.ic9};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 40%;
+    margin: 0 0.4cm;
+    padding: 0.3cm;
+        margin: 0.4cm;
+    cursor: pointer;
+    width: 14vw;
+    height: 5vh;
+    span{
+        color: ${props => props.theme.c3};
+        font-weight: 500;
+
+    }
+    &:hover{
+        background-color: ${props => props.theme.hc7};
+    }
+`
+export const StyledBoxLarge = styled.div`
+    aspect-ratio: 13 / 10;
+    height: ${props => props.theme.boxHeight};
+    border: 0.07cm solid ${props => props.theme.tc};
+    margin: 1cm;
+    display: grid;
+    grid-template: repeat(7, 1fr) / repeat(9, 1fr);
+
+`
+export const StyledBoxHeaderLarge = styled.div`
+    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.theme.ic4};
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+    span{
+        font-weight: 500;
+        font-size: 1.7em;
     }
 `
