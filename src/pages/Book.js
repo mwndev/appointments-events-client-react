@@ -31,7 +31,7 @@ const StyledFlexContainer = styled.div`
     width: 90%;
 `
 
-const StyledSectionWrapper = styled.section`
+export const StyledSectionWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
