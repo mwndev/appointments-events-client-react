@@ -54,6 +54,7 @@ function App() {
     wc7: 'rgba(210, 25, 0, 0.8)',
     boxWidth: 'calc(250px + 35vh)',
     boxHeight: 'calc(200px + 30vh)',
+    boxRowHeight: 'calc( 200px + 30vh )',
     boxHeaderHeight: '12.3%',
     boxBodyHeight: '85%',
     bthk: '0.07cm solid #000',

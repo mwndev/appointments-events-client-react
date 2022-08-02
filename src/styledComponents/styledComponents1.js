@@ -11,7 +11,7 @@ export const StyledFlexContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 90%;
+    flex-wrap: wrap;
 `
 export const StyledPageWrapper = styled.div`
     //display: flex;
@@ -35,13 +35,14 @@ export const StyledSectionWrapper = styled.section`
 `
 
 export const StyledBoxSmall = styled.div`
-    aspect-ratio: 5 / 8;
-    height: ${props => props.theme.boxHeight};
+    aspect-ratio: 7 / 8;
+    height: calc(160px + 26vh);
     border: 0.07cm solid ${props => props.theme.tc};
+    gap: 0.1cm;
     margin: 1cm;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 `
 export const StyledSmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
@@ -136,14 +137,16 @@ export const StyledButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
     flex-grow: 1;
     max-width: 40%;
     margin: 0 0.4cm;
-    padding: 0.3cm;
+    padding: 0;
         margin: 0.4cm;
     cursor: pointer;
     width: 14vw;
-    height: 5vh;
+    height: 6vh;
     span{
         color: ${props => props.theme.c3};
         font-weight: 500;
