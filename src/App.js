@@ -52,6 +52,7 @@ function App() {
     wc5: 'rgba(210, 25, 0, 0.6)',
     wc6: 'rgba(210, 25, 0, 0.7)',
     wc7: 'rgba(210, 25, 0, 0.8)',
+    wc11: 'rgb(100, 10, 0)',
     boxWidth: 'calc(250px + 35vh)',
     boxHeight: 'calc(200px + 30vh)',
     boxRowHeight: 'calc( 200px + 30vh )',

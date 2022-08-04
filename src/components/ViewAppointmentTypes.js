@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {  StyledBoxBody,  StyledBoxSmall, StyledButton, StyledButtonWrapper, StyledPageWrapper, StyledSectionWrapper, } from "../styledComponents/styledComponents1";
 import infoIcon from '../svgs/info.svg'
+import phoneIcon from '../svgs/phone.svg'
 
 const StyledLargeDescriptor = styled.div`
     grid-area: ${props => props.area};
@@ -126,34 +127,121 @@ const StyledBox = styled.div`
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
     //display: grid;
+
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
     grid-auto-rows: 1fr;
     border: ${props => props.theme.bthk};
+
+
+    ::-webkit-scrollbar{
+        width: 10%;
+        background-color: blue;
+    }
+    ::-webkit-scrollbar-thumb{
+        background: ${props => props.theme.ic6};
+
+    }
+    ::-webkit-scrollbar-track{
+        background-color: ${props => props.theme.c3};
+    }
     header{
         grid-column: 1 / 2;
         margin-bottom: 0.2cm;
         background-color: ${props => props.theme.ic4 };
     }
 `
+const StyledBoxHeader = styled.div`
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: ${props => props.theme.ic4};
+    border-bottom: ${props => props.theme.bthk};
+`
 
     //grid-row: ${props => props.index + 2} / ${props => props.index + 3};
     //grid-column: 1 / -1;
     //margin: 0.1cm 0.2cm;
+
+const StyledBoxWrapper = styled.div`
+    height: 83%;
+    width: 100%;
+    overflow-y: scroll;
+    ::-webkit-scrollbar{
+    }
+    ::-webkit-scrollbar-track{
+        display: none;
+    }
+`
+
+const StyledSTDescription = styled.div`
+    height: 100%;
+    width: 100%;
+    padding: 1cm;
+    position: relative;
+    img{
+        height: 1cm;
+        aspect-ratio: 1 / 1;
+    }
+
+`
+
 const StyledSessionType = styled.div`
     border: ${props => props.theme.bthk};
-    width: 90%;
+    height: 15%;
+    width: 95%;
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0.2cm auto;
+    
+    section{
+        height: 50%;
+        width: 80%;
+        padding: 0.1cm;
+    }
     span{
+        width: 80%;
+        height: 10%;
+        display: flex;
+    }
+    span > span{
         font-size: 1.3em;
         margin-left: 0.2cm;
     }
     img{
-        height: 2em;
+        height: 100%;
         aspect-ratio: 1 / 1;
+        cursor: pointer;
     }
 `
 
+    //border-bottom: 0.08cm solid ${props => props.theme.ic6};
+const StyledSTHeader = styled.div`
+    width: 100%; 
+    height: 18%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    span{
+        font-size: 1.5em;
+        width: 80%;
+    }
+    img{
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        cursor: pointer;
+    }
+    img:hover{
+        background-color: red;
+    }
+`
 
 
 
@@ -169,6 +257,7 @@ export const ViewSessionTypes = () => {
     const [min, setMin] = useState(1)
     const [category, setCategory] = useState('')
     const [trigger, triggerUseEffect] = useState(false)
+    const [activeST, setActiveST] = useState(null)
 
 
 
@@ -234,7 +323,7 @@ export const ViewSessionTypes = () => {
             const res = await fetch('http://localhost:5040/sessiontypes', {
                 method: 'DELETE',
                 headers: {
-                    "Content-Type" : "application/json",
+                    "Content-chromium scrollbar not changingType" : "application/json",
                 },
                 body: bodyAsJSON,
             })
@@ -313,34 +402,40 @@ export const ViewSessionTypes = () => {
     }
  
 
-    const cnf = () => {
-        serverCreateSessionType()
-        serverGetSessionTypes()
-    }
-    const usf = () => {
-        serverUpdateSessionType()
-        serverGetSessionTypes()
-
-    }
 
     return(
         <StyledPageWrapper>
-        <StyledFlexWrapper>
 
 
         <StyledBox>
-            <StyledBoxHeaderLarge>
-                <span>Current Session Types</span>
-            </StyledBoxHeaderLarge>
+            <StyledBoxHeader onClick={() => console.log(activeST)}>
+                <span>session tpes</span>
+            </StyledBoxHeader>
+            <StyledBoxWrapper>
+
             {
-                sessionTypesFromServer.map((item, index) => (
+            activeST === null ?
+                sessionTypesFromServer.map((item, index) =>  (
                     <StyledSessionType thisType={item} index={index} onClick={() => setSelectedSessionType(item._id)}>
                         <span>{item.name}</span>
-                        <img src={infoIcon}/>
+                        <img onClick={() => setActiveST(item)} src={infoIcon}/>
                     </StyledSessionType>
-                ))
+                    )
+                ) : 
+                <StyledSTDescription>
+                    <StyledSTHeader><span>{activeST.name}</span>
+                    <img onClick={() => setActiveST(null)} src={phoneIcon} />
+                    </StyledSTHeader>
+                    <section>{activeST.description}</section>
+                    <span>number of clients: <span>
+                        {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}
+                    </span></span>
+
+                </StyledSTDescription>
             }
+            </StyledBoxWrapper>
         </StyledBox>
+        <br></br>
 
         <CreateSessionType
         // I seriously regret seperating the components now
@@ -364,7 +459,6 @@ export const ViewSessionTypes = () => {
         </StyledButtonWrapper>
         </StyledSectionWrapper>
 
-        </StyledFlexWrapper>
 
         </StyledPageWrapper>
     )
