@@ -12,8 +12,10 @@ import Banner from './nav/Banner'
 import Admin from './pages/Admin'
 import {Book} from './pages/Book'
 import { AppointmentContext } from './contexts/AppointmentContext'
-import React, {useState} from 'react'
+import React, {useState, createContext} from 'react'
 import Test from './pages/Test'
+import User from './pages/User'
+import { UserContext } from './contexts/UserContext'
 
 
 function App() {
@@ -55,6 +57,8 @@ function App() {
     wc11: 'rgb(100, 10, 0)',
     boxWidth: 'calc(250px + 35vh)',
     boxHeight: 'calc(200px + 30vh)',
+    boxHeightL: 'calc(250px + 35vh)',
+    boxHeightXL: 'calc(300px + 40vh)',
     boxRowHeight: 'calc( 200px + 30vh )',
     boxHeaderHeight: '12.3%',
     boxBodyHeight: '85%',
@@ -76,11 +80,12 @@ function App() {
   let bannerLinks = [];
   links.map((link) => bannerLinks.push([link[0], link[1]]))
 
-  const [contextValue, setContextValue] = useState(null)
+  const [user, setUser] = useState({password: '', email: '', name: ''})
 
   return (
     <ThemeProvider theme={theme1}>
-    <AppointmentContext.Provider value={([contextValue, setContextValue])}>
+    <UserContext.Provider value={{ user, setUser}}>
+
 
 
     <Router>
@@ -89,13 +94,14 @@ function App() {
 
       <Routes>
         {links.map((link => ( <Route path={link[0]} element={link[2]} key={link[0]} /> )))}
+        <Route path={'/user'} element={<User />} key={'login'} />
       </Routes>
 
 
 
     </Router>
 
-    </AppointmentContext.Provider>
+    </UserContext.Provider>
     </ThemeProvider>
   );
 }

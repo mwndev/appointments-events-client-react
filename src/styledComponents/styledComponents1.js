@@ -178,3 +178,13 @@ export const StyledBoxHeaderLarge = styled.div`
         font-size: 1.7em;
     }
 `
+
+
+export const BoxHeaderText = styled.span`
+    font-size: 1.45em;
+    font-weight: 500;
+`
+export const SmallerBoxText = styled.span`
+    font-size: 1.3em;
+    font-weight: 500;
+`

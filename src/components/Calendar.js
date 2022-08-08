@@ -185,6 +185,9 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
 
 
     }, [selectedDate.month, daysArray])
+
+
+    //TODO set up a calendar upper limit prop
     return(
         <>
         <StyledCalendarBox>

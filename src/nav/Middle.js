@@ -58,6 +58,7 @@ export default function Middle({links}) {
     <StyledMiddle>
      <div>
         {links.map((link) => (<Link to={link[0]} key={link[0]}>{link[1]}</Link>))}
+        <Link to='/user' key={'user'}>Login</Link>
       </div>
 
     </StyledMiddle>

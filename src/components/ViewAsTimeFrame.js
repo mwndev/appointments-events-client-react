@@ -265,6 +265,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
+    //TODO add info button on single dates to show reservation details
     return(
         <StyledPageWrapper>
             
