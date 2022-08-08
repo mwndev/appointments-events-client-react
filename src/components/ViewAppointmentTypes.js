@@ -489,7 +489,6 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
         setCategory(event.target.value)
     }
 
-
     
 
     return(

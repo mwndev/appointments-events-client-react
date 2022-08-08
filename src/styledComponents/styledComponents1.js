@@ -184,6 +184,10 @@ export const BoxHeaderText = styled.span`
     font-size: 1.45em;
     font-weight: 500;
 `
+export const MidBoxText = styled.span`
+    font-size: 1.38em;
+    font-weight: 500;
+`
 export const SmallerBoxText = styled.span`
     font-size: 1.3em;
     font-weight: 500;
