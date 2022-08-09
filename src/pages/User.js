@@ -7,6 +7,7 @@ import emailIcon from '../svgs/email.svg'
 import signature from '../svgs/signature.svg'
 import check from '../svgs/check.svg'
 import dots from '../svgs/dots.svg'
+import { faHandMiddleFinger } from '@fortawesome/pro-duotone-svg-icons'
 
 
 
@@ -107,33 +108,93 @@ const Confirm = styled.div`
 
 
 export default function User() {
-  const [lastName, setLastName] = useState()
-  const [lastNameValid, setLastNameValid] = useState()
-  const [firstName, setFirstName] = useState()
-  const [fnV, setFnV] = useState()
-  const [email, setEmail] = useState()
-  const [emailValid, setEmailValid] = useState()
-  const [passCon, setPassCon] = useState()
-  const [passConValid, setPassConValid] = useState()
-  const [password, setPassword] = useState()
-  const [passwordV, setPasswordV] = useState()
-  const [pwsMatch, setMatch] = useState()
-  const [newUser, toggleNewUser] = useState(false)
+    const {user, setUser} = useContext(UserContext)
+ 
+
+
+  return (
+    <>
+    <EnterCredentials />
+    <button onClick={() => console.log(user)}>see user</button>
+    
+    </>
+  )
+}
+
+
+const EnterLoginCredentials = ({data, setData}) => {
+
+  const handleEmail = v => {
+    setData(prev => {
+      return {...prev, email: v}
+    })
+  }
+  const handlePW = v => {
+    setData(prev => {
+      return {...prev, password: v}
+    })
+  }  
+  //TODO explain in info box why I won't tell user whether his email or password is wrong
+  return(
+      <>
+      <DetailWrapper row={3}>
+        <input type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
+      </DetailWrapper>
+
+      <DetailWrapper row={5}>
+        <input type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)}/>
+      </DetailWrapper> 
+      </>
+    )
+
+  }
+
+const EnterCredentials = () => {
 
   const {user, setUser} = useContext(UserContext)
 
-  //useEffect(() => {
-  //  setMatch(passCon === password)
-  //}, [password, passCon])
+  const [regData, setRegData] = useState({})
+  const [loginData, setLoginData] = useState({})
+  const [newUser, toggleNewUser] = useState()
 
-  const createUser = async(adrs, fn, ln, pw ) => {
-
+  const authenticateUser = async(dataOBJ) => {
+    //! THIS IS COMPLETELY UNSECURED IF SERVER REQUEST DOESN'T GO THROUGH HTTPS
     const JSONbody = JSON.stringify({
-      email: adrs,
-      firstName: fn,
-      lastName: ln,
-      password: pw,
+      email: dataOBJ.email,
+      password: dataOBJ.password,
     })
+  
+    const res = await fetch('http://localhost:5040/login', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSONbody,
+    })
+    const data = await res.json()
+
+    if(data.authenticated){
+      setUser(data.userData)
+    }
+
+  }
+ 
+
+  const createUser = async(dataOBJ) => {
+    const allIsValid = () => dataOBJ.emailValid && dataOBJ.passwordValid && dataOBJ.firstNameValid && dataOBJ.lastNameValid
+
+    if(!allIsValid()) window.alert('not all is valid')
+
+
+
+    //REMEMBER ABOUT HTTPS!!!
+    const JSONbody = JSON.stringify({
+      email: dataOBJ.email,
+      firstName: dataOBJ.firstName,
+      lastName: dataOBJ.lastName,
+      password: dataOBJ.password,
+    })
+
     const res = await fetch('http://localhost:5040/register', {
       method: 'POST',
       headers: {
@@ -142,107 +203,9 @@ export default function User() {
       body: JSONbody,
     })
   }
-
-  const authenticateUser = async(adrs, pw) => {
-    //! THIS IS COMPLETELY UNSECURED IF HTTP REQUEST DOESN'T GO THROUGH HTTPS
-    const JSONbody = JSON.stringify({
-      email: adrs,
-      password: pw,
-    })
-
-    const res = await fetch('http://localhost:5040/login', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-       },
-       body: JSONbody,
-    })
-  }
-
-
-  const emailValidation = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-  const nameValidation = new RegExp('[a-z]{1, 40}')
-  const passwordValidation = new RegExp('')
-
-
-  const handleEmail = e => {
-    setEmail(e.target.value)
-    console.log(e.target)
-    console.log(email)
-    
-  }
-  const handleFirstName = e => {
-    if(nameValidation.test(e.target.value)){
-
-    }
-  }
-  const handleLastName = e => {
-      setLastNameValid(nameValidation.test(e.target.value))
-      setLastName(e.target.value)
-  }
-  const handlePw = e => {
-    setPassword(e.target.value)
-    if(passwordValidation.test(e.target.value)){
-      setPasswordV(true)
-    }
-    else{
-      setPasswordV(false)
-    }
-  }
-  const handleCPw = event => {
-    console.log('hiee')
-    setPassCon(event.target.value)
-  }
-  useEffect(() => console.log('register has rerendered'))
-
-  const EnterRegisterCredentials = () => {
-    return(
-      <>
-
-      <DetailWrapper row={2}>
-        <input type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e)}/>
-        <ImgWrapper><img src={emailValid ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={3}>
-        <input type={'text'} placeholder={'first name'} onChange={(e) => setFirstName(e.target.value)}/>
-        <ImgWrapper>
-          <img src={firstName}/>
-        </ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={4}>
-        <input type={'text'} placeholder={'last name'} onChange={(e) => handleLastName(e)}/>
-        <ImgWrapper><img src={dots} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={5}>
-        <input type={'password'} placeholder={'password'} onChange={(e) => handlePw(e)}/>
-        <ImgWrapper><img src={emailIcon} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={6}>
-        <input type={'password'} placeholder={'confirm password'} onChange={((e) => handleCPw(e))}/>
-        <ImgWrapper><img src={passConValid ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      
-
-      </>
-
-    )
-  }
-  const EnterLoginCredentials = () => {
-    return(
-      <>
-      <DetailWrapper row={3}>
-        <input type={'text'} placeholder={'email'} onChange={(e) => (e) => setEmail(e.target.value)}/>
-      </DetailWrapper>
-
-      <DetailWrapper row={5}>
-        <input type={'password'} placeholder={'password'} onChange={(e) => e => setPassword(e.target.value)}/>
-      </DetailWrapper> 
-      </>
-    )
-
-  }
-
-  const EnterCredentials = () => {
+  
+  
+  
 
     return(
       <>
@@ -258,17 +221,17 @@ export default function User() {
       </HeaderWrapper>
 
 
-      {newUser ? <EnterRegisterCredentials /> : <EnterLoginCredentials />}
+      {newUser ? <EnterRegisterCredentials data={regData} setData={setRegData} /> : <EnterLoginCredentials data={loginData} setData={setLoginData}/>}
 
       <DetailWrapper row={7}>
-        <Confirm onClick={() => newUser ? createUser() : authenticateUser(email, password)}>
+        <Confirm onClick={() => newUser ? createUser(regData) : authenticateUser(loginData)}>
           <MidBoxText>
             Confirm
           </MidBoxText>
         </Confirm>
       </DetailWrapper>
       </UserBox>
-      <button onClick={() => console.log(email)}>email click here</button>
+      <button onClick={() => console.log(regData)}>email click here</button>
       </>
     )
   
@@ -277,14 +240,71 @@ export default function User() {
 
 
 
+const EnterRegisterCredentials = ({data, setData}) => {
 
-  return (
-    <>
-    <EnterCredentials  />
-    
-    </>
-  )
-}
+  const emailValidation = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  //nameValidation only checks if a letter exists in the entire string, need to learn more about how to make regex myself
+  const nameValidation = new RegExp('[a-z]')
+  const passwordValidation = new RegExp('[a-z]')
 
 
 
+  const handleEmail = (e) => {
+    setData(prev => {
+      return {...prev, email: e.target.value, emailValid: emailValidation.test(e.target.value)}
+    })
+  }
+  const handleFN = (e) => {
+    setData(prev => {
+      return{...prev, firstName: e.target.value, firstNameValid: nameValidation.test(e.target.value)}
+    })
+  }
+  const handleLN = (e) => {
+    setData(prev => {
+      return{...prev, lastName: e.target.value, lastNameValid: nameValidation.test(e.target.value)}
+    })
+  }
+  const handlePW = (e) => {
+    setData(prev => {
+      return{...prev, password: e.target.value, passwordValid: passwordValidation.test(e.target.value)}
+    })
+  }
+  const handleCPW = (e) => {
+    setData(prev => {
+      return{...prev, confirmPassword: e.target.value, passwordsMatch: e.target.value === prev.password}
+    })
+  }
+
+  
+
+    return(
+      <>
+
+      <DetailWrapper row={2}>
+        <input type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e)} />
+        <ImgWrapper><img src={data.emailValid ? check : dots} /></ImgWrapper>
+      </DetailWrapper>
+      <DetailWrapper row={3}>
+        <input type={'text'} placeholder={'first name'} onChange={(e) => handleFN(e)}/>
+        <ImgWrapper>
+          <img src={data.firstNameValid ? check : dots}/>
+        </ImgWrapper>
+      </DetailWrapper>
+      <DetailWrapper row={4}>
+        <input type={'text'} placeholder={'last name'} onChange={(e) => handleLN(e)}/>
+        <ImgWrapper><img src={data.lastNameValid ? check : dots} /></ImgWrapper>
+      </DetailWrapper>
+      <DetailWrapper row={5}>
+        <input type={'password'} placeholder={'password'} onChange={(e) => handlePW(e)}/>
+        <ImgWrapper><img src={data.passwordValid ? check : dots} /></ImgWrapper>
+      </DetailWrapper>
+      <DetailWrapper row={6}>
+        <input type={'password'} placeholder={'confirm password'} onChange={((e) => handleCPW(e))}/>
+        <ImgWrapper><img src={data.passwordsMatch ? check : dots} /></ImgWrapper>
+      </DetailWrapper>
+      
+
+      </>
+
+    )
+  }

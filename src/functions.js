@@ -1,25 +1,13 @@
 const {Temporal} = require('@js-temporal/polyfill')
-import React from 'react'
 
 const i = Temporal.Now.instant()
 
 
+const a = {one: '1ne', two: '2wo', three: '3hree'}
 
-console.log(i.until(i.add({minutes: 1})))
-console.log(i)
+const b = {...a, three: '4our'}
 
+const uno = 0
 
-const Shit = () => {
-    return(
-        <>
-            
-        </>
-    )
-}
-
-
-
-
-
-
+console.log(uno === true)
 
