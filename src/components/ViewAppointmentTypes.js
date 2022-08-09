@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {  StyledBoxBody,  StyledBoxSmall, StyledButton, StyledButtonWrapper, StyledPageWrapper, StyledSectionWrapper, } from "../styledComponents/styledComponents1";
 import infoIcon from '../svgs/info.svg'
-import phoneIcon from '../svgs/phone.svg'
+import x from '../svgs/x.svg'
+import redx from '../svgs/red-x.svg'
 
 const StyledLargeDescriptor = styled.div`
     grid-area: ${props => props.area};
@@ -180,9 +181,11 @@ const StyledBoxWrapper = styled.div`
 `
 
 const StyledSTDescription = styled.div`
-    height: 100%;
-    width: 100%;
-    padding: 1cm;
+    height: 96%;
+    width: 92%;
+    margin: 0.2cm auto;
+    
+    border: ${props => props.theme.bthk};
     position: relative;
     img{
         height: 1cm;
@@ -190,17 +193,39 @@ const StyledSTDescription = styled.div`
     }
 
 `
+const StyledSTHeader = styled.div`
+    width: 100%; 
+    height: 18%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 0.2cm;
+    span{
+        font-size: 1.8em;
+        width: 50%;
+        font-weight: 500;
+        color: ${props => props.theme.ic8}
+    }
+    img{
+        height: 80%;
+        margin-right: 0.1cm;
+        aspect-ratio: 1 / 1;
+        cursor: pointer;
+    }
+    img:hover{
+        background-color: red;
+    }
+`
 
 const StyledSessionType = styled.div`
     border: ${props => props.theme.bthk};
     height: 15%;
     width: 95%;
-    
+    background-color: ${props => props.selectedST === props.thisType ? props.theme.hc2 : 'inherit'};
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0.2cm auto;
-    
     section{
         height: 50%;
         width: 80%;
@@ -208,8 +233,11 @@ const StyledSessionType = styled.div`
     }
     span{
         width: 80%;
-        height: 10%;
+        height: 90%;
         display: flex;
+        justify-content: left;
+        align-items: center;
+
     }
     span > span{
         font-size: 1.3em;
@@ -222,26 +250,6 @@ const StyledSessionType = styled.div`
     }
 `
 
-    //border-bottom: 0.08cm solid ${props => props.theme.ic6};
-const StyledSTHeader = styled.div`
-    width: 100%; 
-    height: 18%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    span{
-        font-size: 1.5em;
-        width: 80%;
-    }
-    img{
-        height: 100%;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-    }
-    img:hover{
-        background-color: red;
-    }
-`
 
 
 
@@ -257,9 +265,11 @@ export const ViewSessionTypes = () => {
     const [min, setMin] = useState(1)
     const [category, setCategory] = useState('')
     const [trigger, triggerUseEffect] = useState(false)
+
+
+    const [sTs, setSTs] = useState([])
+    const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
-
-
 
 
     useEffect(() => {
@@ -407,34 +417,10 @@ export const ViewSessionTypes = () => {
         <StyledPageWrapper>
 
 
-        <StyledBox>
-            <StyledBoxHeader onClick={() => console.log(activeST)}>
-                <span>session tpes</span>
-            </StyledBoxHeader>
-            <StyledBoxWrapper>
 
-            {
-            activeST === null ?
-                sessionTypesFromServer.map((item, index) =>  (
-                    <StyledSessionType thisType={item} index={index} onClick={() => setSelectedSessionType(item._id)}>
-                        <span>{item.name}</span>
-                        <img onClick={() => setActiveST(item)} src={infoIcon}/>
-                    </StyledSessionType>
-                    )
-                ) : 
-                <StyledSTDescription>
-                    <StyledSTHeader><span>{activeST.name}</span>
-                    <img onClick={() => setActiveST(null)} src={phoneIcon} />
-                    </StyledSTHeader>
-                    <section>{activeST.description}</section>
-                    <span>number of clients: <span>
-                        {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}
-                    </span></span>
+        <ViewExistingSessionTypes sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
 
-                </StyledSTDescription>
-            }
-            </StyledBoxWrapper>
-        </StyledBox>
+            
         <br></br>
 
         <CreateSessionType
@@ -544,5 +530,55 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
         </StyledBoxLarge>
 
                </>
+    )
+}
+
+export const ViewExistingSessionTypes = ({sTs, setSTs, selectedST, setSelectedST, activeST, setActiveST}) => {
+
+    const [source, toggleScource] = useState(false)
+
+
+    useEffect(() => {
+            const serverGetSessionTypes = async () => {
+            const res = await fetch(`http://localhost:5040/sessiontypes`)
+            const data = await res.json()
+
+            setSTs(data)
+        }
+        serverGetSessionTypes()
+    }, [])
+    return(
+        <>
+        <StyledBox>
+            <StyledBoxHeader onClick={() => console.log(activeST)}>
+                <span>session types</span>
+            </StyledBoxHeader>
+            <StyledBoxWrapper>
+
+            {
+            activeST === null ?
+                sTs.map((item, index) =>  (
+                    <StyledSessionType selectedST={selectedST} thisType={item} index={index} key={index}>
+                        <span onClick={() => setSelectedST(item)}>{item.name}</span>
+                        <img onClick={() => setActiveST(item)} src={infoIcon}/>
+                    </StyledSessionType>
+                    )
+                ) : 
+                <StyledSTDescription>
+                    <StyledSTHeader><span>{activeST.name}</span>
+                    <img onClick={() => setActiveST(null)} src={source ? redx : x} onMouseOver={() => toggleScource(prev => !prev)} />
+                    </StyledSTHeader>
+                    <section>{activeST.description}</section>
+                    <span>number of clients: <span>
+                        {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}
+                    </span></span>
+
+                </StyledSTDescription>
+            }
+            </StyledBoxWrapper>
+        </StyledBox>
+        <button onClick={() => console.log(selectedST)}>selectedst</button>
+        <button onClick={() => console.log(activeST)}>activest</button>
+        </>
     )
 }

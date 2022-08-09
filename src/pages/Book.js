@@ -5,6 +5,7 @@ import arrow from '../svgs/arrowup.svg'
 import calendarCheck from '../svgs/calendarcheck.svg'
 import {AppointmentContext} from '../contexts/AppointmentContext'
 import Calendar from '../components/Calendar';
+import { ViewExistingSessionTypes } from '../components/ViewAppointmentTypes';
 
 
 
@@ -28,6 +29,7 @@ const StyledFlexContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-wrap: wrap;
     width: 90%;
 `
 
@@ -325,6 +327,10 @@ export const Book = () => {
     const [appointments, setAppointments] = useState([])
     const [selectedAppointment, setSelectedAppointment] = useState([])
 
+    const [sTs, setSTs] = useState([])
+    const [selectedST, setSelectedST] = useState()
+    const [activeST, setActiveST] = useState(null)
+
     const serverGetAppointments = async() => {
         const res = await fetch('http://localhost:5040/appointment')
         const data = await res.json()
@@ -338,6 +344,12 @@ export const Book = () => {
     return(
         <>
         <StyledFlexContainer>
+
+        <StyledSectionWrapper>
+            <h2>Select appointment <span>type</span>.</h2>
+            <ViewExistingSessionTypes sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+        </StyledSectionWrapper>
+
         <StyledSectionWrapper>
 
 

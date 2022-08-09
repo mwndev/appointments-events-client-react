@@ -157,6 +157,10 @@ const EnterCredentials = () => {
   const [loginData, setLoginData] = useState({})
   const [newUser, toggleNewUser] = useState()
 
+  const [sTs, setSTs] = useState([])
+  const [selectedST, setSelectedST] = useState()
+  const [activeST, setActiveST] = useState(null)
+
   const authenticateUser = async(dataOBJ) => {
     //! THIS IS COMPLETELY UNSECURED IF SERVER REQUEST DOESN'T GO THROUGH HTTPS
     const JSONbody = JSON.stringify({
