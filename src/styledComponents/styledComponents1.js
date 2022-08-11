@@ -7,20 +7,20 @@ from <Book /> Component
 
 */
 
-export const StyledFlexContainer = styled.div`
+export const FlexContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
 `
-export const StyledPageWrapper = styled.div`
+export const PageWrapper = styled.div`
     //display: flex;
     //justify-content: space-evenly;
     //align-items: center;
     padding-bottom: 2cm;
 `
 
-export const StyledSectionWrapper = styled.section`
+export const SectionWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,7 @@ export const StyledSectionWrapper = styled.section`
     }
 `
 
-export const StyledBoxSmall = styled.div`
+export const SmallBox = styled.div`
     aspect-ratio: 7 / 8;
     height: calc(160px + 26vh);
     border: 0.07cm solid ${props => props.theme.tc};
@@ -44,7 +44,7 @@ export const StyledBoxSmall = styled.div`
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(6, 1fr);
 `
-export const StyledSmallBoxHeader = styled.div`
+export const SmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
@@ -58,7 +58,7 @@ export const StyledSmallBoxHeader = styled.div`
     }
     
 `
-export const StyledBoxBody= styled.div`
+export const BoxBody= styled.div`
     width: calc(100% + 2px);
     height: 85%;
     display: flex;
@@ -67,7 +67,7 @@ export const StyledBoxBody= styled.div`
     flex-wrap: wrap;
     padding: 0.2cm;
 `
-export const StyledAppointmentContainer = styled.div`
+export const AppointmentContainer = styled.div`
     height: 100%;
     width: 100%;
     padding: 0.3cm 0.3cm 0 0.3cm;
@@ -113,7 +113,7 @@ export const StyledItem = styled.div`
         aspect-ratio: 1 / 1;
     }
 `
-export const StyledButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
     width: ${props => props.theme.boxHeight};
     aspect-ratio: 12 / 5;
     border: ${props => props.theme.bthk};
@@ -122,7 +122,7 @@ export const StyledButtonWrapper = styled.div`
     align-items: center;
     flex-wrap: wrap;
 `
-export const StyledCommandsWrapper = styled.div`
+export const CommandsWrapper = styled.div`
     width: 40vw;
     justify-content: center;
     align-items: center;
@@ -130,7 +130,7 @@ export const StyledCommandsWrapper = styled.div`
 
 `
 
-export const StyledButton = styled.div`
+export const ImportantButton = styled.div`
     border: ${props => props.theme.bthn};
     border-radius: 0%;
     background-color: ${props => props.theme.ic9};
@@ -156,7 +156,7 @@ export const StyledButton = styled.div`
         background-color: ${props => props.theme.hc7};
     }
 `
-export const StyledBoxLarge = styled.div`
+export const LargeBox = styled.div`
     aspect-ratio: 13 / 10;
     height: ${props => props.theme.boxHeight};
     border: 0.07cm solid ${props => props.theme.tc};
@@ -165,7 +165,7 @@ export const StyledBoxLarge = styled.div`
     grid-template: repeat(7, 1fr) / repeat(9, 1fr);
 
 `
-export const StyledBoxHeaderLarge = styled.div`
+export const LargeBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;

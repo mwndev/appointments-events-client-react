@@ -52,7 +52,10 @@ const StyledWrapper = styled.div`
     font-weight: 500;
     font-size: 1.5em;
 `
-
+const VeryStrong = styled.strong`
+    font-size: 2em;
+    font-weight: 500;
+`
 
 
 
@@ -102,9 +105,9 @@ const Period = ({children, period, setPeriod, startPeriod, setStartPeriod, endPe
             {startPeriod.minute - (Math.floor(startPeriod.minute / 10) * 10)}
             <StyledArrow src={arrowdown} onClick={() => setStartPeriod({minutes: -1})} />
         </StyledWrapper>
-        <strong>
+        <VeryStrong>
         -
-        </strong>
+        </VeryStrong>
         <StyledWrapper>
             <StyledArrow src={arrowup} onClick={() => setEndPeriod({hours: 10})} />
             {Math.floor(endPeriod.hour / 10)}

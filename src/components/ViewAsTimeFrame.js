@@ -7,7 +7,7 @@ import Calendar from './Calendar'
 import Weekdays from './Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
-import { StyledSectionWrapper, StyledButton, StyledPageWrapper, StyledButtonWrapper, StyledCommandsWrapper } from '../styledComponents/styledComponents1'
+import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper } from '../styledComponents/styledComponents1'
 
 
 const StyledFlexWrapper = styled.div`
@@ -267,53 +267,53 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
     //TODO add info button on single dates to show reservation details
     return(
-        <StyledPageWrapper>
+        <PageWrapper>
             
             <StyledFlexWrapper>
 
-            <StyledSectionWrapper>
+            <SectionWrapper>
             <h2><span>Beginning</span> of Timeframe</h2>
             <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={rawAppointments} />
-            </StyledSectionWrapper>
-            <StyledSectionWrapper>
+            </SectionWrapper>
+            <SectionWrapper>
             <h2><span>Ending</span> of Timeframe</h2>
             <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={rawAppointments} />
-            </StyledSectionWrapper>
+            </SectionWrapper>
 
-            <StyledSectionWrapper>
+            <SectionWrapper>
             <h2><span>Filter</span> by Weekdays</h2>
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
-            </StyledSectionWrapper>
-            <StyledSectionWrapper>
+            </SectionWrapper>
+            <SectionWrapper>
                 <h2><span>Set</span> time period</h2>
                 <Period 
                 period={period} setPeriod={setPeriod}
                 startPeriod={startPeriod} setStartPeriod={setStartPeriod}
                 endPeriod={endPeriod} setEndPeriod={setEndPeriod}
                 />
-            </StyledSectionWrapper>
+            </SectionWrapper>
 
-            <StyledCommandsWrapper>
-            <StyledSectionWrapper>
+            <CommandsWrapper>
+            <SectionWrapper>
             <h2><span>Server commands</span> </h2>
-            <StyledButtonWrapper>
+            <ButtonWrapper>
 
-            <StyledButton onClick={() => serverPostAppointments()}>
+            <ImportantButton onClick={() => serverPostAppointments()}>
             <span>send to server</span>
-            </StyledButton>
-            <StyledButton onClick={() => serverDeleteAppointments()} >
+            </ImportantButton>
+            <ImportantButton onClick={() => serverDeleteAppointments()} >
             <span>delete from server</span>
-            </StyledButton>
-            <StyledButton onClick={() => serverGetAppointments()} >
+            </ImportantButton>
+            <ImportantButton onClick={() => serverGetAppointments()} >
             <span>get from server</span>
-            </StyledButton>
-            <StyledButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
+            </ImportantButton>
+            <ImportantButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
             <span>delete selected</span>
-            </StyledButton>
-            </StyledButtonWrapper>
-            </StyledSectionWrapper>
+            </ImportantButton>
+            </ButtonWrapper>
+            </SectionWrapper>
 
-            </StyledCommandsWrapper>
+            </CommandsWrapper>
  
            </StyledFlexWrapper>
             <StyledFlexWrapper>
@@ -339,7 +339,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
             
 
-        </StyledPageWrapper>
+        </PageWrapper>
         )
 }
 

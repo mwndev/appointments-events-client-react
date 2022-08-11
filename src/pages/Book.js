@@ -5,7 +5,7 @@ import arrow from '../svgs/arrowup.svg'
 import calendarCheck from '../svgs/calendarcheck.svg'
 import {AppointmentContext} from '../contexts/AppointmentContext'
 import Calendar from '../components/Calendar';
-import { ViewExistingSessionTypes } from '../components/ViewAppointmentTypes';
+import { ViewExistingSessionTypes } from '../components/ViewExistingSessionTypes';
 
 
 
@@ -347,7 +347,7 @@ export const Book = () => {
 
         <StyledSectionWrapper>
             <h2>Select appointment <span>type</span>.</h2>
-            <ViewExistingSessionTypes sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+            <ViewExistingSessionTypes height="calc(200px + 30vh)" sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
         </StyledSectionWrapper>
 
         <StyledSectionWrapper>

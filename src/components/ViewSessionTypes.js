@@ -1,27 +1,11 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import {  StyledBoxBody,  StyledBoxSmall, StyledButton, StyledButtonWrapper, StyledPageWrapper, StyledSectionWrapper, } from "../styledComponents/styledComponents1";
-import infoIcon from '../svgs/info.svg'
-import x from '../svgs/x.svg'
-import redx from '../svgs/red-x.svg'
+import {  BoxBody,  SmallBox, ImportantButton, ButtonWrapper, PageWrapper, SectionWrapper, BoxHeaderText, } from "../styledComponents/styledComponents1";
+import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
 
-const StyledLargeDescriptor = styled.div`
-    grid-area: ${props => props.area};
-`
-const StyledSmallDescriptor = styled.div`
-    grid-area: ${props => props.area};
-`
 
-const StyledSmallInput = styled.input`
-    grid-area: ${props => props.area};
 
-`
-const StyledLargeInput = styled.input`
-    grid-area: ${props => props.area};
-    
-`
-
-const StyledBoxLarge = styled.div`
+const LargeBox = styled.div`
     aspect-ratio: 13 / 10;
     height: calc(160px + 26vh);
     border: 0.07cm solid ${props => props.theme.tc};
@@ -42,7 +26,7 @@ const StyledBoxLarge = styled.div`
     }
 `
 
-const StyledBoxHeaderLarge = styled.div`
+const LargeBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
@@ -56,7 +40,7 @@ const StyledBoxHeaderLarge = styled.div`
         font-size: 1.7em;
     }
 `
-const StyledSmallBoxHeader = styled.div`
+const SmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
@@ -65,19 +49,15 @@ const StyledSmallBoxHeader = styled.div`
     grid-column: 1 / -1;
     background-color: ${props => props.theme.ic4};
     margin-bottom: 0.2cm;
-    span{
-        font-weight: 500;
-        font-size: 1.3em;
-    }
     
 `
-const StyledFlexWrapper = styled.div`
+const FlexWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 `
 
-const StyledItemContainer = styled.div`
+const ItemContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,163 +70,37 @@ const StyledItemContainer = styled.div`
     
 `
 
-const StyledItem = styled.div`
+const Item = styled.div`
     border: 0.07cm solid ${props => props.theme.tc};
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     cursor: pointer;
     background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
     grid-row: ${props => props.index + 2} / ${props => props.index + 3};
     grid-column: 1 / -1 ;
     span{
-        width: 45%;
-        height: 100%;
+        width: 50%;
         display: flex;
         align-items: center;
         justify-content: left;
         font-size: 1.3em;
         font-weight: 500;
         color: ${props => props.theme.ic9};
+        margin-left: 0.2cm;
     }
     input{
-        width: 50%;
+        max-width: 50%;
         height: 100%;
+        flex-grow: 1;
         font-size: 1.2em;
         border: none;
         font-family: inherit;
     }
     input:focus, textarea:focus{
         outline: none
-    }
-`
-const StyledBox = styled.div`
-    height: calc(160px + 26vh);
-    aspect-ratio: 9 / 7;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-    //display: grid;
-
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    grid-auto-rows: 1fr;
-    border: ${props => props.theme.bthk};
-
-
-    ::-webkit-scrollbar{
-        width: 10%;
-        background-color: blue;
-    }
-    ::-webkit-scrollbar-thumb{
-        background: ${props => props.theme.ic6};
-
-    }
-    ::-webkit-scrollbar-track{
-        background-color: ${props => props.theme.c3};
-    }
-    header{
-        grid-column: 1 / 2;
-        margin-bottom: 0.2cm;
-        background-color: ${props => props.theme.ic4 };
-    }
-`
-const StyledBoxHeader = styled.div`
-    height: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-color: ${props => props.theme.ic4};
-    border-bottom: ${props => props.theme.bthk};
-`
-
-    //grid-row: ${props => props.index + 2} / ${props => props.index + 3};
-    //grid-column: 1 / -1;
-    //margin: 0.1cm 0.2cm;
-
-const StyledBoxWrapper = styled.div`
-    height: 83%;
-    width: 100%;
-    overflow-y: scroll;
-    ::-webkit-scrollbar{
-    }
-    ::-webkit-scrollbar-track{
-        display: none;
-    }
-`
-
-const StyledSTDescription = styled.div`
-    height: 96%;
-    width: 92%;
-    margin: 0.2cm auto;
-    
-    border: ${props => props.theme.bthk};
-    position: relative;
-    img{
-        height: 1cm;
-        aspect-ratio: 1 / 1;
-    }
-
-`
-const StyledSTHeader = styled.div`
-    width: 100%; 
-    height: 18%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 0.2cm;
-    span{
-        font-size: 1.8em;
-        width: 50%;
-        font-weight: 500;
-        color: ${props => props.theme.ic8}
-    }
-    img{
-        height: 80%;
-        margin-right: 0.1cm;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-    }
-    img:hover{
-        background-color: red;
-    }
-`
-
-const StyledSessionType = styled.div`
-    border: ${props => props.theme.bthk};
-    height: 15%;
-    width: 95%;
-    background-color: ${props => props.selectedST === props.thisType ? props.theme.hc2 : 'inherit'};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0.2cm auto;
-    section{
-        height: 50%;
-        width: 80%;
-        padding: 0.1cm;
-    }
-    span{
-        width: 80%;
-        height: 90%;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-
-    }
-    span > span{
-        font-size: 1.3em;
-        margin-left: 0.2cm;
-    }
-    img{
-        height: 100%;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
     }
 `
 
@@ -414,11 +268,11 @@ export const ViewSessionTypes = () => {
 
 
     return(
-        <StyledPageWrapper>
+        <PageWrapper>
 
 
 
-        <ViewExistingSessionTypes sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+        <ViewExistingSessionTypes height="calc(160px + 26vh)" sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
 
             
         <br></br>
@@ -435,18 +289,18 @@ export const ViewSessionTypes = () => {
         category={category}    setCategory={setCategory} 
 
         />
-        <StyledSectionWrapper>
+        <SectionWrapper>
         <h2><span>Server Commands</span></h2>
-        <StyledButtonWrapper>
-            <StyledButton onClick={() => serverCreateSessionType()}><span>create new</span></StyledButton>
-            <StyledButton onClick={() => serverUpdateSessionType()}><span>update selected</span></StyledButton>
-            <StyledButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></StyledButton>
-            <StyledButton onClick={() => serverSetActiveSessionType()}><span>&#40;de&#41;activate </span><span>selected</span></StyledButton>
-        </StyledButtonWrapper>
-        </StyledSectionWrapper>
+        <ButtonWrapper>
+            <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
+            <ImportantButton onClick={() => serverUpdateSessionType()}><span>update selected</span></ImportantButton>
+            <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
+            <ImportantButton onClick={() => serverSetActiveSessionType()}><span>&#40;de&#41;activate </span><span>selected</span></ImportantButton>
+        </ButtonWrapper>
+        </SectionWrapper>
 
 
-        </StyledPageWrapper>
+        </PageWrapper>
     )
 
 }
@@ -478,107 +332,58 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
     
 
     return(
-        <>
+        <FlexWrapper>
 
-        <StyledBoxSmall>
-            <StyledSmallBoxHeader>
-                <span>New Session Type</span>
-            </StyledSmallBoxHeader>
-                <StyledItemContainer index={0}>
-                <StyledItem>
+        <SmallBox>
+            <SmallBoxHeader>
+                <BoxHeaderText>New Session Type</BoxHeaderText>
+            </SmallBoxHeader>
+                <ItemContainer index={0}>
+                <Item>
                     <span>Name :</span>
                     <input  type={'text'} onChange={(e) => handleName(e)} />
-                </StyledItem>
-                </StyledItemContainer>
+                </Item>
+                </ItemContainer>
 
-                <StyledItemContainer index={1}>
-                    <StyledItem>
+                <ItemContainer index={1}>
+                    <Item>
                         <span>Category :</span>
                         <input type={'text'} onChange={(e) => handleCategory(e)} />
-                    </StyledItem>
-                </StyledItemContainer>
+                    </Item>
+                </ItemContainer>
                 
-                <StyledItemContainer index={2}>
-                    <StyledItem>
+                <ItemContainer index={2}>
+                    <Item>
                         <span>Price &#40;zl&#41; :</span>
                         <input type={'text'} onChange={(e) => handlePrice(e)} />
-                    </StyledItem>
-                </StyledItemContainer>
+                    </Item>
+                </ItemContainer>
                 
-                <StyledItemContainer index={3}>
-                    <StyledItem>
+                <ItemContainer index={3}>
+                    <Item>
                         <span>Min. People :</span>
                         <input type={'text'} onChange={(e) => handleMin(e)} />
-                    </StyledItem>
-                </StyledItemContainer>
+                    </Item>
+                </ItemContainer>
                 
-                <StyledItemContainer index={4}>
-                    <StyledItem>
+                <ItemContainer index={4}>
+                    <Item>
                         <span>Max. People :</span>
                         <input type={'text'} onChange={(e) => handleMax(e)} />
-                    </StyledItem>
-                </StyledItemContainer>
-        </StyledBoxSmall>
+                    </Item>
+                </ItemContainer>
+        </SmallBox>
 
-        <StyledBoxLarge>
-            <StyledBoxHeaderLarge>
+        <LargeBox>
+            <LargeBoxHeader>
                 <span>
                     New Description
                 </span>
-            </StyledBoxHeaderLarge>
-            <textarea type={'text'} onChange={(e) => handleDesc(e)}/>
-        </StyledBoxLarge>
+            </LargeBoxHeader>
+            <textarea placeholder="enter here" type={'text'} onChange={(e) => handleDesc(e)}/>
+        </LargeBox>
 
-               </>
+               </FlexWrapper>
     )
 }
 
-export const ViewExistingSessionTypes = ({sTs, setSTs, selectedST, setSelectedST, activeST, setActiveST}) => {
-
-    const [source, toggleScource] = useState(false)
-
-
-    useEffect(() => {
-            const serverGetSessionTypes = async () => {
-            const res = await fetch(`http://localhost:5040/sessiontypes`)
-            const data = await res.json()
-
-            setSTs(data)
-        }
-        serverGetSessionTypes()
-    }, [])
-    return(
-        <>
-        <StyledBox>
-            <StyledBoxHeader onClick={() => console.log(activeST)}>
-                <span>session types</span>
-            </StyledBoxHeader>
-            <StyledBoxWrapper>
-
-            {
-            activeST === null ?
-                sTs.map((item, index) =>  (
-                    <StyledSessionType selectedST={selectedST} thisType={item} index={index} key={index}>
-                        <span onClick={() => setSelectedST(item)}>{item.name}</span>
-                        <img onClick={() => setActiveST(item)} src={infoIcon}/>
-                    </StyledSessionType>
-                    )
-                ) : 
-                <StyledSTDescription>
-                    <StyledSTHeader><span>{activeST.name}</span>
-                    <img onClick={() => setActiveST(null)} src={source ? redx : x} onMouseOver={() => toggleScource(prev => !prev)} />
-                    </StyledSTHeader>
-                    <section>{activeST.description}</section>
-                    <span>number of clients: <span>
-                        {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}
-                    </span></span>
-
-                </StyledSTDescription>
-            }
-            </StyledBoxWrapper>
-        </StyledBox>
-        <button onClick={() => console.log(selectedST)}>selectedst</button>
-        <button onClick={() => console.log(activeST)}>activest</button>
-        </>
-    )
-}

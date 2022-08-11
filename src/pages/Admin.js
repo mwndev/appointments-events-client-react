@@ -1,7 +1,7 @@
 import React from "react"
-import { ViewSessionTypes } from "../components/ViewAppointmentTypes"
+import { ViewSessionTypes } from "../components/ViewSessionTypes"
 import { ViewAsTimeframe } from "../components/ViewAsTimeFrame"
-import { StyledPageWrapper } from "../styledComponents/styledComponents1"
+import { PageWrapper } from "../styledComponents/styledComponents1"
 
 
 
@@ -12,10 +12,10 @@ const Admin = () => {
 
 
     return(
-        <StyledPageWrapper>
+        <PageWrapper>
         <ViewAsTimeframe />
         <ViewSessionTypes />
-        </StyledPageWrapper>
+        </PageWrapper>
     )
 }
 
