@@ -7,6 +7,7 @@ import {AppointmentContext} from '../contexts/AppointmentContext'
 import Calendar from '../components/Calendar';
 import { ViewExistingSessionTypes } from '../components/ViewExistingSessionTypes';
 import TextareaBox from '../components/TextareaBox';
+import { UserContext } from '../contexts/UserContext'
 
 
 
@@ -237,7 +238,10 @@ const StyledConfirmButton = styled.div`
     }
 `
 
-const SendBookingBox = ({ selectedAppointment, data }) => {
+const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation }) => {
+
+
+    const {user, setUser} = useContext(UserContext)
 
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -254,11 +258,7 @@ const SendBookingBox = ({ selectedAppointment, data }) => {
                     ['Type: ', `${data.sessionType.name}`],
                     ['Price: ', `${data.sessionType.price}zl`],
                 ]
-                console.log('relevant info: ')
-                console.log(relevantInfo)
                 setInfo(relevantInfo)
-                console.log('info: ')
-                console.log(info)
             }
 
         } catch (error) {
@@ -293,7 +293,7 @@ const SendBookingBox = ({ selectedAppointment, data }) => {
                         </>
                     ) )
                 }
-                <StyledConfirmButton>
+                <StyledConfirmButton onClick={() => serverConfirmReservation()}>
                     <span>
                         Send Booking
                     </span>
@@ -301,6 +301,7 @@ const SendBookingBox = ({ selectedAppointment, data }) => {
                 
                 
             </StyledBoxSmall>
+            <button onClick={() => console.log(user)}>log user</button>
         </>
     )
 }
@@ -321,7 +322,6 @@ const Consultation = () => {
 
 export const Book = () => {
 
-
     const now = Temporal.Now.plainDateISO()
     const [date, setDate] = useState(now)
     const [appointments, setAppointments] = useState([])
@@ -332,15 +332,38 @@ export const Book = () => {
     const [activeST, setActiveST] = useState(null)
     const [notes, setNotes] = useState(null)
 
-    const serverGetAppointments = async() => {
-        const res = await fetch('http://localhost:5040/appointment')
-        const data = await res.json()
+    const {user, setUser} = useContext(UserContext)
 
-        setAppointments(data)
-    }
+    
     useEffect(() => {
+        const serverGetAppointments = async() => {
+
+            const res = await fetch('http://localhost:5040/appointment')
+            const data = await res.json()
+    
+            setAppointments(data)
+        }
         serverGetAppointments()
     } ,[])
+
+    const serverConfirmReservation = async () => {
+        console.log(user[0]._id)
+        const bodyOBJ = {
+            appointmentID: selectedAppointment._id,
+            sessionTypeID: selectedST._id,
+            userID: user[0]._id,
+            userNotes: notes,
+        }
+        console.log(bodyOBJ)
+
+        const res = await fetch('http://localhost:5040/appointment/user', {
+            method: 'PUT',
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            body: JSON.stringify(bodyOBJ)
+        })
+    }
        
     return(
         <>
@@ -381,9 +404,10 @@ export const Book = () => {
             
         <h2><span>Confirm</span> your appointment!</h2>
         
-        <SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} />
+        <SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} serverConfirmReservation={serverConfirmReservation}/>
 
         </StyledSectionWrapper>
+        
 
         </StyledFlexContainer>
         </>
