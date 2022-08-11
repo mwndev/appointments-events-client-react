@@ -2,44 +2,11 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {  BoxBody,  SmallBox, ImportantButton, ButtonWrapper, PageWrapper, SectionWrapper, BoxHeaderText, } from "../styledComponents/styledComponents1";
 import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
+import TextareaBox from "./TextareaBox"; 
 
 
 
-const LargeBox = styled.div`
-    aspect-ratio: 13 / 10;
-    height: calc(160px + 26vh);
-    border: 0.07cm solid ${props => props.theme.tc};
-    margin: 1cm;
-    display: grid;
-    grid-template: repeat(6, 1fr) / repeat(10, 1fr);
-    grid-gap: 0.2cm;
-    textarea{
-        border: none;
-        grid-column: 1 / -1;
-        grid-row: 2 / -1;
-        margin: 0 0.5cm 0.5cm 0.5cm;
-        font-family: inherit;
-        font-size: 1.3em;
-    }
-    textarea:focus{
-        outline: none;
-    }
-`
 
-const LargeBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${props => props.theme.ic4};
-    grid-column: 1 / -1;
-    grid-row: 1 / 2;
-    margin-bottom: 0.2cm;
-    span{
-        font-weight: 500;
-        font-size: 1.7em;
-    }
-`
 const SmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
@@ -316,9 +283,7 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
     const handleName = event => {
         setName(event.target.value)
     }
-    const handleDesc = event => {
-        setDescription(event.target.value)
-    }
+    
     const handleMin = event => {
         setMin(event.target.value)
     }
@@ -374,16 +339,9 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
                 </ItemContainer>
         </SmallBox>
 
-        <LargeBox>
-            <LargeBoxHeader>
-                <span>
-                    New Description
-                </span>
-            </LargeBoxHeader>
-            <textarea placeholder="enter here" type={'text'} onChange={(e) => handleDesc(e)}/>
-        </LargeBox>
+        <TextareaBox height={'calc(160px + 26vh)'} parentSetState={setDescription} title={'New Description'} />
 
-               </FlexWrapper>
+        </FlexWrapper>
     )
 }
 

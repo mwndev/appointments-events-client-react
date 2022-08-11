@@ -6,6 +6,7 @@ import calendarCheck from '../svgs/calendarcheck.svg'
 import {AppointmentContext} from '../contexts/AppointmentContext'
 import Calendar from '../components/Calendar';
 import { ViewExistingSessionTypes } from '../components/ViewExistingSessionTypes';
+import TextareaBox from '../components/TextareaBox';
 
 
 
@@ -236,7 +237,7 @@ const StyledConfirmButton = styled.div`
     }
 `
 
-const SendBookingBox = ({ selectedAppointment }) => {
+const SendBookingBox = ({ selectedAppointment, data }) => {
 
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -250,9 +251,8 @@ const SendBookingBox = ({ selectedAppointment }) => {
                     ['Weekday: ', `${dayNames[selectedAppointment.appointment.date.dayOfWeek]}`],
                     ['Date: ', `${selectedAppointment.appointment.date.day}. ${monthNames[selectedAppointment.appointment.date.month]} ${selectedAppointment.appointment.date.year}`],
                     ['Time: ', `${selectedAppointment.appointment.period.start} - ${selectedAppointment.appointment.period.end}`],
-                    ['Duration: ', `2 hours`],
-                    ['Type: ', `individual consultation`],
-                    ['Price: ', '300PLN'],
+                    ['Type: ', `${data.sessionType.name}`],
+                    ['Price: ', `${data.sessionType.price}zl`],
                 ]
                 console.log('relevant info: ')
                 console.log(relevantInfo)
@@ -330,6 +330,7 @@ export const Book = () => {
     const [sTs, setSTs] = useState([])
     const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
+    const [notes, setNotes] = useState(null)
 
     const serverGetAppointments = async() => {
         const res = await fetch('http://localhost:5040/appointment')
@@ -370,11 +371,17 @@ export const Book = () => {
         />
 
         </StyledSectionWrapper>
+        
+        <StyledSectionWrapper>
+            <h2><span>Write</span> notes &#40;optional&#41;</h2>
+            <TextareaBox parentSetState={setNotes} title={'Notes'} />
+        </StyledSectionWrapper>
+
         <StyledSectionWrapper>
             
         <h2><span>Confirm</span> your appointment!</h2>
         
-        <SendBookingBox selectedAppointment={selectedAppointment}/>
+        <SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} />
 
         </StyledSectionWrapper>
 
