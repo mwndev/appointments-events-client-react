@@ -179,6 +179,7 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
                 </StyledSmallBoxHeader>
                 {appointments.map((item, index) => (
                     <SingleAppointmentBox 
+                    key={index}
                     selectedAppointment={selectedAppointment}
                     setSelectedAppointment={setSelectedAppointment}
                     index={index}
@@ -282,12 +283,12 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
                 {
                     info.map((item, index) => (
                         <>
-                            <StyledDescriptor index={index}>
+                            <StyledDescriptor key={index} index={index}>
                                 <span>
                                     {item[0]}
                                 </span>
                             </StyledDescriptor>
-                            <StyledValue index={index}>
+                            <StyledValue index={index} key={index}>
                                 <span>{item[1]}</span>
                             </StyledValue>
                         </>
@@ -307,17 +308,6 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
 }
 
 
-const Consultation = () => {
-
-
-    return(
-        <>
-            
-        </>
-    )
-
-
-}
    
 
 export const Book = () => {
@@ -356,23 +346,30 @@ export const Book = () => {
     } ,[])
 
     const serverConfirmReservation = async () => {
-        console.log(user[0]._id)
-        const bodyOBJ = {
-            appointmentID: selectedAppointment._id,
-            sessionTypeID: selectedST._id,
-            userID: user[0]._id,
-            userNotes: notes,
-        }
-        console.log(bodyOBJ)
+        try {
+            if(user._id === undefined) console.log('no user')
+            console.log(user._id)
+            const bodyOBJ = {
+                appointmentID: selectedAppointment._id,
+                sessionTypeID: selectedST._id,
+                userID: user._id,
+                userNotes: notes,
+            }
+            console.log(bodyOBJ)
 
-        const res = await fetch('http://localhost:5040/appointment/user', {
-            method: 'PUT',
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            body: JSON.stringify(bodyOBJ)
-        })
-    }
+            const res = await fetch('http://localhost:5040/appointment/user', {
+                method: 'PUT',
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify(bodyOBJ)
+            })
+ 
+
+        } catch (error) {
+            
+        }
+   }
        
     return(
         <>

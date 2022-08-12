@@ -10,6 +10,7 @@ import Period from '../components/Period'
 import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
 
 
+//!TODO daysofweek isn't working, make it simpler (without converting 5 times)
 
 const now = Temporal.Now.plainDateISO()
 const time = Temporal.PlainTime.from({

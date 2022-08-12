@@ -9,7 +9,7 @@ import check from '../svgs/check.svg'
 import dots from '../svgs/dots.svg'
 import { faHandMiddleFinger } from '@fortawesome/pro-duotone-svg-icons'
 
-
+//!TODO add session to make login persist between reloads
 
 const TextInput = styled.input`
   height: 1cm;
