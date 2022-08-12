@@ -344,6 +344,15 @@ export const Book = () => {
             setAppointments(data)
         }
         serverGetAppointments()
+
+
+        const serverGetSessionTypes = async () => {
+            const res = await fetch(`http://localhost:5040/sessiontypes`)
+            const data = await res.json()
+
+            setSTs(data)
+        }
+        serverGetSessionTypes()
     } ,[])
 
     const serverConfirmReservation = async () => {
@@ -371,7 +380,7 @@ export const Book = () => {
 
         <StyledSectionWrapper>
             <h2>Select appointment <span>type</span>.</h2>
-            <ViewExistingSessionTypes height="calc(200px + 30vh)" sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+            <ViewExistingSessionTypes height="calc(200px + 30vh)" parentSTs={sTs}  selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
         </StyledSectionWrapper>
 
         <StyledSectionWrapper>

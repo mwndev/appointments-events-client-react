@@ -22,6 +22,7 @@ const FlexWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 `
 
 const ItemContainer = styled.div`
@@ -137,7 +138,8 @@ export const ViewSessionTypes = () => {
         })
 
         const data = await res.json()
-
+        console.log('triggering useeffect')
+        triggerUseEffect(prev => !prev)
 
         console.log({data})
     }
@@ -235,16 +237,15 @@ export const ViewSessionTypes = () => {
 
 
     return(
-        <PageWrapper>
+        <FlexWrapper>
 
-
-
+        <SectionWrapper>
+        <h2><span>Current</span> sessions</h2>
         <ViewExistingSessionTypes height="calc(160px + 26vh)" parentSTs={sessionTypesFromServer} sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+        </SectionWrapper>
 
             
-        <br></br>
-
-        <CreateSessionType
+       <CreateSessionType
         // I seriously regret seperating the components now
         serverCreateSessionType={serverCreateSessionType}
         newSession={newSession}    setNewSession={setNewSession}
@@ -267,7 +268,7 @@ export const ViewSessionTypes = () => {
         </SectionWrapper>
 
 
-        </PageWrapper>
+        </FlexWrapper>
     )
 
 }
@@ -297,8 +298,9 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
     
 
     return(
-        <FlexWrapper>
-
+        <>
+        <SectionWrapper>
+        <h2>Enter <span>details</span></h2>
         <SmallBox>
             <SmallBoxHeader>
                 <BoxHeaderText>New Session Type</BoxHeaderText>
@@ -338,10 +340,14 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
                     </Item>
                 </ItemContainer>
         </SmallBox>
+        </SectionWrapper>
 
+        <SectionWrapper>
+        <h2>Write <span>description</span></h2>
         <TextareaBox height={'calc(160px + 26vh)'} parentSetState={setDescription} title={'New Description'} />
+        </SectionWrapper>
 
-        </FlexWrapper>
+        </>
     )
 }
 

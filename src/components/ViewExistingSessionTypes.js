@@ -138,7 +138,6 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
     const [sourceInfo, setSourceInfo] = useState('')
 
 
-    
     return(
         <>
         <Box height={height}>

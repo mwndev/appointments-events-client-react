@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { UserContext } from '../contexts/UserContext'
-import { BoxHeaderText, MidBoxText, SmallerBoxText } from '../styledComponents/styledComponents1'
+import { BoxHeaderText, FlexWrapper, MidBoxText, PageWrapper, SmallerBoxText } from '../styledComponents/styledComponents1'
 import emailIcon from '../svgs/email.svg'
 import signature from '../svgs/signature.svg'
 import check from '../svgs/check.svg'
@@ -113,11 +113,14 @@ export default function User() {
 
 
   return (
-    <>
+    <PageWrapper>
+    <FlexWrapper>
+
     <EnterCredentials />
     <button onClick={() => console.log(user)}>see user</button>
+    </FlexWrapper>
     
-    </>
+    </PageWrapper>
   )
 }
 

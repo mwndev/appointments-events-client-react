@@ -7,16 +7,10 @@ import Calendar from './Calendar'
 import Weekdays from './Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
-import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper } from '../styledComponents/styledComponents1'
+import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
 
 
-const StyledFlexWrapper = styled.div`
-display: flex;
-justify-content: space-evenly;
-align-items: center;
-flex-shrink: 0;
-flex-wrap: wrap;
-`
+
 const now = Temporal.Now.plainDateISO()
 const time = Temporal.PlainTime.from({
     hour: 18,
@@ -269,7 +263,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
     return(
         <PageWrapper>
             
-            <StyledFlexWrapper>
+            <FlexWrapper>
 
             <SectionWrapper>
             <h2><span>Beginning</span> of Timeframe</h2>
@@ -315,8 +309,8 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
             </CommandsWrapper>
  
-           </StyledFlexWrapper>
-            <StyledFlexWrapper>
+           </FlexWrapper>
+            <FlexWrapper>
             {appointmentsFromServer.map(obj =>  (
                 
                 <SingleDate  
@@ -334,7 +328,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             ))}
 
            
-            </StyledFlexWrapper>
+            </FlexWrapper>
 
 
             

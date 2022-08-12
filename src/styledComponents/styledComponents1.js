@@ -6,6 +6,13 @@ import styled from "styled-components";
 from <Book /> Component
 
 */
+export const FlexWrapper = styled.div`
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+flex-shrink: 0;
+flex-wrap: wrap;
+`
 
 export const FlexContainer = styled.div`
     display: flex;

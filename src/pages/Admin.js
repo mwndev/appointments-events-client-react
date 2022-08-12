@@ -14,6 +14,7 @@ const Admin = () => {
     return(
         <PageWrapper>
         <ViewAsTimeframe />
+        
         <ViewSessionTypes />
         </PageWrapper>
     )
