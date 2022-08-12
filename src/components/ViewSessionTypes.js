@@ -102,12 +102,12 @@ export const ViewSessionTypes = () => {
                 setSessionTypesFromServer(data)
             
             } catch (error) {
-                window.alert(error)    
+                console.log(error)    
             }
         }
         fetchSessionTypes()
        
-    }, [trigger, []])
+    }, [trigger])
 
     const serverGetSessionTypes = async () => {
         const res = await fetch(`http://localhost:5040/sessiontypes`)
@@ -138,34 +138,36 @@ export const ViewSessionTypes = () => {
 
         const data = await res.json()
 
-        triggerUseEffect(prev => !prev)
 
         console.log({data})
     }
     const serverDeleteSessionType = async () => {
+        console.log(selectedST)
         try {
-            if(!typeof selectedSessionType === String){
+            if(!typeof selectedST === Object){
                 window.alert('Please select a session type')
                 return
             }
-            const bodyAsJSON = JSON.stringify({id: selectedSessionType})
+            const bodyAsJSON = JSON.stringify({id: selectedST._id})
             
 
             const res = await fetch('http://localhost:5040/sessiontypes', {
                 method: 'DELETE',
                 headers: {
-                    "Content-chromium scrollbar not changingType" : "application/json",
+                    "Content-Type" : "application/json",
                 },
                 body: bodyAsJSON,
             })
             const data = await res.json()
 
+            console.log('triggering useeffect')
             triggerUseEffect(prev => !prev)
 
-            window.alert({data})
 
+            console.log(data)
         } catch (error) {
-            window.alert(error)
+            console.log(error)
+
         }
     }
     const serverUpdateSessionType = async () => {
@@ -196,7 +198,6 @@ export const ViewSessionTypes = () => {
             })
             const data = await res.json()
 
-            triggerUseEffect(prev => !prev)
 
             window.alert({data})
 
@@ -225,7 +226,6 @@ export const ViewSessionTypes = () => {
             window.alert({data})
 
 
-            triggerUseEffect(prev => !prev)
 
         } catch (error) {
             window.alert(error)
@@ -239,7 +239,7 @@ export const ViewSessionTypes = () => {
 
 
 
-        <ViewExistingSessionTypes height="calc(160px + 26vh)" sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+        <ViewExistingSessionTypes height="calc(160px + 26vh)" parentSTs={sessionTypesFromServer} sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
 
             
         <br></br>

@@ -268,7 +268,7 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
 
     }
         
-        , [selectedAppointment])
+        , [selectedAppointment, data])
 
 
     return(

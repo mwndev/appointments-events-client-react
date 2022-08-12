@@ -132,21 +132,13 @@ const SessionType = styled.div`
 
 
 
-export const ViewExistingSessionTypes = ({height, sTs, setSTs, selectedST, setSelectedST, activeST, setActiveST}) => {
+export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSelectedST, activeST, setActiveST}) => {
 
     const [sourceX, setSourceX] = useState(x)
     const [sourceInfo, setSourceInfo] = useState('')
 
 
-    useEffect(() => {
-            const serverGetSessionTypes = async () => {
-            const res = await fetch(`http://localhost:5040/sessiontypes`)
-            const data = await res.json()
-
-            setSTs(data)
-        }
-        serverGetSessionTypes()
-    }, [])
+    
     return(
         <>
         <Box height={height}>
@@ -157,7 +149,7 @@ export const ViewExistingSessionTypes = ({height, sTs, setSTs, selectedST, setSe
 
             {
             activeST === null ?
-                sTs.map((item, index) =>  (
+                parentSTs.map((item, index) =>  (
                     <SessionType selectedST={selectedST} thisType={item} index={index} key={index}>
                         <span onClick={() => item === selectedST ? setSelectedST(null) : setSelectedST(item)}><span>{item.name}</span></span>
                         <img  onClick={() => setActiveST(item)} src={item === sourceInfo ? greenInfoIcon : infoIcon} onMouseOver={() => setSourceInfo(item)} onMouseLeave={() => setSourceInfo('')}/>
