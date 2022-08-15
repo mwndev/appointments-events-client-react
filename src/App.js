@@ -12,7 +12,7 @@ import Banner from './nav/Banner'
 import Admin from './pages/Admin'
 import {Book} from './pages/Book'
 import { AppointmentContext } from './contexts/AppointmentContext'
-import React, {useState, createContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import Test from './pages/Test'
 import User from './pages/User'
 import { UserContext } from './contexts/UserContext'
@@ -72,8 +72,8 @@ function App() {
   //the links below the title in the header are generated based on this array
   const links = [
     ['/', 'home', <Home />], ['/about', 'o mnie', <About />], ['/patient', 'oferta dla pacjenta', <Patient />], 
-    ['/corporate', 'oferta dla firm', <Corporate />], ['/e_consultation', 'e-konsultacje', <EConsultation />],
-    ['/info', 'warto wiedzieć', <Info />], ['/prices', 'cennik', <Prices />], ,['/contact', 'kontakt', <Contact />],
+    ['/corporate', 'oferta dla firm', <Corporate />], ['/prices', 'cennik', <Prices />],
+    ['/contact', 'kontakt', <Contact />],
     ['/book', 'book appointment', <Book />], ['/admin', 'admin', <Admin />], 
   ]
 
@@ -81,6 +81,14 @@ function App() {
   links.map((link) => bannerLinks.push([link[0], link[1]]))
 
   const [user, setUser] = useState({password: '', email: '', name: ''})
+
+  useEffect(() => {
+    let uid = localStorage.getItem('JMUDUYPT80085')
+    console.log(uid)
+    if(uid.length !== 24) return
+
+    setUser(uid)
+  },[])
 
   return (
     <ThemeProvider theme={theme1}>

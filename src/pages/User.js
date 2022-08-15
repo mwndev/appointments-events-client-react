@@ -70,6 +70,13 @@ const DetailWrapper = styled.div`
     font-size: 1.3em;
     outline: none;
   }
+  section{
+    height: 80%;
+    width: 60%;
+    font-size: 1.3em;
+    background-color: ${props => props.theme.wc2};
+    color: ${props => props.theme.wc6};
+  }
 `
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -125,7 +132,12 @@ export default function User() {
 }
 
 
-const EnterLoginCredentials = ({data, setData}) => {
+
+
+
+
+
+const EnterLoginCredentials = ({data, setData, authenticated}) => {
 
   const handleEmail = v => {
     setData(prev => {
@@ -136,21 +148,43 @@ const EnterLoginCredentials = ({data, setData}) => {
     setData(prev => {
       return {...prev, password: v}
     })
-  }  
+  }
+  const handleEnter = (event) => {
+    if (event.key.toLowerCase() === "enter") {
+
+    }
+  }
+
   //TODO explain in info box why I won't tell user whether his email or password is wrong
   return(
       <>
       <DetailWrapper row={3}>
-        <input type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
+        <input  type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
       </DetailWrapper>
-
+      {
+        authenticated ?  (
+          <DetailWrapper row={2}>
+          <div>login successful</div> 
+          </DetailWrapper>
+        ) : (
+          <DetailWrapper row={4}>
+          <div>login failed</div>
+          </DetailWrapper>
+        ) 
+      }
       <DetailWrapper row={5}>
-        <input type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)}/>
+        <input  type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)}/>
       </DetailWrapper> 
       </>
     )
 
-  }
+}
+
+
+
+
+
+
 
 const EnterCredentials = () => {
 
@@ -159,6 +193,7 @@ const EnterCredentials = () => {
   const [regData, setRegData] = useState({})
   const [loginData, setLoginData] = useState({})
   const [newUser, toggleNewUser] = useState()
+  const [authenticated, setAuthenticated] = useState()
 
   const [sTs, setSTs] = useState([])
   const [selectedST, setSelectedST] = useState()
@@ -182,9 +217,14 @@ const EnterCredentials = () => {
 
     if(data.authenticated){
       setUser(data.userData)
+      console.log(data.userData)
+      localStorage.setItem('JMUDUYPT80085', data.userData)
+      setAuthenticated(true)
+    }else{
+      setAuthenticated(false)
     }
-
   }
+
  
 
   const createUser = async(dataOBJ) => {
@@ -228,7 +268,7 @@ const EnterCredentials = () => {
       </HeaderWrapper>
 
 
-      {newUser ? <EnterRegisterCredentials data={regData} setData={setRegData} /> : <EnterLoginCredentials data={loginData} setData={setLoginData}/>}
+      {newUser ? <EnterRegisterCredentials authWarning={authenticated} data={regData} setData={setRegData} /> : <EnterLoginCredentials authenticated={authenticated} data={loginData} setData={setLoginData}/>}
 
       <DetailWrapper row={7}>
         <Confirm onClick={() => newUser ? createUser(regData) : authenticateUser(loginData)}>
@@ -314,4 +354,4 @@ const EnterRegisterCredentials = ({data, setData}) => {
       </>
 
     )
-  }
+    }  

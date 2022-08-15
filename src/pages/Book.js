@@ -250,7 +250,6 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
 
     useEffect(() => {
         try {
-            console.log(selectedAppointment)
             if(selectedAppointment !== []){
                 const relevantInfo = [
                     ['Weekday: ', `${dayNames[selectedAppointment.appointment.date.dayOfWeek]}`],
@@ -263,7 +262,6 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
             }
 
         } catch (error) {
-            console.log(error)            
         }
 
 
@@ -350,10 +348,10 @@ export const Book = () => {
             if(user._id === undefined) console.log('no user')
             console.log(user._id)
             const bodyOBJ = {
-                appointmentID: selectedAppointment._id,
-                sessionTypeID: selectedST._id,
-                userID: user._id,
-                userNotes: notes,
+                appointment: selectedAppointment,
+                sessionType: selectedST,
+                user: user,
+                notes: notes,
             }
             console.log(bodyOBJ)
 

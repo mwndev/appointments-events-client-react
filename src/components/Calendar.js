@@ -179,7 +179,6 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
         try {
             setsn([1, 2, 3, 4 ,5 ,6 ,7].slice(0, daysArray[0].dayOfWeek - 1))
         } catch (error) {
-            console.log(error)
         }
 
 
