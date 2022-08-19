@@ -7,7 +7,7 @@ import emailIcon from '../svgs/email.svg'
 import signature from '../svgs/signature.svg'
 import check from '../svgs/check.svg'
 import dots from '../svgs/dots.svg'
-import { faHandMiddleFinger } from '@fortawesome/pro-duotone-svg-icons'
+import { Dashboard } from '../components/Dashboard'
 
 //!TODO add session to make login persist between reloads
 
@@ -122,8 +122,9 @@ export default function User() {
   return (
     <PageWrapper>
     <FlexWrapper>
-
-    <EnterCredentials />
+    {
+      !user ? <EnterCredentials /> : <Dashboard />
+    }
     <button onClick={() => console.log(user)}>see user</button>
     </FlexWrapper>
     
@@ -218,7 +219,10 @@ const EnterCredentials = () => {
     if(data.authenticated){
       setUser(data.userData)
       console.log(data.userData)
-      localStorage.setItem('JMUDUYPT80085', data.userData)
+      localStorage.setItem('JMUDUYPTID', data.userData.id)
+      localStorage.setItem('JMUDUYPTFN', data.userData.firstName)
+      localStorage.setItem('JMUDUYPTLN', data.userData.lastName)
+      localStorage.setItem('JMUDUYPTEM', data.userData.email)
       setAuthenticated(true)
     }else{
       setAuthenticated(false)
@@ -278,7 +282,7 @@ const EnterCredentials = () => {
         </Confirm>
       </DetailWrapper>
       </UserBox>
-      <button onClick={() => console.log(regData)}>email click here</button>
+      <button onClick={() => console.log(regData)}>registration data</button>
       </>
     )
   

@@ -8,6 +8,8 @@ import Calendar from '../components/Calendar';
 import { ViewExistingSessionTypes } from '../components/ViewExistingSessionTypes';
 import TextareaBox from '../components/TextareaBox';
 import { UserContext } from '../contexts/UserContext'
+import { v4 as uuidv4 } from 'uuid';
+import { Fragment } from 'react';
 
 
 
@@ -165,7 +167,7 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
 const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelectedAppointment}) => {
     
     let filtered = appointments.sort((a, b) => {
-        return a.appointment.period.start - b.appointment.period.start
+        return a.period.start - b.period.start
     })
     
 
@@ -179,12 +181,12 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
                 </StyledSmallBoxHeader>
                 {appointments.map((item, index) => (
                     <SingleAppointmentBox 
-                    key={index}
+                    key={uuidv4()}
                     selectedAppointment={selectedAppointment}
                     setSelectedAppointment={setSelectedAppointment}
                     index={index}
-                    end={item.appointment.period.end} 
-                    start={item.appointment.period.start} 
+                    end={item.period.end} 
+                    start={item.period.start} 
                     appointment={item}
                     dateISO={dateISO} 
                     
@@ -252,9 +254,9 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
         try {
             if(selectedAppointment !== []){
                 const relevantInfo = [
-                    ['Weekday: ', `${dayNames[selectedAppointment.appointment.date.dayOfWeek]}`],
-                    ['Date: ', `${selectedAppointment.appointment.date.day}. ${monthNames[selectedAppointment.appointment.date.month]} ${selectedAppointment.appointment.date.year}`],
-                    ['Time: ', `${selectedAppointment.appointment.period.start} - ${selectedAppointment.appointment.period.end}`],
+                    ['Weekday: ', `${dayNames[selectedAppointment.date.dayOfWeek]}`],
+                    ['Date: ', `${selectedAppointment.date.day}. ${monthNames[selectedAppointment.date.month]} ${selectedAppointment.date.year}`],
+                    ['Time: ', `${selectedAppointment.period.start} - ${selectedAppointment.period.end}`],
                     ['Type: ', `${data.sessionType.name}`],
                     ['Price: ', `${data.sessionType.price}zl`],
                 ]
@@ -262,6 +264,7 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
             }
 
         } catch (error) {
+            console.log(error)
         }
 
 
@@ -280,16 +283,16 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
                 </StyledSmallBoxHeader>
                 {
                     info.map((item, index) => (
-                        <>
-                            <StyledDescriptor key={index} index={index}>
+                        <Fragment  key={uuidv4()}>
+                            <StyledDescriptor key={uuidv4()} index={index}>
                                 <span>
                                     {item[0]}
                                 </span>
                             </StyledDescriptor>
-                            <StyledValue index={index} key={index}>
+                            <StyledValue index={index} key={uuidv4()}>
                                 <span>{item[1]}</span>
                             </StyledValue>
-                        </>
+                        </Fragment>
                     ) )
                 }
                 <StyledConfirmButton onClick={() => serverConfirmReservation()}>
@@ -394,7 +397,7 @@ export const Book = () => {
             selectedAppointment={selectedAppointment} 
             setSelectedAppointment={setSelectedAppointment} 
             dateISO={date} 
-            appointments={appointments.filter(e => e.appointment.date.dateAsString === date.toString())}
+            appointments={appointments.filter(e => e.date.dateAsString === date.toString())}
         />
 
         </StyledSectionWrapper>

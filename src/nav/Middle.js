@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
 
 const StyledMiddle = styled.div`
     width: 90%;
@@ -54,11 +55,14 @@ const StyledMiddle = styled.div`
 
 // link[0] is the route, link[1] is the name
 export default function Middle({links}) {
+
+  const { user } = useContext(UserContext)
+
   return (
     <StyledMiddle>
      <div>
         {links.map((link) => (<Link to={link[0]} key={link[0]}>{link[1]}</Link>))}
-        <Link to='/user' key={'user'}>Login</Link>
+        <Link to='/user' key={'user'}>user</Link>
       </div>
 
     </StyledMiddle>

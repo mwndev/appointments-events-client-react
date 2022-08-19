@@ -217,7 +217,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
         {daysArray.map(calendarDay => 
             
             (<StyledDay 
-                appointmentsOnDate={appointments.filter(e => e.appointment.date.dateAsString === calendarDay.toString()).length} 
+                appointmentsOnDate={appointments.filter(e => e.date.dateAsString === calendarDay.toString()).length} 
                 state={parentISODate} 
                 day={calendarDay}  
                 key={calendarDay.day} 

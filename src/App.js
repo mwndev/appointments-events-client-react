@@ -83,11 +83,18 @@ function App() {
   const [user, setUser] = useState({password: '', email: '', name: ''})
 
   useEffect(() => {
-    let uid = localStorage.getItem('JMUDUYPT80085')
-    console.log(uid)
-    if(uid.length !== 24) return
+    let uid = localStorage.getItem('JMUDUYPTID')
 
-    setUser(uid)
+    let ufn = localStorage.getItem('JMUDUYPTFN')
+
+    let uln = localStorage.getItem('JMUDUYPTLN')
+
+    let uem = localStorage.getItem('JMUDUYPTEM')
+
+    setUser({id: uid, firstName: ufn, lastName: uln, email: uem})
+    
+
+
   },[])
 
   return (

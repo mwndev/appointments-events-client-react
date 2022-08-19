@@ -159,7 +159,7 @@ export const ViewAsTimeframe = () => {
 
             let sortedArr = [null, null, null, null, null, null, null, null]
             for(let l = 1 ; l <= 7 ; l += 1){
-                sortedArr[l] = (arr.filter(e => e.appointment.date.dayOfWeek === l))
+                sortedArr[l] = (arr.filter(e => e.date.dayOfWeek === l))
             }
             //this seems to work
             //console.log(sortedArr)
@@ -322,8 +322,8 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
                 appointmentIDsFromParent={appointmentIDsToDelete}
                 key={obj._id}  
                 daysOfWeek={daysOfWeek}
-                dayNameShort={dayNames[obj.appointment.date.dayOfWeek].substring(0, 3)}
-                monthName={monthNames[obj.appointment.date.month]}
+                dayNameShort={dayNames[obj.date.dayOfWeek].substring(0, 3)}
+                monthName={monthNames[obj.date.month]}
                 
                 />
             ))}
