@@ -64,6 +64,7 @@ function App() {
     boxHeaderHeight: '12.3%',
     boxBodyHeight: '85%',
     bthk: '0.07cm solid #000',
+    bmed: '0.06cm solid #000',
     bthn: '0.05cm solid #000',
 
     //this is there to link the width of the left and right sides of the header

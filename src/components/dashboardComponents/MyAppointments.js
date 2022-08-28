@@ -2,6 +2,22 @@ import React, {useState, useEffect, useContext} from "react";
 import { UserContext } from "../../contexts/UserContext";
 import baseURL from "../../contexts/serverURL";
 import { v4 as uuidv4} from "uuid";
+import styled from "styled-components";
+
+const Appointment = styled.div`
+    border: ${props => props.theme.bthk};
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    height: 1.4cm;
+    span{
+        font-size: 1.3em;
+        max-height: 1cm;
+        margin: 0.2cm;
+    }
+`
+
+
 
 export const MyAppointments = () => {
     const [appointments, setAppointments] = useState([])
@@ -27,15 +43,20 @@ export const MyAppointments = () => {
         serverGetSessionTypes()
     } ,[])
 
+    const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     return(
         <>
-            <button onClick={() => console.log(appointments)}>log appointments</button>
             {
                 appointments.map((item, index) => (
-                    <div key={uuidv4()}>
-                        <span>{item.reservation.sessionTypeName}</span><span>{item.period.start}:{item.period.end}</span>
-                    </div>
+                    <Appointment key={uuidv4()}>
+                        <span>{dayNames[item.date.dayOfWeek].substring(0, 3)}</span>
+                        <span>{item.date.day}</span>
+                        <span>{monthNames[item.date.month]}</span>
+                        <span>{item.reservation.sessionTypeName}</span>
+                        <span>{item.period.start}-{item.period.end}</span>
+                    </Appointment>
                 ))
             }
         </>

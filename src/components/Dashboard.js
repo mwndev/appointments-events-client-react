@@ -13,7 +13,8 @@ const OuterBox = styled.div`
     display: flex;
 `
 const SidebarWrapper = styled.div`
-    width: 8cm;
+    width: 10cm;
+    margin-right: 2cm;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -21,13 +22,14 @@ const SidebarWrapper = styled.div`
 `
 const SidebarItem = styled.div`
     padding: 0.3cm;
+    cursor: pointer;
 `
 
 
 const ContentWrapper = styled.div`
-    width: 30%;
-    
-    
+    width: 80vw;
+    display: flex;
+    flex-wrap: wrap;
 `
 
 
@@ -48,14 +50,13 @@ export const Dashboard = () => {
 
             <SidebarWrapper>
                 {
-                    sidebar.map((item, index) => (
+                    sidebar.map((item,) => (
                         <SidebarItem key={item[0]} onClick={() => setContent(item[1])}>
                             <SmallerBoxText>
                                 {item[0]} 
                             </SmallerBoxText>
                         </SidebarItem>
                     ))
-                
                 }
             </SidebarWrapper>
             <ContentWrapper>

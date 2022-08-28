@@ -91,9 +91,9 @@ export const NewPassword = () => {
 
         const jres = await res.json()
 
-        if(res.status === 400) if( window.confirm(jres.msg) ) window.open(`${thisURL}/user`, '_self') 
+        if(res.status === 400) if( window.confirm(jres.msg) ) return window.open(`${thisURL}/user`, '_self') 
 
-        if(jres.matchedCount === 0) {
+        if(jres.updated  === null) {
             const res = await fetch(`${baseURL}/forgot/${tokenid}`, {  
                 method: 'POST', 
                 headers: {"Content-Type" : "application/json"}, 
@@ -105,9 +105,17 @@ export const NewPassword = () => {
                     } 
                 })
             })
-            window.alert('something went wrong. The developer has been notified')
+            return window.alert('something went wrong. The developer has been notified')
         }
+        console.log(jres.updated)
 
+
+
+        window.alert('Password successfully updated!')
+
+        localStorage.setItem('JMUDUYPTPW', password)
+
+        window.open(`${thisURL}/user`, '_self') 
 
     }
 

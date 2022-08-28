@@ -31,7 +31,6 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
   },[])
 
   const resetPassword = async () => {
-    console.log(data)
     if(data.email === null || data.email === '') {
       window.alert('Please enter your email')
       return setWarn(prev => { return { ...prev, email: true } }) 
@@ -47,7 +46,8 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
 
     if( !resData.userFound ) return window.alert('This email does not have an account.\n Please register.')
 
-    else     window.alert('Please check your email account for a confirmation link')
+    window.alert('Please check your email account for a confirmation link')
+    console.log('where is window.alert')
 
 
   }

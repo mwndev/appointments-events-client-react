@@ -9,24 +9,23 @@ export const MyData = () => {
     return(
         <>
             <DataRow 
-            desc={'First Name'} 
+            desc={'First Name:'} 
             data={user.firstName}
             setData={(n) => setUser(prev => { return { ...prev, firstName: n } })}
             />
             <DataRow 
-            desc={'Last Name'} 
+            desc={'Last Name:'} 
             data={user.lastName}
             setData={(n) => setUser(prev => { 
                 return { ...prev, lastName: n } })}
             />
             <DataRow 
-            desc={'Email'} 
+            desc={'Email:'} 
             data={user.email}
             setData={(n) => setUser(prev => { 
                 console.log(n)
                 return { ...prev, email: n } })}
             />
-            <button onClick={() => setUser(prev => { return { ...prev, firstName: 'oooo' } })}>ooo</button>
         </>
     )
 }
@@ -37,24 +36,71 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0.1cm;
 `
+
+const InnerWrapper = styled.div`
+    height: 1.2cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: ${p => p.theme.bmed};
+`
+
 const Identifier = styled.div`
-    height: 1.4cm;
+    display: flex;
+    justify-content: left;
+    align-items: center;
     width: 3cm;
-    color: green;
+    font-weight: 500;
+    font-size: 1.3em;
+    span{
+        color: green;
+    }
 `
 const Input = styled.input`
-    height: 1.4cm;
-    width: 6cm;
+    height: 100%;
+    width: 9cm;
+    font-size: 1.1em;
+    border: none;
     ::placeholder{
         color: black;
     }
+    &:focus{
+        outline: none;
+    }
 `
 const EditButton = styled.button`
-    height: 1.4cm;
+    color: ${p => p.active ? p.theme.hc9 : p.theme.ic8};
+    height: 103%;
     width: 2cm;
-    background-color: green;
-    color: white;
+    background-color: inherit;
+    font-size: 1.05em;
+    font-weight: 500;
+    border: none;
+    border-left: ${p => p.theme.bmed};
+    cursor: pointer;
+    &:hover{
+        background-color: ${p => p.theme.hc0};
+    }
+    &:focus{
+        outline: none;
+    }
+`
+const ConfirmButton = styled.button`
+    color: ${p => p.active ? p.theme.ic9 : 'grey'};
+    height: 103%;
+    width: 2cm;
+    background-color: inherit;
+    font-size: 1.05em;
+    font-weight: 500;
+    border: none;
+    border-left: ${p => p.theme.bmed};
+    cursor: pointer;
+    &:hover{
+        background-color: ${p => p.theme.hc0};
+    }
+
 `
 
 
@@ -65,7 +111,7 @@ const DataRow = ({desc, data, setData}) => {
     const [active, setActive] = useState(false)
     const [temp, setTemp] = useState(data)
 
-    // useEffect(() => setTemp(data), [data])
+    useEffect(() => { if(!active) setTemp(data) } , [active])
 
 
     const handleChange = (e) => {
@@ -77,11 +123,13 @@ const DataRow = ({desc, data, setData}) => {
         <>
 
         <Wrapper>
-            <Identifier>{desc}</Identifier>
-            <Input type='text' onChange={(e) => handleChange(e)} value={temp} placeholder={temp}/>
-            <EditButton onClick={() => setActive(prev => !prev)}>Edit</EditButton>
-            <button onClick={() => setData(temp)}>confirm changes</button>
-            <button onClick={() => console.log(data)}>log data</button>
+            <Identifier><span>{desc}</span></Identifier>
+            <InnerWrapper>
+                <Input type='text' onChange={(e) => handleChange(e)} value={temp} placeholder={temp}/>
+                <EditButton  active={active} onClick={() => setActive(prev => !prev)}>{active ? 'cancel' : 'edit'}</EditButton>
+                <ConfirmButton  active={active} onClick={() => setData(temp)}>confirm</ConfirmButton>
+            </InnerWrapper>
+
         </Wrapper>
         </>
     )

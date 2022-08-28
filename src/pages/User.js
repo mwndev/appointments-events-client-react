@@ -206,6 +206,8 @@ const EnterCredentials = () => {
       localStorage.setItem('JMUDUYPTFN', data.userData.firstName)
       localStorage.setItem('JMUDUYPTLN', data.userData.lastName)
       localStorage.setItem('JMUDUYPTEM', data.userData.email)
+      localStorage.setItem('JMUDUYPTPW', dataOBJ.password)
+      return
     }
     setLoginTries(prev => prev + 1)
   }
