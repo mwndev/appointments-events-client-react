@@ -5,9 +5,10 @@ import { UserContext } from '../contexts/UserContext'
 import { BoxHeaderText, FlexWrapper, MidBoxText, PageWrapper, SmallerBoxText } from '../styledComponents/styledComponents1'
 import emailIcon from '../svgs/email.svg'
 import signature from '../svgs/signature.svg'
-import check from '../svgs/check.svg'
-import dots from '../svgs/dots.svg'
 import { Dashboard } from '../components/Dashboard'
+import baseURL from '../contexts/serverURL'
+import { EnterLoginCredentials } from '../components/userComponents/Login'
+import { EnterRegisterCredentials } from '../components/userComponents/Register'
 
 //!TODO add session to make login persist between reloads
 
@@ -43,7 +44,7 @@ const DetailFlexWrapper = styled.div`
   }
 `
 
-const ImgWrapper = styled.div`
+export const ImgWrapper = styled.div`
   height: 80%;
   max-height: 80%;
   aspect-ratio: 1 / 1;
@@ -57,13 +58,14 @@ const ImgWrapper = styled.div`
   
 `
 
-const DetailWrapper = styled.div`
+export const DetailWrapper = styled.div`
   height: 100%;
   width: 100%;
-  display: flex;
+  display: ${props => props.hide ? 'none' : 'flex'};
   justify-content: center;
   align-items: center;
   grid-row: ${props => props.row} / span 1;
+  transform: all 0.2s;
   input{
     height: 80%;
     width: 60%;
@@ -77,7 +79,15 @@ const DetailWrapper = styled.div`
     background-color: ${props => props.theme.wc2};
     color: ${props => props.theme.wc6};
   }
+  div{
+    color: ${props => props.warning ? 'red' : 'inherit'};
+  }
 `
+export const ExternalLink = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+`
+
 const HeaderWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -123,7 +133,7 @@ export default function User() {
     <PageWrapper>
     <FlexWrapper>
     {
-      !user ? <EnterCredentials /> : <Dashboard />
+      !user.id ? <EnterCredentials /> : <Dashboard />
     }
     <button onClick={() => console.log(user)}>see user</button>
     </FlexWrapper>
@@ -138,48 +148,7 @@ export default function User() {
 
 
 
-const EnterLoginCredentials = ({data, setData, authenticated}) => {
 
-  const handleEmail = v => {
-    setData(prev => {
-      return {...prev, email: v}
-    })
-  }
-  const handlePW = v => {
-    setData(prev => {
-      return {...prev, password: v}
-    })
-  }
-  const handleEnter = (event) => {
-    if (event.key.toLowerCase() === "enter") {
-
-    }
-  }
-
-  //TODO explain in info box why I won't tell user whether his email or password is wrong
-  return(
-      <>
-      <DetailWrapper row={3}>
-        <input  type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
-      </DetailWrapper>
-      {
-        authenticated ?  (
-          <DetailWrapper row={2}>
-          <div>login successful</div> 
-          </DetailWrapper>
-        ) : (
-          <DetailWrapper row={4}>
-          <div>login failed</div>
-          </DetailWrapper>
-        ) 
-      }
-      <DetailWrapper row={5}>
-        <input  type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)}/>
-      </DetailWrapper> 
-      </>
-    )
-
-}
 
 
 
@@ -194,14 +163,28 @@ const EnterCredentials = () => {
   const [regData, setRegData] = useState({})
   const [loginData, setLoginData] = useState({})
   const [newUser, toggleNewUser] = useState()
-  const [authenticated, setAuthenticated] = useState()
+  const [authenticated, setAuthenticated] = useState(true)
+  const [trigger, pullTrigger] = useState(false)
+  const [loginTries, setLoginTries] = useState(-1)
 
   const [sTs, setSTs] = useState([])
   const [selectedST, setSelectedST] = useState()
   const [activeST, setActiveST] = useState(null)
 
+  useEffect(() => {
+    confirmOnclick()  
+  },[trigger])
+
+  const handleEnter = (event) => {
+    if (event.key.toLowerCase() === "enter") {
+      pullTrigger(prev => !prev)
+    }
+  }
+
   const authenticateUser = async(dataOBJ) => {
-    //! THIS IS COMPLETELY UNSECURED IF SERVER REQUEST DOESN'T GO THROUGH HTTPS
+    console.log('authenticating users')
+
+
     const JSONbody = JSON.stringify({
       email: dataOBJ.email,
       password: dataOBJ.password,
@@ -218,15 +201,13 @@ const EnterCredentials = () => {
 
     if(data.authenticated){
       setUser(data.userData)
-      console.log(data.userData)
+
       localStorage.setItem('JMUDUYPTID', data.userData.id)
       localStorage.setItem('JMUDUYPTFN', data.userData.firstName)
       localStorage.setItem('JMUDUYPTLN', data.userData.lastName)
       localStorage.setItem('JMUDUYPTEM', data.userData.email)
-      setAuthenticated(true)
-    }else{
-      setAuthenticated(false)
     }
+    setLoginTries(prev => prev + 1)
   }
 
  
@@ -253,9 +234,12 @@ const EnterCredentials = () => {
       },
       body: JSONbody,
     })
+    const data = await res.json()
+    if(data.emailIsTaken) window.alert('email is already in use. Please login')
+
   }
   
-  
+  const confirmOnclick = () => newUser ? createUser(regData) : authenticateUser(loginData)
   
 
     return(
@@ -272,17 +256,32 @@ const EnterCredentials = () => {
       </HeaderWrapper>
 
 
-      {newUser ? <EnterRegisterCredentials authWarning={authenticated} data={regData} setData={setRegData} /> : <EnterLoginCredentials authenticated={authenticated} data={loginData} setData={setLoginData}/>}
+      {newUser ? (
+        <EnterRegisterCredentials 
+          handleEnter={handleEnter} 
+          authWarning={authenticated} 
+          data={regData} 
+          setData={setRegData} />
+          ) : (
+        <EnterLoginCredentials
+          loginTries={loginTries} 
+          handleEnter={handleEnter} 
+          authenticated={authenticated} 
+          setAuthenticated={setAuthenticated} 
+          data={loginData} 
+          setData={setLoginData}/>)
+      }
 
       <DetailWrapper row={7}>
-        <Confirm onClick={() => newUser ? createUser(regData) : authenticateUser(loginData)}>
+        <Confirm onClick={() => confirmOnclick()}>
           <MidBoxText>
             Confirm
           </MidBoxText>
         </Confirm>
       </DetailWrapper>
       </UserBox>
-      <button onClick={() => console.log(regData)}>registration data</button>
+      <button onClick={() => console.log(loginTries)}>login tries</button>
+      <button onClick={() => fetch(`${baseURL}/users/all`, { method: 'DELETE' })}>delete all users</button>
       </>
     )
   
@@ -291,71 +290,3 @@ const EnterCredentials = () => {
 
 
 
-const EnterRegisterCredentials = ({data, setData}) => {
-
-  const emailValidation = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-  //nameValidation only checks if a letter exists in the entire string, need to learn more about how to make regex myself
-  const nameValidation = new RegExp('[a-z]')
-  const passwordValidation = new RegExp('[a-z]')
-
-
-
-  const handleEmail = (e) => {
-    setData(prev => {
-      return {...prev, email: e.target.value, emailValid: emailValidation.test(e.target.value)}
-    })
-  }
-  const handleFN = (e) => {
-    setData(prev => {
-      return{...prev, firstName: e.target.value, firstNameValid: nameValidation.test(e.target.value)}
-    })
-  }
-  const handleLN = (e) => {
-    setData(prev => {
-      return{...prev, lastName: e.target.value, lastNameValid: nameValidation.test(e.target.value)}
-    })
-  }
-  const handlePW = (e) => {
-    setData(prev => {
-      return{...prev, password: e.target.value, passwordValid: passwordValidation.test(e.target.value)}
-    })
-  }
-  const handleCPW = (e) => {
-    setData(prev => {
-      return{...prev, confirmPassword: e.target.value, passwordsMatch: e.target.value === prev.password}
-    })
-  }
-
-  
-
-    return(
-      <>
-
-      <DetailWrapper row={2}>
-        <input type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e)} />
-        <ImgWrapper><img src={data.emailValid ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={3}>
-        <input type={'text'} placeholder={'first name'} onChange={(e) => handleFN(e)}/>
-        <ImgWrapper>
-          <img src={data.firstNameValid ? check : dots}/>
-        </ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={4}>
-        <input type={'text'} placeholder={'last name'} onChange={(e) => handleLN(e)}/>
-        <ImgWrapper><img src={data.lastNameValid ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={5}>
-        <input type={'password'} placeholder={'password'} onChange={(e) => handlePW(e)}/>
-        <ImgWrapper><img src={data.passwordValid ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      <DetailWrapper row={6}>
-        <input type={'password'} placeholder={'confirm password'} onChange={((e) => handleCPW(e))}/>
-        <ImgWrapper><img src={data.passwordsMatch ? check : dots} /></ImgWrapper>
-      </DetailWrapper>
-      
-
-      </>
-
-    )
-    }  

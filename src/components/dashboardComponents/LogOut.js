@@ -6,7 +6,7 @@ export const LogOut = () => {
     const {user, setUser} = useContext(UserContext)
 
     const purgeUserData = () => {
-        setUser(null)
+        setUser({id: '', firstName: '', lastName: '', email: ''})
         localStorage.clear()
     }
 

@@ -16,6 +16,7 @@ import React, {useState, useEffect} from 'react'
 import Test from './pages/Test'
 import User from './pages/User'
 import { UserContext } from './contexts/UserContext'
+import { NewPassword } from './pages/NewPassword'
 
 
 function App() {
@@ -80,7 +81,7 @@ function App() {
   let bannerLinks = [];
   links.map((link) => bannerLinks.push([link[0], link[1]]))
 
-  const [user, setUser] = useState({password: '', email: '', name: ''})
+  const [user, setUser] = useState({password: '', email: '', firstName: '', lastName: ''})
 
   useEffect(() => {
     let uid = localStorage.getItem('JMUDUYPTID')
@@ -110,6 +111,7 @@ function App() {
       <Routes>
         {links.map((link => ( <Route path={link[0]} element={link[2]} key={link[0]} /> )))}
         <Route path={'/user'} element={<User />} key={'login'} />
+        <Route path={'/newpassword/:tokenid'} element={<NewPassword />} key={'login'} />
       </Routes>
 
 

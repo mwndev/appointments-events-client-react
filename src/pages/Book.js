@@ -10,6 +10,7 @@ import TextareaBox from '../components/TextareaBox';
 import { UserContext } from '../contexts/UserContext'
 import { v4 as uuidv4 } from 'uuid';
 import { Fragment } from 'react';
+import baseURL from '../contexts/serverURL';
 
 
 
@@ -328,8 +329,7 @@ export const Book = () => {
     
     useEffect(() => {
         const serverGetAppointments = async() => {
-
-            const res = await fetch('http://localhost:5040/appointment')
+            const res = await fetch(`${baseURL}/appointment`)
             const data = await res.json()
     
             setAppointments(data)
@@ -338,7 +338,7 @@ export const Book = () => {
 
 
         const serverGetSessionTypes = async () => {
-            const res = await fetch(`http://localhost:5040/sessiontypes`)
+            const res = await fetch(`${baseURL}/sessiontypes`)
             const data = await res.json()
 
             setSTs(data)
@@ -348,15 +348,13 @@ export const Book = () => {
 
     const serverConfirmReservation = async () => {
         try {
-            if(user._id === undefined) console.log('no user')
-            console.log(user._id)
+            if(user.id === undefined) window.alert('no user')
             const bodyOBJ = {
                 appointment: selectedAppointment,
                 sessionType: selectedST,
                 user: user,
                 notes: notes,
             }
-            console.log(bodyOBJ)
 
             const res = await fetch('http://localhost:5040/appointment/user', {
                 method: 'PUT',

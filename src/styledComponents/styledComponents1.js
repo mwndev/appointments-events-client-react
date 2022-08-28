@@ -7,11 +7,12 @@ from <Book /> Component
 
 */
 export const FlexWrapper = styled.div`
-display: flex;
-justify-content: space-evenly;
-align-items: center;
-flex-shrink: 0;
-flex-wrap: wrap;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: ${props => props.gap};
 `
 
 export const FlexContainer = styled.div`
