@@ -9,7 +9,7 @@ const StyledBanner = styled.header`
     background-color: ${props => props.theme.c3};
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     box-shadow: ${props => props.messageBelowBanner === undefined ?  '0 0 0.5cm' + props.theme.ic7 : 'none'};
     margin-bottom: 1.8cm;
 `

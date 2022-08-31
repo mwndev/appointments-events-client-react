@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 
 const LargeBox = styled.div`
-    aspect-ratio: 13 / 10;
-    height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
+    aspect-ratio: 11 / 10;
+    max-height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     border: 0.07cm solid ${props => props.theme.tc};
     margin: 1cm;
     display: grid;

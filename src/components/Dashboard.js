@@ -21,13 +21,18 @@ const SidebarWrapper = styled.div`
     align-items: baseline;
 `
 const SidebarItem = styled.div`
+    transition: all 0.4s;
     padding: 0.3cm;
     cursor: pointer;
+    border-bottom: 0.08cm solid ${props => props.active ? props.theme.ic6 : 'white'};
+    &:hover{
+        border-bottom: 0.08cm solid ${props => props.theme.ic6};
+    }
 `
 
 
 const ContentWrapper = styled.div`
-    width: 80vw;
+    width: 70vw;
     display: flex;
     flex-wrap: wrap;
 `
@@ -38,20 +43,24 @@ const ContentWrapper = styled.div`
 export const Dashboard = () => {
 
     const {user, setUser} = useContext(UserContext)
-    const [content, setContent] = useState(<MyData />)
+    const [content, setContent] = useState(<MyAppointments/>)
+    const [activeIndex, setActiveIndex] = useState(1)
 
 
-    const sidebar = [['My Data', <MyData />], ['My Appointments', <MyAppointments />], ['Privacy', <MyPrivacy />], ['Log out', <LogOut />]]
+    const sidebar = [['My Account', <MyData />], ['My Appointments', <MyAppointments />], ['Privacy', <MyPrivacy />], ['Log out', <LogOut />]]
 
     return(
         <SectionWrapper>
-        <h2>Welcome back {user.firstName}</h2>
         <OuterBox>
-
             <SidebarWrapper>
                 {
-                    sidebar.map((item,) => (
-                        <SidebarItem key={item[0]} onClick={() => setContent(item[1])}>
+                    sidebar.map((item, index) => (
+                        <SidebarItem key={item[0]} index={index} active={activeIndex === index} 
+                        onClick={() => { 
+                            setContent(item[1])
+                            setActiveIndex(index)
+                            } 
+                        }>
                             <SmallerBoxText>
                                 {item[0]} 
                             </SmallerBoxText>

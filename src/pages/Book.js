@@ -52,7 +52,7 @@ const StyledSectionWrapper = styled.section`
     }
 `
 
-const StyledBoxSmall = styled.div`
+const SmallBox = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
     border: 0.07cm solid ${props => props.theme.tc};
@@ -61,7 +61,7 @@ const StyledBoxSmall = styled.div`
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(8, 1fr);
 `
-const StyledSmallBoxHeader = styled.div`
+const SmallBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
@@ -174,12 +174,12 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
 
     return(
         <>
-            <StyledBoxSmall>
-                <StyledSmallBoxHeader>
+            <SmallBox>
+                <SmallBoxHeader>
                 <span>
                     Avaliable Appointments
                 </span>
-                </StyledSmallBoxHeader>
+                </SmallBoxHeader>
                 {appointments.map((item, index) => (
                     <SingleAppointmentBox 
                     key={uuidv4()}
@@ -192,7 +192,7 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
                     dateISO={dateISO} 
                     
                     />))}
-            </StyledBoxSmall>
+            </SmallBox>
         </>
     )
 }
@@ -276,12 +276,12 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
 
     return(
         <>
-            <StyledBoxSmall>
-                <StyledSmallBoxHeader>
+            <SmallBox>
+                <SmallBoxHeader>
                     <span>
                         Confirm Appointment
                     </span>
-                </StyledSmallBoxHeader>
+                </SmallBoxHeader>
                 {
                     info.map((item, index) => (
                         <Fragment  key={uuidv4()}>
@@ -303,7 +303,7 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
                 </StyledConfirmButton>
                 
                 
-            </StyledBoxSmall>
+            </SmallBox>
             <button onClick={() => console.log(user)}>log user</button>
         </>
     )
@@ -329,7 +329,7 @@ export const Book = () => {
     
     useEffect(() => {
         const serverGetAppointments = async() => {
-            const res = await fetch(`${baseURL}/appointment`)
+            const res = await fetch(`${baseURL}/appointment/available`)
             const data = await res.json()
     
             setAppointments(data)
@@ -348,7 +348,7 @@ export const Book = () => {
 
     const serverConfirmReservation = async () => {
         try {
-            if(user.id === undefined) window.alert('no user')
+            if(user.id === null) window.alert('no user')
             const bodyOBJ = {
                 appointment: selectedAppointment,
                 sessionType: selectedST,
@@ -363,6 +363,12 @@ export const Book = () => {
                 },
                 body: JSON.stringify(bodyOBJ)
             })
+
+            const jres = await res.json()
+
+            if( typeof jres.msg === String ) return window.alert(jres.msg)
+
+            window.alert('please check your email to confirm the booking')
  
 
         } catch (error) {
@@ -402,7 +408,7 @@ export const Book = () => {
         
         <StyledSectionWrapper>
             <h2><span>Write</span> notes &#40;optional&#41;</h2>
-            <TextareaBox parentSetState={setNotes} title={'Notes'} />
+            <TextareaBox height={'default'} parentSetState={setNotes} title={'Notes'} />
         </StyledSectionWrapper>
 
         <StyledSectionWrapper>

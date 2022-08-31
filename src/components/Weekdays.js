@@ -6,6 +6,7 @@ import check from '../svgs/calendarcheck.svg'
 import { v4 as uuidv4 } from 'uuid';
 //import { StyledBoxSmall, StyledSmallBoxHeader, StyledAppointment, StyledAppointmentContainer } from "../styledComponents/styledComponents1";
 import { StyledItem } from "../styledComponents/styledComponents1";
+import { useEffect } from "react";
 
 
 
@@ -94,9 +95,6 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
     const englishDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']    
 
 
-
-    
-
     return(
         <StyledBoxSmall key={uuidv4()}>
             <StyledSmallBoxHeader>
@@ -114,6 +112,8 @@ export default Weekdays
 
 const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength}) => {
 
+    useEffect(() => console.log(parentWeekdays))
+    
     const updateParentWeekdays = (a, i) => {
         let newArr = a
         newArr.splice(i, 1, !a[i])

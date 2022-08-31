@@ -3,6 +3,7 @@ import { UserContext } from "../../contexts/UserContext";
 import baseURL from "../../contexts/serverURL";
 import { v4 as uuidv4} from "uuid";
 import styled from "styled-components";
+import { AppointmentContainer, SectionWrapper } from "../../styledComponents/styledComponents1";
 
 const Appointment = styled.div`
     border: ${props => props.theme.bthk};
@@ -47,7 +48,10 @@ export const MyAppointments = () => {
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     return(
-        <>
+        <SectionWrapper>
+            <h2>My Appointments</h2>
+            <AppointmentContainer>
+
             {
                 appointments.map((item, index) => (
                     <Appointment key={uuidv4()}>
@@ -59,6 +63,7 @@ export const MyAppointments = () => {
                     </Appointment>
                 ))
             }
-        </>
+            </AppointmentContainer>
+        </SectionWrapper>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import check from '../svgs/calendarcheck.svg'
 import warning from '../svgs/calendarwarning.svg'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import Weekdays from './Weekdays'
 import SingleDate from '../components/SingleDate'
 import Period from '../components/Period'
 import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
+import { UserContext } from '../contexts/UserContext'
 
 
 //!TODO daysofweek isn't working, make it simpler (without converting 5 times)
@@ -33,6 +34,10 @@ export const ViewAsTimeframe = () => {
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
     const [rawAppointments, setRawAppointments] = useState([])
     const [sortedAppointments, setSortedAppointments] = useState([])
+
+    const {user, setUser} = useContext(UserContext)
+
+    
 
 
 
@@ -67,6 +72,7 @@ export const ViewAsTimeframe = () => {
             if(!window.confirm('Are you sure you want to DELETE ALL appointments within the specified timeframe?')) return
 
             const bodyObj = {
+                userData: user,
                 startDate: {
                     day: startingDate.day,
                     month: startingDate.month,
@@ -116,6 +122,7 @@ export const ViewAsTimeframe = () => {
 
     const serverGetAppointments = async() => {
             const bodyObj = {
+                userData: user,
                 startDate: {
                     day: startingDate.day,
                     month: startingDate.month,
@@ -181,7 +188,11 @@ export const ViewAsTimeframe = () => {
 const deleteAppointmentsById = async (objectIDArray, object ) => {
         
         
-        const bodyAsJSON = JSON.stringify({objectIDArray: objectIDArray})
+        const bodyAsJSON = JSON.stringify({
+            objectIDArray: objectIDArray, 
+            userData: user
+        })
+
         const res = await fetch('http://localhost:5040/appointment/admin/byid', {
             method: 'DELETE', 
             headers: {
@@ -189,6 +200,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             },
             body: bodyAsJSON,
         })
+
         const data = await res.json()
 
         console.log(data)
@@ -202,6 +214,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
         try {
 
             const bodyObj = {
+                userData: user,
                 startDate: {
                     day: startingDate.day,
                     month: startingDate.month,
@@ -277,7 +290,9 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
             <SectionWrapper>
             <h2><span>Filter</span> by Weekdays</h2>
+
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
+
             </SectionWrapper>
             <SectionWrapper>
                 <h2><span>Set</span> time period</h2>

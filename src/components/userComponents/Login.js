@@ -44,6 +44,8 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
 
     const resData = await res.json()
 
+    console.log(resData)
+
     if( !resData.userFound ) return window.alert('This email does not have an account.\n Please register.')
 
     window.alert('Please check your email account for a confirmation link')
@@ -56,13 +58,13 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
   return(
       <>
       <DetailWrapper row={3}>
-        <input warning={warn.email} type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
+        <input name='email' id='email' warning={warn.email} type={'text'} placeholder={'email'} onChange={(e) => handleEmail(e.target.value)}/>
       </DetailWrapper>
           <DetailWrapper warning={loginTries > 1 ? true : false} hide={loginTries > 0 ? false : true} row={4}>
             <div>login failed</div>
           </DetailWrapper>
       <DetailWrapper row={5}>
-        <input warn={warn.password} type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)} onKeyDown={e => handleEnter(e)}/>
+        <input name='password' id='password' warn={warn.password} type={'password'} placeholder={'password'} onChange={e => handlePW(e.target.value)} onKeyDown={e => handleEnter(e)}/>
       </DetailWrapper> 
       <DetailWrapper row={6}>
         <ExternalLink onClick={() => resetPassword()}>Reset Password</ExternalLink>

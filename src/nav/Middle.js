@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 
 const StyledMiddle = styled.div`
-    width: 90%;
+    max-width: 60%;
     height: 90%;
     display: flex;
     justify-content: center;
@@ -25,23 +25,25 @@ const StyledMiddle = styled.div`
       flex-shrink: 0;
       font-size: 1.1em;
       cursor: pointer;
-      margin: 1rem;
+      margin: 1cm;
       border-bottom: 0.08cm solid ${props => props.theme.c3};
       flex-shrink: 1;
       font-weight: 500;
       display: ${props => props.messageBelowNav !== undefined ? 'none' : 'flex'};
       transition: 0.5s;
+      white-space: nowrap;
     }
     div > a:hover{
       border-bottom: 0.08cm solid ${props => props.theme.ic6};
     }
     div{
-      width: 90%;
+      width: 100%;
       height: 30%;
       display: flex;
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: left;
       border-radius: 5%;
+      padding-left: 2cm;
     }
   `
 

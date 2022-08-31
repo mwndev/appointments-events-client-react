@@ -9,8 +9,11 @@ import { Dashboard } from '../components/Dashboard'
 import baseURL from '../contexts/serverURL'
 import { EnterLoginCredentials } from '../components/userComponents/Login'
 import { EnterRegisterCredentials } from '../components/userComponents/Register'
+import { saveUserDataToLocalStorage } from '../functions'
+import { useParams } from 'react-router-dom'
 
 //!TODO add session to make login persist between reloads
+
 
 const TextInput = styled.input`
   height: 1cm;
@@ -25,11 +28,13 @@ const MessageArea = styled.div`
 `
 const UserBox = styled.div`
   height: ${props => props.theme.boxHeightL};
+  max-height: ${props => props.theme.boxHeightL};
   aspect-ratio: 7 / 9;
   border: ${props => props.theme.bthk};
   display: grid;
   grid-template-rows: 20% repeat(6, 1fr);
   gap: 0.4cm;
+  
 
 
 `
@@ -43,10 +48,11 @@ const DetailFlexWrapper = styled.div`
     height: calc(20px + 4vh);
   }
 `
+//TODO set max-height to only apply when firefox
 
 export const ImgWrapper = styled.div`
   height: 80%;
-  max-height: 80%;
+  max-height: calc(23px + 3.2vh);
   aspect-ratio: 1 / 1;
   display: flex;
   justify-content: center;
@@ -98,7 +104,7 @@ const HeaderWrapper = styled.div`
 `
 
 const Header = styled.div`
-  height: 102%;
+  height: 100%;
   width: 55%;
   display: flex;
   justify-content: center;
@@ -109,8 +115,9 @@ const Header = styled.div`
   cursor: pointer;
 `
 const Confirm = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 100% ;
+  width: 100% ;
+  position: relative;
   background-color: ${props => props.theme.ic5};
   display: flex;
   justify-content: center;
@@ -127,8 +134,6 @@ const Confirm = styled.div`
 export default function User() {
     const {user, setUser} = useContext(UserContext)
  
-
-
   return (
     <PageWrapper>
     <FlexWrapper>
@@ -199,14 +204,13 @@ const EnterCredentials = () => {
     })
     const data = await res.json()
 
-    if(data.authenticated){
-      setUser(data.userData)
+    console.log(data)
 
-      localStorage.setItem('JMUDUYPTID', data.userData.id)
-      localStorage.setItem('JMUDUYPTFN', data.userData.firstName)
-      localStorage.setItem('JMUDUYPTLN', data.userData.lastName)
-      localStorage.setItem('JMUDUYPTEM', data.userData.email)
-      localStorage.setItem('JMUDUYPTPW', dataOBJ.password)
+    if(data.authenticated){
+      await setUser(data.userData)
+
+      saveUserDataToLocalStorage(data.userData)
+
       return
     }
     setLoginTries(prev => prev + 1)

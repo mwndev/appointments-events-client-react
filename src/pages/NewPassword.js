@@ -113,7 +113,7 @@ export const NewPassword = () => {
 
         window.alert('Password successfully updated!')
 
-        localStorage.setItem('JMUDUYPTPW', password)
+        localStorage.setItem('JMUDUYPTPW', data.pw)
 
         window.open(`${thisURL}/user`, '_self') 
 
