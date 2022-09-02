@@ -1,3 +1,6 @@
+import { Temporal } from "@js-temporal/polyfill"
+
+
 export const getUserDataFromLocalStorage = (setUser) => {
 
     let uid = localStorage.getItem('JMUDUYPTID')
@@ -52,4 +55,18 @@ export const saveUserDataToServer = async (user) => {
     saveUserDataToLocalStorage(user)
 
 
+}
+
+export const temporalDateToNum = (date) => {
+    return ( Number(date.year * 10000) + Number(date.month * 100) + Number(date.day) )
+}
+
+export const toTemporalDateTime = (legacyDate) => {
+
+    return Temporal.PlainDateTime.from(legacyDate.toJSON().substring(0, 23) + '+00:00')
+
+}
+
+export const timeAsNumber = (plainTime) => {
+    return plainTime.hour * 100 + plainTime.minute
 }

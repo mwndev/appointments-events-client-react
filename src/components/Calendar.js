@@ -23,6 +23,13 @@ const StyledCalendarBox = styled.div`
     margin: 1cm;
 
 `
+const StyledCalendarBoxBody = styled.div`
+height: 100%;
+width: 100%;
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+grid-template-rows: repeat(8, 1fr);
+`
 const StyledCalendarBoxHeader = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
@@ -102,13 +109,7 @@ const StyledBlankBox = styled.div`
     width: 100%;
 
 `
-const StyledCalendarBoxBody = styled.div`
-    height: 100%;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-`
+
 
 const StyledAppointment = styled.div`
     height: 1cm;

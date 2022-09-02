@@ -5,10 +5,12 @@ import styled from 'styled-components'
 import { Temporal } from '@js-temporal/polyfill'
 import Calendar from './Calendar'
 import Weekdays from './Weekdays'
-import SingleDate from '../components/SingleDate'
-import Period from '../components/Period'
+import SingleDate from './SingleDate'
+import Period from './Period'
 import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
 import { UserContext } from '../contexts/UserContext'
+import { IndividualAppointments } from './adminComponents/IndividualAppointments'
+import { timeAsNumber } from '../functions'
 
 
 //!TODO daysofweek isn't working, make it simpler (without converting 5 times)
@@ -27,19 +29,36 @@ export const ViewAsTimeframe = () => {
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
-    const [appointmentsOnPage, setAppointmentsOnPage] = useState([])
-    const [appointmentIDsToDelete, setAppointmentsToDelete] = useState([])
+    const [appointmentIDsToDelete, selectAppointmentsRaw] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
     const [rawAppointments, setRawAppointments] = useState([])
-    const [sortedAppointments, setSortedAppointments] = useState([])
+    const [filters, setFilters] = useState()
 
     const {user, setUser} = useContext(UserContext)
 
     
+    useEffect(() => {
+
+        const adminGetAppointments = async() => {
+
+            const res = await fetch(`http://localhost:5040/appointment/admin/${user.email}/${user.password}`)
 
 
+            const { verified, appointments } = await res.json()
+
+            if ( !verified ) return window.alert('admin verification failed')
+            
+            setAppointmentsFromServer(appointments)
+        }
+        adminGetAppointments()
+    },[])
+
+    const selectAppointments = (id) => {
+        if( ! appointmentIDsToDelete.includes(id) ) return selectAppointmentsRaw(prev => [...prev, id])
+        selectAppointmentsRaw(prev => prev.filter(i => i !== id))
+    }
 
    const setStartPeriod = (amount) => {
     const placeHolder = startPeriod.add(amount)
@@ -54,14 +73,7 @@ export const ViewAsTimeframe = () => {
     }
    }
   
-    const timeAsNumber = (plainTime) => {
-        return plainTime.hour * 100 + plainTime.minute
-    }
-    const dateAsNumber = (plainDate) => {
-        return (
-            (plainDate.year * 10000) + (plainDate.month * 100) + plainDate.day
-        )
-    }
+    
 
 
     
@@ -120,73 +132,17 @@ export const ViewAsTimeframe = () => {
     }
 
 
-    const serverGetAppointments = async() => {
-            const bodyObj = {
-                userData: user,
-                startDate: {
-                    day: startingDate.day,
-                    month: startingDate.month,
-                    year: startingDate.year,
-                    dayOfWeek: startingDate.dayOfWeek,
-                    dateISOString: startingDate.toString(),
-                    asNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
-                },
-                endDate: {
-                    day: finishingDate.day,
-                    month: finishingDate.month,
-                    year: finishingDate.year,
-                    dayOfWeek: finishingDate.dayOfWeek,
-                    dateISOString: finishingDate.toString(),
-                    asNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
-                },
-                period: {
-                    startTime: timeAsNumber(startPeriod),
-                    endTime: timeAsNumber(endPeriod),
- 
-               },
-                onDaysOfWeek: daysOfWeek,
-            }
-            
-            const bodyAsJSON = JSON.stringify(bodyObj)
 
-            const res = await fetch('http://localhost:5040/appointment/admin/get', {
-                method: 'POST',
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: bodyAsJSON
-            })
 
-            //const obj = JSON.stringify(res)
-            const arr = await res.json()
-
-            //put state changes outside the async
-            
-            setAppointmentsFromServer(arr)
-
-            let sortedArr = [null, null, null, null, null, null, null, null]
-            for(let l = 1 ; l <= 7 ; l += 1){
-                sortedArr[l] = (arr.filter(e => e.date.dayOfWeek === l))
-            }
-            //this seems to work
-            //console.log(sortedArr)
-           setSortedAppointments(sortedArr)
-
-            
-           
+    const onClickFunction = (identifier) => {
+        if(appointmentIDsToDelete.includes(identifier)){
+            selectAppointmentsRaw(prev => prev.filter(e => e != identifier))
+        }else{
+            selectAppointmentsRaw(prev => [...prev, identifier])
         }
-
-
-        const onClickFunction = (identifier) => {
-            if(appointmentIDsToDelete.includes(identifier)){
-                setAppointmentsToDelete(prev => prev.filter(e => e != identifier))
-            }else{
-                setAppointmentsToDelete(prev => [...prev, identifier])
-            }
-        }
+    }
                 
-const deleteAppointmentsById = async (objectIDArray, object ) => {
-        
+    const deleteAppointmentsById = async (objectIDArray, object ) => {
         
         const bodyAsJSON = JSON.stringify({
             objectIDArray: objectIDArray, 
@@ -211,6 +167,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
     }
 
     const serverPostAppointments = async() => {
+
         try {
 
             const bodyObj = {
@@ -257,16 +214,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             window.alert('appointments could not be set')
         }
     }
-    const serverGetAppointmentsRaw = async() => {
-        const res = await fetch('http://localhost:5040/appointment')
-        const data = await res.json()
-
-        setRawAppointments(data)
-    }
-    useEffect(() => {
-        serverGetAppointmentsRaw()
-    } ,[])
-    
+   
 
     
 
@@ -281,11 +229,11 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
 
             <SectionWrapper>
             <h2><span>Beginning</span> of Timeframe</h2>
-            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={rawAppointments} />
+            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={appointmentsFromServer} />
             </SectionWrapper>
             <SectionWrapper>
             <h2><span>Ending</span> of Timeframe</h2>
-            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={rawAppointments} />
+            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={appointmentsFromServer} />
             </SectionWrapper>
 
             <SectionWrapper>
@@ -294,6 +242,24 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
 
             </SectionWrapper>
+
+            <SectionWrapper>
+            <h2>Current <span>individual</span> appointments</h2>
+            <IndividualAppointments 
+            selectAppointments={selectAppointments} 
+            appointments={appointmentsFromServer} 
+            filters={{ 
+                startDate: startingDate, 
+                endDate : finishingDate, 
+                startPeriod: startPeriod, 
+                endPeriod: endPeriod, 
+                daysOfWeek: daysOfWeek 
+            }}
+            selectedAppointments={appointmentIDsToDelete}
+             />
+            </SectionWrapper>
+
+
             <SectionWrapper>
                 <h2><span>Set</span> time period</h2>
                 <Period 
@@ -314,9 +280,6 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
             <ImportantButton onClick={() => serverDeleteAppointments()} >
             <span>delete from server</span>
             </ImportantButton>
-            <ImportantButton onClick={() => serverGetAppointments()} >
-            <span>get from server</span>
-            </ImportantButton>
             <ImportantButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
             <span>delete selected</span>
             </ImportantButton>
@@ -327,21 +290,7 @@ const deleteAppointmentsById = async (objectIDArray, object ) => {
  
            </FlexWrapper>
             <FlexWrapper>
-            {appointmentsFromServer.map(obj =>  (
-                
-                <SingleDate  
-                parentFunction={ onClickFunction}
-                object={obj} 
-                id={obj._id} 
-                setAppointmentsToDeleteForParent={setAppointmentsToDelete} 
-                appointmentIDsFromParent={appointmentIDsToDelete}
-                key={obj._id}  
-                daysOfWeek={daysOfWeek}
-                dayNameShort={dayNames[obj.date.dayOfWeek].substring(0, 3)}
-                monthName={monthNames[obj.date.month]}
-                
-                />
-            ))}
+            
 
            
             </FlexWrapper>

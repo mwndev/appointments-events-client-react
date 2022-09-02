@@ -4,23 +4,18 @@ import activeIcon from '../svgs/calendarwarning.svg'
 import React, {useState, useEffect, } from 'react'
 import { Temporal } from '@js-temporal/polyfill'
 
-const StyledDateContainer = styled.div`
-    width: 10cm;
-    height: 2.5cm;
-    border: 0.02cm black;
-    display: ${props => props.dOW ? 'flex' : 'none'};
-    align-items: center;
-`
+
 const StyledBoxItem = styled.div`
     margin: 0.1cm 0.2cm;
     flex-shrink: 0;
     flex-grow: 0;
-    width: 8cm;
+    width: 11cm;
     height: 1.3cm;
     display: flex;
     align-items: center;
     justify-content: right;
-    border: 0.07cm solid ${props => props.isActive ? '#fbf' : '#000'};
+    border: 0.07cm solid #000;
+    background-color: ${props => props.isActive ? props.theme.hc1 : 'inherit' };
     cursor: pointer;
     div{
         height: 100%;
@@ -48,19 +43,22 @@ const StyledBoxItem = styled.div`
 
 
 
-const SingleDate = ({dayNameShort, object, daysOfWeek, id, monthName, appointmentIDsFromParent, parentFunction,  startingDate, finishingDate}) => {
+const SingleDate = ({dayNameShort, object, id, monthName, selectAppointments, selectedAppointments }) => {
 
-    const componentDate = Temporal.PlainDate.from(object.appointment.date.dateAsString)
-    
+
+        let active = selectedAppointments.includes(id)
 
     return(
-        <StyledBoxItem dOW={daysOfWeek[object.appointment.date.dayOfWeek - 1]}  onClick={() => parentFunction(id)} >
+        <StyledBoxItem
+        isActive={active} 
+        onClick={() => selectAppointments(id)} >
+        
             <span>
-                 { dayNameShort }, {object.appointment.date.day}. {monthName} &nbsp; {object.appointment.period.start} - {object.appointment.period.end}
+                 { dayNameShort }, {object.date.day}. {monthName} &nbsp; {object.period.start} - {object.period.end}
                
             </span>
             <div>
-                <img src={appointmentIDsFromParent.includes(id) ? activeIcon : icon}  />
+                <img src={active ? activeIcon : icon}  />
             </div>
         </StyledBoxItem>
     )
