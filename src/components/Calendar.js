@@ -77,10 +77,10 @@ const StyledDay = styled.div`
     justify-content: center;
     flex-shrink: 1;
     cursor: pointer;
-    background-color: ${props => props.state === props.day ?  props.theme.hc5 : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
+    background-color: ${props => props.state  ?  props.theme.hc5 : `rgba(160, 235, 199, ${Math.sqrt(props.appointmentsOnDate * 0.3)})`};
 
     &:hover{
-        background-color: ${props => props.state === props.day ? props.theme.hc5 : props.theme.hc3};
+        background-color: ${props => props.state  ? props.theme.hc5 : props.theme.hc3};
     }
     span{
         font-size: 1rem;
@@ -146,28 +146,27 @@ const StyledAppointment = styled.div`
 const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const now = Temporal.Now.plainDateISO()
 
-    const [selectedDate, setSelectedDate] = useState(parentISODate)
     const [daysArray, setDaysArray] = useState([])
     const [sn, setsn] = useState([])
 
     useEffect(() => {
         let arr = []
-        for(let i = 1 ; i <= selectedDate.daysInMonth ; i +=1 ){
-            arr.push(selectedDate.with({day: i}))
+        for(let i = 1 ; i <= parentISODate.daysInMonth ; i +=1 ){
+            arr.push(parentISODate.with({day: i}))
         }
         setDaysArray(arr)
 
-    }, [selectedDate.month])
+    }, [parentISODate.month])
     useEffect(() => {
-        setDateForParent(prev => selectedDate)
-    }, [selectedDate])
+        setDateForParent(prev => parentISODate)
+    }, [parentISODate])
 
     const decrementMonth = () => {
-        if(now.month < selectedDate.month || now.year < selectedDate.year){setSelectedDate(prev => prev.subtract({months: 1}))} 
+        if(now.month < parentISODate.month || now.year < parentISODate.year){setDateForParent(prev => prev.subtract({months: 1}))} 
     }
     const incrementMonth = () => {
         
-        if(now.month != selectedDate.month ||  now.year === selectedDate.year){setSelectedDate(prev=> prev.add({months : 1}))}
+        if(now.month != parentISODate.month ||  now.year === parentISODate.year){setDateForParent(prev=> prev.add({months : 1}))}
     }
     
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -184,7 +183,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
 
 
 
-    }, [selectedDate.month, daysArray])
+    }, [parentISODate.month, daysArray])
 
 
     //TODO set up a calendar upper limit prop
@@ -219,10 +218,10 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
             
             (<StyledDay 
                 appointmentsOnDate={appointments.filter(e => e.date.dateAsString === calendarDay.toString()).length} 
-                state={parentISODate} 
+                state={parentISODate.equals(calendarDay)} 
                 day={calendarDay}  
                 key={calendarDay.day} 
-                onClick={() => setSelectedDate(calendarDay)} >
+                onClick={() => setDateForParent(calendarDay)} >
                 <span>{calendarDay.day}</span>
             </StyledDay>))
         
@@ -230,7 +229,6 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
-        <button onClick={() => console.log(parentISODate)}>log parentisodate</button>
         </>
     )
 }
