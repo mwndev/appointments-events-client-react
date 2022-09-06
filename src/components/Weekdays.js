@@ -10,8 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 const StyledItem = styled.div`
-    height: 90%;
-    width: 90%;
+    height: 100%;
+    width: 100%;
     border: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     align-items: center;
@@ -44,38 +44,36 @@ const StyledItem = styled.div`
         aspect-ratio: 1 / 1;
     }
 `
-const StyledWeekdayContainer = styled.div`
-    grid-column: 1 / -1;
-    padding: 0 0.2cm;
-    grid-row: ${props => props.index + 2} / ${props => props.index + 3};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
 
-const StyledBoxSmall = styled.div`
+
+const Box = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
     border: 0.07cm solid ${props => props.theme.tc};
     margin: 1cm;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0.2cm;
-    grid-template-rows: repeat(7, 1fr);
+    grid-template-rows: 1fr 7fr;
 `
-const StyledSmallBoxHeader = styled.div`
+const Header = styled.div`
     border-bottom: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
     align-items: center;
     grid-row: 1 / 2;
-    grid-column: 1 / -1;
     background-color: ${props => props.theme.ic4};
     span{
         font-weight: 500;
-        font-size: 1.3em;
+        font-size: 1.4em;
     }
-    
+`
+const Main = styled.div`
+    grid-row: 2 / 3;
+    padding: 0.3cm 0.3cm;
+    gap: 0.3cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 `
 
 const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
@@ -84,16 +82,18 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
 
 
     return(
-        <StyledBoxSmall key={uuidv4()}>
-            <StyledSmallBoxHeader>
+        <Box key={uuidv4()}>
+            <Header>
             <span>
                 Weekdays
             </span>
-            </StyledSmallBoxHeader>
+            </Header>
+            <Main>
             {
                 englishDays.map((day, index, arr)=> (<SingleWeekday arrLength={arr.length} key={uuidv4()} index={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
             }
-        </StyledBoxSmall>
+            </Main>
+        </Box>
 
     )
 }
@@ -106,7 +106,7 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength
     const updateParentWeekdays = (a, i) => {
         let newArr = a
         newArr.splice(i, 1, !a[i])
-        setParentWeekdays(prev => newArr)
+        setParentWeekdays( newArr)
         
     }
     const [isActive, setActive] = useState(parentWeekdays[index])
@@ -116,8 +116,6 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength
             setActive(prev => !prev)
     }
     return(
-        <StyledWeekdayContainer length={arrLength} index={index} >
-
         <StyledItem 
         key={uuidv4()} 
         onClick={() => theOnclick()}
@@ -128,7 +126,6 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength
                 <img src={isActive ? check : plus}  alt='checked' />
                 </div>
         </StyledItem>
-        </StyledWeekdayContainer>
     )
 
 }

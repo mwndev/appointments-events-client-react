@@ -70,3 +70,10 @@ export const toTemporalDateTime = (legacyDate) => {
 export const timeAsNumber = (plainTime) => {
     return plainTime.hour * 100 + plainTime.minute
 }
+
+export const dateSplice = (s, c) => {
+    let i
+    if(s.length === 3) {i = 1}
+    if(s.length === 4) {i = 2}
+    return s.slice(0, i) + c + s.slice(i)
+}

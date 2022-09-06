@@ -230,7 +230,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
              
         </StyledCalendarBoxBody>
         </StyledCalendarBox>
-
+        <button onClick={() => console.log(parentISODate)}>log parentisodate</button>
         </>
     )
 }
