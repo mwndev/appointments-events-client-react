@@ -12,6 +12,7 @@ import { getUserDataFromLocalStorage } from './functions'
 import { Footer } from './components/footer/Footer'
 import { Header } from './header/Header'
 import { Reservation } from './pages/Reservation'
+import { SessionTypeContext } from './contexts/SessionTypeContext'
 
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
@@ -69,6 +70,7 @@ const theme1 = {
 function App() {
 
   const [user, setUser] = useState({password: '', email: '', firstName: '', lastName: '', isAdmin: false,})
+  const [sTs, setSTs] = useState({})
   
 
   //the links below the title in the header are generated based on this array
@@ -87,6 +89,14 @@ function App() {
 
   useEffect(() => {
     getUserDataFromLocalStorage(setUser)
+
+    const getSTs = async() => {
+      const res = await fetch('http://localhost:5040/sessiontypes')
+      const allSessionTypes = await res.json()
+      setSTs(allSessionTypes)
+      console.log(allSessionTypes)
+    }
+    getSTs()
   },[])
 
 
@@ -95,8 +105,7 @@ function App() {
   return (
     <ThemeProvider theme={theme1}>
     <UserContext.Provider value={{ user, setUser}}>
-
-
+    <SessionTypeContext.Provider value={{ sTs, setSTs }}>
 
     <Router>
 
@@ -116,7 +125,7 @@ function App() {
 
 
     </Router>
-
+    </SessionTypeContext.Provider>
     </UserContext.Provider>
     </ThemeProvider>
   );

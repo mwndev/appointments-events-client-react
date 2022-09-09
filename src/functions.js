@@ -72,8 +72,18 @@ export const timeAsNumber = (plainTime) => {
 }
 
 export const dateSplice = (s, c) => {
-    let i
-    if(s.length === 3) {i = 1}
-    if(s.length === 4) {i = 2}
-    return s.slice(0, i) + c + s.slice(i)
+    return s.slice(0, -2) + c + s.slice(-2)
+}
+
+export const cancelAppointment = async(appointmentID, email, password) => {
+    // window.alert('do you wish to cancel this appointment?')
+
+    const res = await fetch('http://localhost:5040/cancel', {
+        method: 'PUT',
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify({id: appointmentID, email: email, password: password }),
+    })
+    const jres = await res.json()
+
+    if(jres.cancelled) window.alert('success')
 }

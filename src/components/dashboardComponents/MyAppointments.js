@@ -4,6 +4,7 @@ import baseURL from "../../contexts/serverURL";
 import { v4 as uuidv4} from "uuid";
 import styled from "styled-components";
 import { AppointmentContainer, SectionWrapper } from "../../styledComponents/styledComponents1";
+import { MyIndividualAppointments } from "./MyIndividualAppointments";
 
 const Appointment = styled.div`
     border: ${props => props.theme.bthk};
@@ -50,20 +51,7 @@ export const MyAppointments = () => {
     return(
         <SectionWrapper>
             <h2>My Appointments</h2>
-            <AppointmentContainer>
-
-            {
-                appointments.map((item, index) => (
-                    <Appointment key={uuidv4()}>
-                        <span>{dayNames[item.date.dayOfWeek].substring(0, 3)}</span>
-                        <span>{item.date.day}</span>
-                        <span>{monthNames[item.date.month]}</span>
-                        <span>{item.reservation.sessionTypeName}</span>
-                        <span>{item.period.start}-{item.period.end}</span>
-                    </Appointment>
-                ))
-            }
-            </AppointmentContainer>
+            <MyIndividualAppointments appointments={appointments}  />
         </SectionWrapper>
     )
 }

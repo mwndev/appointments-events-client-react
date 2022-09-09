@@ -265,7 +265,6 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
             }
 
         } catch (error) {
-            console.log(error)
         }
 
 

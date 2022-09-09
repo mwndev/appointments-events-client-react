@@ -30,6 +30,7 @@ const BoxBody = styled.div`
 
 export const IndividualAppointments = ({ appointments, filters, selectAppointments, selectedAppointments }) => {
 
+
     const { startDate, endDate, startPeriod, endPeriod, daysOfWeek } = filters
 
 
@@ -41,15 +42,13 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
     const [filtered, setFiltered] = useState([])
 
     useEffect(() => {
-        console.log('filtered rerendered')
-        console.log(filters)
         const filteredAppointments = appointments.filter(item => (
             item.date.dateAsNum >=  sD &&
             item.date.dateAsNum <= eD &&
             item.period.start >= sP &&
             item.period.end <= eP &&
-            daysOfWeek[ item.date.dayOfWeek - 1 ] === true &&
-            item.reservation.numOfGuests === 0
+            daysOfWeek[ item.date.dayOfWeek - 1 ] === true 
+            //item.reservation.numOfGuests === 0
     ))
     filteredAppointments.sort(((a, b) => (a.date.dateAsNum - b.date.dateAsNum) * 10000 - (b.period.start - a.period.start) ))
 
@@ -89,7 +88,7 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
                 ))}
             </BoxBody>
         </OuterBox>
-        <button onClick={() => console.log(daysOfWeek)}>{JSON.stringify(daysOfWeek)}</button>
+        <button onClick={() => console.log(filtered)}>log filtered</button>
         </>
     )
 }
@@ -158,7 +157,7 @@ const SingleDate = ({dayNameShort, object, id, monthName, selectAppointments, se
         
             <Desc>
                  <Day>{ dayNameShort }, {object.date.day}. {monthName}</Day>
-                 <Time>{dateSplice(String(object.period.start), ':')} - {dateSplice(String(object.period.end), ':')}</Time>
+                 <Time>{dateSplice(String(object.period.start), ':')} - {'hi'})}</Time>
                
             </Desc>
             <div>

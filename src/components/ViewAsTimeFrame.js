@@ -10,6 +10,7 @@ import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWr
 import { UserContext } from '../contexts/UserContext'
 import { IndividualAppointments } from './adminComponents/IndividualAppointments'
 import { timeAsNumber } from '../functions'
+import { CalendarFilter } from './adminComponents/CalendarFilter'
 
 
 //!TODO daysofweek isn't working, make it simpler (without converting 5 times)
@@ -32,8 +33,6 @@ export const ViewAsTimeframe = () => {
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
-    const [rawAppointments, setRawAppointments] = useState([])
-    const [filters, setFilters] = useState()
 
     const {user, setUser} = useContext(UserContext)
 
@@ -213,26 +212,60 @@ export const ViewAsTimeframe = () => {
             window.alert('appointments could not be set')
         }
     }
-   
-
-    
 
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+    const [filteredAppointments, setFilteredAppointments] = useState()
+    const [filter, setFilter] = useState('available')
+
+    useEffect(() => {
+        
+        if(filter === 'available') setFilteredAppointments(
+            appointmentsFromServer.filter(item => item.reservation.numOfGuests === 0)
+        )
+        if(filter === 'taken') setFilteredAppointments(
+            appointmentsFromServer.filter(item => item.reservation.numOfGuests > 0)
+        )
+        if(filter === 'all') setFilteredAppointments(
+            appointmentsFromServer
+        )
+        if(filter === 'period') setFilteredAppointments(
+            appointmentsFromServer.filter(item => (
+                item.period.start >= timeAsNumber(startPeriod) &&
+                item.period.end <= timeAsNumber(endPeriod)  
+            ))
+        )
+        if(filter === 'start') setFilteredAppointments(
+            appointmentsFromServer.filter(item => item.period.start >= timeAsNumber(startPeriod))
+        )
+        if(filter === 'end') setFilteredAppointments(
+            appointmentsFromServer.filter(item => item.period.start <= timeAsNumber(endPeriod))
+        )
+
+
+    }, [filter, appointmentsFromServer])
+
+
 
     //TODO add info button on single dates to show reservation details
     return(
         <PageWrapper>
             
             <FlexWrapper>
+            <SectionWrapper>
+                <h2><span>Highlight</span> in calendars</h2>
+                <CalendarFilter filter={filter} setFilter={setFilter} />
+                <button onClick={() => console.log(filteredAppointments)}>log filtered</button>
+            </SectionWrapper>
 
             <SectionWrapper>
             <h2><span>Beginning</span> of Timeframe</h2>
-            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={appointmentsFromServer} />
+            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={filteredAppointments} />
             </SectionWrapper>
             <SectionWrapper>
             <h2><span>Ending</span> of Timeframe</h2>
-            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={appointmentsFromServer} />
+            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={filteredAppointments} />
             </SectionWrapper>
 
             <SectionWrapper>
@@ -282,6 +315,10 @@ export const ViewAsTimeframe = () => {
             <ImportantButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
             <span>delete selected</span>
             </ImportantButton>
+            <ImportantButton onClick={() => console.log('hi')}>
+            <span>delete selected</span>
+            </ImportantButton>
+
             </ButtonWrapper>
             </SectionWrapper>
 

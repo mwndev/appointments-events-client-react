@@ -204,7 +204,6 @@ const EnterCredentials = () => {
     })
     const data = await res.json()
 
-    console.log(data)
 
     if(data.authenticated){
       await setUser(data.userData)

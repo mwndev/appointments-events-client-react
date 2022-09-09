@@ -59,23 +59,9 @@ const VeryStrong = styled.strong`
 
 
 
-const Period = ({children, period, setPeriod, startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
+const Period = ({ startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
 
 
-        
-    const setStartingHour = (amount) => {
-        console.log(period.start.add({hours: 1}))
-        setPeriod(prev => prev.start.add({hours: amount}))
-    }
-    const setStartingMinutes = (amount) => {
-        setPeriod(prev => prev.start.add({minutes: amount}))
-    }
-    const setFinishingHour = (amount) => {
-        setPeriod(prev => prev.end.add({hours: amount}))
-    }
-    const setFinishingMinutes = (amount) => {
-        setPeriod(prev => prev.end.add({minutes: amount}))
-    }
 
 
 
