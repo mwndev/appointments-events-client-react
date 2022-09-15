@@ -9,7 +9,7 @@ import Period from './Period'
 import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
 import { UserContext } from '../contexts/UserContext'
 import { IndividualAppointments } from './adminComponents/IndividualAppointments'
-import { timeAsNumber } from '../functions'
+import { temporalDateToNum, timeAsNumber } from '../functions'
 import { CalendarFilter } from './adminComponents/CalendarFilter'
 
 
@@ -29,7 +29,7 @@ export const ViewAsTimeframe = () => {
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
-    const [appointmentIDsToDelete, selectAppointmentsRaw] = useState([])
+    const [selectedAppointments, selectAppointmentsRaw] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
@@ -54,7 +54,7 @@ export const ViewAsTimeframe = () => {
     },[])
 
     const selectAppointments = (id) => {
-        if( ! appointmentIDsToDelete.includes(id) ) return selectAppointmentsRaw(prev => [...prev, id])
+        if( ! selectedAppointments.includes(id) ) return selectAppointmentsRaw(prev => [...prev, id])
         selectAppointmentsRaw(prev => prev.filter(i => i !== id))
     }
 
@@ -132,12 +132,94 @@ export const ViewAsTimeframe = () => {
 
 
 
-    const onClickFunction = (identifier) => {
-        if(appointmentIDsToDelete.includes(identifier)){
-            selectAppointmentsRaw(prev => prev.filter(e => e != identifier))
-        }else{
-            selectAppointmentsRaw(prev => [...prev, identifier])
-        }
+    // const onClickFunction = (identifier) => {
+    //     if(selectedAppointments.includes(identifier)){
+    //         selectAppointmentsRaw(prev => prev.filter(e => e != identifier))
+    //     }else{
+    //         selectAppointmentsRaw(prev => [...prev, identifier])
+    //     }
+    // }
+    const cancelSelectedAppointments = async (objectIDArray) => {
+
+        const objectsFromIdArray = filteredAppointments.filter(item => (objectIDArray.includes(item._id))  )
+        console.log(objectsFromIdArray)
+
+        const toCancel = objectsFromIdArray.filter( item => {
+                console.log(item)
+                return(
+                    item.date.dateAsNum >=  temporalDateToNum(startingDate) &&
+                    item.date.dateAsNum <= temporalDateToNum(finishingDate) &&
+                    item.period.start >= timeAsNumber(startPeriod) &&
+                    item.period.end <= timeAsNumber(endPeriod) &&
+                    daysOfWeek[ item.date.dayOfWeek - 1 ] === true
+                )
+        })
+        console.log(toCancel)
+
+        
+        let ids = toCancel.map(item => item._id)
+        
+        const bodyAsJSON = JSON.stringify({
+            objectIDArray: ids, 
+            userData: user
+        })
+
+        const res = await fetch('http://localhost:5040/cancel/admin', {
+            method: 'PUT', 
+            headers: {
+                "Content-Type" : "application/json",
+            }, 
+            body: bodyAsJSON, 
+        })
+
+        const data = await res.json()
+
+        console.log(data)
+
+        window.alert(`${data.msg}`)
+
+
+    }
+    const deleteSelectedAppointments = async (objectIDArray) => {
+
+        const objectsFromIdArray = filteredAppointments.filter(item => (objectIDArray.includes(item._id))  )
+        console.log(objectsFromIdArray)
+
+        const toCancel = objectsFromIdArray.filter( item => {
+                console.log(item)
+                return(
+                    item.date.dateAsNum >=  temporalDateToNum(startingDate) &&
+                    item.date.dateAsNum <= temporalDateToNum(finishingDate) &&
+                    item.period.start >= timeAsNumber(startPeriod) &&
+                    item.period.end <= timeAsNumber(endPeriod) &&
+                    daysOfWeek[ item.date.dayOfWeek - 1 ] === true
+                )
+        })
+        let ids = toCancel.map(item => item._id)
+        console.log(ids)
+
+        
+        
+        const bodyAsJSON = JSON.stringify({
+            objectIDArray: ids, 
+            userData: user
+        })
+
+        const res = await fetch('http://localhost:5040/admin/byid', {
+            method: 'DELETE', 
+            headers: {
+                "Content-Type" : "application/json",
+            }, 
+            body: bodyAsJSON, 
+        })
+
+        const data = await res.json()
+
+        console.log(data)
+
+        window.alert(`${data.msg}`)
+
+
     }
                 
     const deleteAppointmentsById = async (objectIDArray, object ) => {
@@ -216,7 +298,7 @@ export const ViewAsTimeframe = () => {
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-    const [filteredAppointments, setFilteredAppointments] = useState()
+    const [filteredAppointments, setFilteredAppointments] = useState([])
     const [filter, setFilter] = useState('available')
 
     useEffect(() => {
@@ -279,7 +361,7 @@ export const ViewAsTimeframe = () => {
             <h2>Current <span>individual</span> appointments</h2>
             <IndividualAppointments 
             selectAppointments={selectAppointments} 
-            appointments={appointmentsFromServer} 
+            appointments={filteredAppointments} 
             filters={{ 
                 startDate: startingDate, 
                 endDate : finishingDate, 
@@ -287,7 +369,7 @@ export const ViewAsTimeframe = () => {
                 endPeriod: endPeriod, 
                 daysOfWeek: daysOfWeek 
             }}
-            selectedAppointments={appointmentIDsToDelete}
+            selectedAppointments={selectedAppointments}
              />
             </SectionWrapper>
 
@@ -312,11 +394,11 @@ export const ViewAsTimeframe = () => {
             <ImportantButton onClick={() => serverDeleteAppointments()} >
             <span>delete from server</span>
             </ImportantButton>
-            <ImportantButton onClick={() => deleteAppointmentsById(appointmentIDsToDelete)}>
+            <ImportantButton onClick={() => deleteSelectedAppointments(selectedAppointments)}>
             <span>delete selected</span>
             </ImportantButton>
-            <ImportantButton onClick={() => console.log('hi')}>
-            <span>delete selected</span>
+            <ImportantButton onClick={() => cancelSelectedAppointments(selectedAppointments)}>
+            <span>cancel selected</span>
             </ImportantButton>
 
             </ButtonWrapper>

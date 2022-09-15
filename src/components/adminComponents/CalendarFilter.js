@@ -41,7 +41,7 @@ const StyledItem = styled.div`
     align-items: center;
     justify-content: right;
     cursor: pointer;
-    background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
+    background-color: ${props => props.active  ? props.theme.hc1 : 'inherit'};
 
     span{
         width: 5cm;
@@ -70,42 +70,43 @@ const StyledItem = styled.div`
 //available taken all period
 export const CalendarFilter = ({filter, setFilter}) => {
     
+
     return(
         <Box>
             <Header><span>Highlight</span></Header>
             <Main>
-                <StyledItem onClick={() => setFilter('all')}>
+                <StyledItem active={filter === 'all'} onClick={() => setFilter('all')}>
                     <span>All</span>
                     <div>
                         <img src={filter === 'all' ? minus : plus} />
                     </div>
                 </StyledItem>
 
-                <StyledItem onClick={() => setFilter('available')}>
+                <StyledItem active={filter === 'available'} onClick={() => setFilter('available')}>
                     <span><span>available</span></span>
                     <div>
                         <img src={filter === 'available' ? minus : plus} />
                     </div>
                 </StyledItem>
-                <StyledItem onClick={() => setFilter('taken')}>
+                <StyledItem  active={filter === 'taken'} onClick={() => setFilter('taken')}>
                     <span><span>taken</span></span>
                     <div>
                         <img src={filter === 'taken' ? minus : plus} />
                     </div>
                 </StyledItem>
-                <StyledItem onClick={() => setFilter('period')}>
-                    <span><span>period</span></span>
+                <StyledItem  active={filter === 'period'} onClick={() => setFilter('period')}>
+                    <span><span>within period</span></span>
                     <div>
                         <img src={filter === 'period' ? minus : plus} />
                     </div>
                 </StyledItem>
-                <StyledItem onClick={() => setFilter('start')}>
+                <StyledItem active={filter === 'start'} onClick={() => setFilter('start')}>
                     <span>after period start</span>
                     <div>
                         <img src={filter === 'start' ? minus : plus} />
                     </div>
                 </StyledItem>
-                <StyledItem onClick={() => setFilter('end')}>
+                <StyledItem active={filter === 'end'} onClick={() => setFilter('end')}>
                     <span>before period end</span>
                     <div>
                         <img src={filter === 'end' ? minus : plus} />

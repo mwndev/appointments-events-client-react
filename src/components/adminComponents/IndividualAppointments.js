@@ -32,10 +32,12 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
 
 
     const { startDate, endDate, startPeriod, endPeriod, daysOfWeek } = filters
-
+    console.log(appointments)
 
     const sD = temporalDateToNum(startDate)
     const eD = temporalDateToNum(endDate)
+    const sP = timeAsNumber(startPeriod)
+    const eP = timeAsNumber(endPeriod)
 
     const [filtered, setFiltered] = useState([])
 
@@ -44,16 +46,14 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
         const filteredAppointments = appointments.filter(item => (
             item.date.dateAsNum >=  sD &&
             item.date.dateAsNum <= eD &&
-            // item.period.start >= sP &&
-            // item.period.end <= eP &&
+            item.period.start >= sP &&
+            item.period.end <= eP &&
             daysOfWeek[ item.date.dayOfWeek - 1 ] === true 
     ))
     filteredAppointments.sort(((a, b) => (a.date.dateAsNum - b.date.dateAsNum) * 10000 - (b.period.start - a.period.start) ))
     setFiltered(filteredAppointments)
 
     const filteredIDs = filteredAppointments.map(item => item._id)
-    console.log(filteredIDs)
-    console.log(selectedAppointments)
 
 
     }, [filters, appointments, daysOfWeek])

@@ -72,7 +72,7 @@ export const timeAsNumber = (plainTime) => {
 }
 
 export const dateSplice = (s, c) => {
-    return s.slice(0, -2) + c + s.slice(-2)
+    return s.slice(0, -2) + ':' + s.slice(-2)
 }
 
 export const cancelAppointment = async(appointmentID, email, password) => {
