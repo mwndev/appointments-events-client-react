@@ -18,7 +18,6 @@ const StyledItem = styled.div`
     justify-content: right;
     cursor: pointer;
     background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
-
     span{
         width: 5cm;
         height: 1cm;
@@ -76,7 +75,7 @@ const Main = styled.div`
     flex-direction: column;
 `
 
-const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
+const Weekdays = ({parentWeekdays, setParentWeekdays, dow, sDOW}) => {
     //parentWeekDays === [Boolean 7 times]
     const englishDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']    
 
@@ -90,7 +89,17 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
             </Header>
             <Main>
             {
-                englishDays.map((day, index, arr)=> (<SingleWeekday arrLength={arr.length} key={uuidv4()} index={index} parentWeekdays={parentWeekdays} setParentWeekdays={setParentWeekdays} day={day} />))
+                englishDays.map((day, index, arr)=> (
+                    <SingleWeekday 
+                        arrLength={arr.length} 
+                        key={uuidv4()} 
+                        index={index} 
+                        parentWeekdays={parentWeekdays} 
+                        setParentWeekdays={setParentWeekdays} 
+                        day={day} 
+                        dow={dow}
+                        sDOW={sDOW}
+                    />))
             }
             </Main>
         </Box>
@@ -100,7 +109,7 @@ const Weekdays = ({parentWeekdays, setParentWeekdays}) => {
 //<SingleWeekday parentWeekDay={parentWeekDays[index]} setParentWeekdays={setParentWeekdays} key={day.toString()} weekday={day}></SingleWeekday>)
 export default Weekdays
 
-const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength}) => {
+const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, dow, sDOW}) => {
 
     
     const updateParentWeekdays = (a, i) => {
@@ -114,6 +123,8 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength
     const theOnclick = () => {
             updateParentWeekdays(parentWeekdays, index) 
             setActive(prev => !prev)
+            sDOW(prev => !prev)
+
     }
     return(
         <StyledItem 
@@ -129,3 +140,4 @@ const SingleWeekday = ({parentWeekdays, setParentWeekdays, index, day, arrLength
     )
 
 }
+       

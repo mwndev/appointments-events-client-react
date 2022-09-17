@@ -28,6 +28,7 @@ export const ViewAsTimeframe = () => {
     const [startingDate, setStartingDate] = useState(now)
     const [finishingDate, setFinishingDate] = useState(now.add({days: 7}))
     const [daysOfWeek, setDaysOfWeek] = useState([true, true, true, true, true, true, true])
+    const [dow, sDOW] = useState([])
     const [appointmentsFromServer, setAppointmentsFromServer] = useState([])
     const [selectedAppointments, selectAppointmentsRaw] = useState([])
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
@@ -35,6 +36,8 @@ export const ViewAsTimeframe = () => {
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
 
     const {user, setUser} = useContext(UserContext)
+
+    useEffect(() => console.log('parent noticed dow cvhange'),[daysOfWeek])
 
     
     useEffect(() => {
@@ -338,7 +341,6 @@ export const ViewAsTimeframe = () => {
             <SectionWrapper>
                 <h2><span>Highlight</span> in calendars</h2>
                 <CalendarFilter filter={filter} setFilter={setFilter} />
-                <button onClick={() => console.log(filteredAppointments)}>log filtered</button>
             </SectionWrapper>
 
             <SectionWrapper>
@@ -353,7 +355,7 @@ export const ViewAsTimeframe = () => {
             <SectionWrapper>
             <h2><span>Filter</span> by Weekdays</h2>
 
-            <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} />
+            <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} dow={dow} sDOW={sDOW} trigger={false} />
 
             </SectionWrapper>
 
