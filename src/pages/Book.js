@@ -11,6 +11,7 @@ import { UserContext } from '../contexts/UserContext'
 import { v4 as uuidv4 } from 'uuid';
 import { Fragment } from 'react';
 import baseURL from '../contexts/serverURL';
+import { dateSplice, timeAsNumber } from '../functions';
 
 
 
@@ -136,12 +137,7 @@ const StyledAppointment = styled.div`
 
 const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointment, setSelectedAppointment}) => {
 
-    const numToTimeString = (fourDigitNumber) => {
-        const s = fourDigitNumber.toString()
-        let k = ''
-        k = k.concat(s.slice(0, 2), ':', s.slice(2))
-        return k
-    }
+    
     
         return(
   
@@ -154,7 +150,7 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
             appointment={appointment} 
             onClick={() => setSelectedAppointment(appointment)}>
             <span>
-                {numToTimeString(start)} - {numToTimeString(end)}
+                {dateSplice(String(start))} - {dateSplice(String(end))}
             </span>
             <div>
             <img src={calendarCheck} alt=''/>
@@ -167,7 +163,7 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
 
 const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelectedAppointment}) => {
     
-    let filtered = appointments.sort((a, b) => {
+    appointments.sort((a, b) => {
         return a.period.start - b.period.start
     })
     
@@ -303,7 +299,6 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
                 
                 
             </SmallBox>
-            <button onClick={() => console.log(user)}>log user</button>
         </>
     )
 }

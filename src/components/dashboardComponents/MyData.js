@@ -38,13 +38,7 @@ export const MyData = () => {
             setData={(n) => setUser(prev => { 
                 return { ...prev, lastName: n } })}
             />
-            <DataRow 
-            desc={'Email:'} 
-            data={user.email}
-            setData={(n) => setUser(prev => { 
-                console.log(n)
-                return { ...prev, email: n } })}
-            />
+            
             <Save onClick={() => saveUserDataToServer(user)}>save changes</Save>
         </>
     )

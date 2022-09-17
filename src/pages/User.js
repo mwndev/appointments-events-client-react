@@ -140,7 +140,6 @@ export default function User() {
     {
       !user.id ? <EnterCredentials /> : <Dashboard />
     }
-    <button onClick={() => console.log(user)}>see user</button>
     </FlexWrapper>
     
     </PageWrapper>

@@ -39,61 +39,6 @@ const Box = styled.div`
         background-color: ${props => props.theme.ic4 };
     }
 `
-const BoxHeader = styled.div`
-    height: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-color: ${props => props.theme.ic4};
-    border-bottom: ${props => props.theme.bthk};
-`
-
-const BoxWrapper = styled.div`
-    height: 83%;
-    width: 100%;
-    overflow-y: scroll;
-    ::-webkit-scrollbar{
-    }
-    ::-webkit-scrollbar-track{
-        display: none;
-    }
-`
-
-const STDescription = styled.div`
-    height: 96%;
-    width: 92%;
-    margin: 0.2cm auto;
-    
-    border: ${props => props.theme.bthk};
-    position: relative;
-    img{
-        height: 1cm;
-        aspect-ratio: 1 / 1;
-    }
-
-`
-const STHeader = styled.div`
-    width: 100%; 
-    height: 18%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.2cm;
-    span{
-        font-size: 1.8em;
-        font-weight: 500;
-        color: ${props => props.theme.ic8};
-        flex-grow: 1;
-    }
-    img{
-        height: 80%;
-        margin-right: 0.1cm;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-    }
-`
-
 const SessionType = styled.div`
     border: ${props => props.theme.bthk};
     height: 15%;
@@ -128,6 +73,78 @@ const SessionType = styled.div`
         cursor: pointer;
     }
 `
+const BoxHeader = styled.div`
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: ${props => props.theme.ic4};
+    border-bottom: ${props => props.theme.bthk};
+`
+
+const BoxWrapper = styled.div`
+    height: 83%;
+    width: 100%;
+    overflow-y: scroll;
+
+
+
+    ::-webkit-scrollbar{
+    }
+    ::-webkit-scrollbar-track{
+        display: none;
+    }
+`
+
+const STDescription = styled.div`
+    height: 96%;
+    width: 92%;
+    margin: 0.2cm auto;
+    
+    border: ${props => props.theme.bthk};
+    position: relative;
+    img{
+        height: 1cm;
+        aspect-ratio: 1 / 1;
+    }
+
+`
+const STHeader = styled.div`
+    width: 100%; 
+    height: 18%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.2cm;
+    border-bottom: ${props => props.theme.bmed};
+    div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        span{
+            font-size: 2.1em;
+            font-weight: 500;
+            color: ${props => props.theme.ic8};
+ 
+        }
+    }
+    img{
+        height: 70%;
+        margin-right: 0.1cm;
+        aspect-ratio: 1 / 1;
+        cursor: pointer;
+    }
+`
+const STBody = styled.section`
+    font-size: 1.4em;
+    section{
+        margin: 0.2cm;
+    }
+`
+
+
 
 
 
@@ -156,14 +173,21 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
                     )
                 ) : 
                 <STDescription>
-                    <STHeader><span>{activeST.name}</span>
+                    <STHeader><div><span>{activeST.name}</span></div>
                     <img onClick={() => setActiveST(null)} src={sourceX} onMouseOver={() => setSourceX(redx)} onMouseLeave={() => setSourceX(x)} />
                     </STHeader>
+                    <STBody>
+
                     <section>{activeST.description}</section>
-                    <span>number of clients: <span>
-                    </span>
+                    <section>
+                        Number of clients: &nbsp;
                         {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}
-                    </span>
+                    </section>
+                    <section>
+                        Price:&nbsp;
+                        {activeST.price}$
+                    </section>
+                    </STBody>
 
                 </STDescription>
             }

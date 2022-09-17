@@ -75,10 +75,10 @@ function App() {
 
   //the links below the title in the header are generated based on this array
   let links = [
-    ['/', 'o mnie', <About />],
-    ['/contact', 'kontakt', <Contact />],
-    ['/book', 'bookuj', <Book />],
-    ['/user', 'moj konto', <User />], 
+    ['/', 'about me', <About />],
+    ['/contact', 'contact', <Contact />],
+    ['/book', 'book a consultation', <Book />],
+    ['/user', 'my account', <User />], 
   ]
 
   if( user.isAdmin ) links.push(['/admin', 'admin', <Admin />])

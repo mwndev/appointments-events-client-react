@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const LargeBox = styled.div`
     aspect-ratio: 11 / 10;
+    height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     max-height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     border: 0.07cm solid ${props => props.theme.tc};
     margin: 1cm;

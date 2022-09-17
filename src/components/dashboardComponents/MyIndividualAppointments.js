@@ -28,6 +28,12 @@ const BoxBody = styled.div`
     overflow-y: scroll;
     grid-row: 2 / 3;
     padding: 0.15cm;
+    div{
+        width: 100%;
+        text-align: center;
+        margin-top: 0.3cm;
+        font-size: 1.3em;
+    }
 `
 
 
@@ -39,6 +45,10 @@ export const MyIndividualAppointments = ({ appointments }) => {
 
     
     const daysOfWeek = [true, true, true, true, true, true, true]
+
+    let msg = ''
+
+    if (appointments.length === 0) msg = 'You haven\'t booked any consultations'
     
     return(
         <>
@@ -50,6 +60,7 @@ export const MyIndividualAppointments = ({ appointments }) => {
                 </BoxHeaderText>
             </BoxHeader>
             <BoxBody>
+                {appointments.length === 0 ? <div>You haven't booked any consultations</div> : null }
                 {appointments.map(obj =>  (
                 
                     <SingleDate
@@ -61,6 +72,7 @@ export const MyIndividualAppointments = ({ appointments }) => {
                 ))}
             </BoxBody>
         </OuterBox>
+        <button onClick={() => console.log(msg)}>apppo</button>
         </>
     )
 }

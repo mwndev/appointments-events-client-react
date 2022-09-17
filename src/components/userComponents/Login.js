@@ -31,7 +31,9 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
   },[])
 
   const resetPassword = async () => {
-    if(data.email === null || data.email === '') {
+    if(false) return window.alert('ahkjsdfsakljafkl')
+
+    if(data.email === undefined || data.email === null || data.email === ''  ) {
       window.alert('Please enter your email')
       return setWarn(prev => { return { ...prev, email: true } }) 
     }

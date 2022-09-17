@@ -6,6 +6,8 @@ import facebook from '../svgs/facebook.svg'
 import instagram from '../svgs/instagram.svg'
 import facebookgreen from '../svgs/facebookgreen.svg'
 import instagramgreen from '../svgs/instagramgreen.svg'
+import github from '../svgs/github.svg'
+import githubgreen from '../svgs/githubgreen.svg'
 import { v4 as uuidv4 } from 'uuid'
 
 const OuterWrapper = styled.div`
@@ -47,8 +49,7 @@ const SocialIcon = styled.img`
 
 export const Header = ({ links, messageBelowBanner }) => {
 
-    const [src, setSrc] = useState({f: facebook, ig: instagram})
-
+  const [gh, setgh] = useState(github)
 
 
 
@@ -59,8 +60,11 @@ export const Header = ({ links, messageBelowBanner }) => {
                 {link[1]}
             </Link>
             ))}
-        <SocialIcon onClick={() => window.open('https://instagram.com')} src={src.ig} alt="instagram" onMouseOver={() => setSrc({f: facebook, ig: instagramgreen})} onMouseLeave={() => setSrc({f: facebook, ig: instagram})}/>
-        <SocialIcon onClick={() => window.open('https://facebook.com')} src={src.f} alt='facebook'  onMouseOver={() => setSrc({f: facebookgreen, ig: instagram})} onMouseLeave={() => setSrc({f: facebook, ig: instagram})}/>
+        <SocialIcon onClick={() => window.open('https://github.com/politicallyCorrectName')}
+        src={gh} 
+        alt="github" 
+        onMouseOver={() => setgh(githubgreen)} 
+        onMouseLeave={() => setgh(github)}/>
     </OuterWrapper>
     
   )

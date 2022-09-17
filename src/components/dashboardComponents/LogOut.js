@@ -32,7 +32,6 @@ export const LogOut = () => {
     return(
         <>
             <Btn severe={false} onClick={() => clearLocalDataLogOut()}>log out</Btn>
-            <Btn severe={true} onClick={() => deleteUser()}>delete account</Btn>
         </>
     )
 }
