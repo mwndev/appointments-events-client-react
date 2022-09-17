@@ -75,38 +75,10 @@ const Contact = () => {
 
     return(
         <PageWrapper >
-            <Row onMouseOver={() => sDA(true)} onMouseLeave={() => sDA(false)}>
-                <FirstIcon src={dA ? discordA : discord} alt="Discord:" />
-                <span>Userman#0000</span>
-                <SecondIcon src={ cT==='Userman#0000' ? copied :copy} alt="copy" 
-                    onClick={() => {
-                        console.log(dMsg)
-                        navigator.clipboard.writeText('Userman#0000') 
-                        sDMsg(true)
-                        setTimeout(() => sDMsg(false), 1000)
-                    }}
-                />
-                <HoverMsg show={dMsg} >Copied!</HoverMsg>
-            </Row>
-            <Row onMouseOver={() => sTA(true)} onMouseLeave={() => sTA(false)}>
-                <FirstIcon src={tA ? telegramA : telegram} alt="Discord:" />
-                <span>[telegram username]</span>
-                <SecondIcon src={copy} onClick={() => console.log('stuff')} alt="copy"/>
-            </Row>
             <ContactRow icon={discord} iconA={discordA} text={'Userman#0000'}/>
             <ContactRow icon={telegram} iconA={telegramA} text={'Name Firstname'}/>
             <ContactRow icon={gmail} iconA={gmailA} text={'private@gmail.com'}/>
             <ContactRow icon={phone} iconA={phoneA} text={'(+41)629 109 927 28'}/>
-            <Row onMouseOver={() => sPA(true)} onMouseLeave={() => sPA(false)}>
-                <FirstIcon src={pA ? phoneA : phone} alt="Discord:" />
-                <span>(+41)629 109 927 28</span>
-                <SecondIcon src={copy} onClick={() => console.log('stuff')} alt="copy"/>
-            </Row>
-            <Row onMouseOver={() => sMA(true)} onMouseLeave={() => sMA(false)}>
-                <FirstIcon src={mA ? gmailA : gmail} alt="Discord:" />
-                <span>joerogan@podcast.com</span>
-                <SecondIcon src={copy} onClick={() => console.log('stuff')} alt="copy"/>
-            </Row>
         </PageWrapper>
     )
 }

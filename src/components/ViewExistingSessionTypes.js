@@ -112,7 +112,7 @@ const STDescription = styled.div`
 `
 const STHeader = styled.div`
     width: 100%; 
-    height: 18%;
+    height: 16%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -124,7 +124,7 @@ const STHeader = styled.div`
         align-items: center;
         flex-grow: 1;
         span{
-            font-size: 2.1em;
+            font-size: 1.8em;
             font-weight: 500;
             color: ${props => props.theme.ic8};
  
@@ -138,9 +138,9 @@ const STHeader = styled.div`
     }
 `
 const STBody = styled.section`
-    font-size: 1.4em;
+    font-size: 1.3em;
     section{
-        margin: 0.2cm;
+        margin: 0.4cm 0.2cm;
     }
 `
 

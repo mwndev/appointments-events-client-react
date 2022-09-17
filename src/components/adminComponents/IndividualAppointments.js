@@ -46,8 +46,8 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
         const filteredAppointments = appointments.filter(item => (
             item.date.dateAsNum >=  sD &&
             item.date.dateAsNum <= eD &&
-            item.period.start >= sP &&
-            item.period.end <= eP &&
+            // item.period.start >= sP &&
+            // item.period.end <= eP &&
             daysOfWeek[ item.date.dayOfWeek - 1 ] === true 
     ))
     filteredAppointments.sort(((a, b) => (a.date.dateAsNum - b.date.dateAsNum) * 10000 - (b.period.start - a.period.start) ))
@@ -89,7 +89,6 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
                 ))}
             </BoxBody>
         </OuterBox>
-        <button onClick={() => console.log(filtered)}>log filtered</button>
         </>
     )
 }
