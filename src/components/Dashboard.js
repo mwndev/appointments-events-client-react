@@ -11,6 +11,7 @@ import { LogOut } from "./dashboardComponents/LogOut";
 const OuterBox = styled.div`
     width: calc(30% + 8cm);
     display: flex;
+    margin-right: 4cm;
 `
 const SidebarWrapper = styled.div`
     width: 10cm;

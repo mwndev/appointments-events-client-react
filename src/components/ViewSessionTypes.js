@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import styled from "styled-components";
 import {  BoxBody,  SmallBox, ImportantButton, ButtonWrapper, PageWrapper, SectionWrapper, BoxHeaderText, } from "../styledComponents/styledComponents1";
 import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
 import TextareaBox from "./TextareaBox"; 
+import { UserContext } from "../contexts/UserContext";
 
 
 
@@ -92,6 +93,7 @@ export const ViewSessionTypes = () => {
     const [sTs, setSTs] = useState([])
     const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
+    const {user} = useContext(UserContext)
 
 
     useEffect(() => {
@@ -118,6 +120,7 @@ export const ViewSessionTypes = () => {
     }
     const serverCreateSessionType = async () => {
         const bodyObj = {
+            userData: user,
             price: price,
             name: name,
             description: description,
@@ -150,7 +153,10 @@ export const ViewSessionTypes = () => {
                 window.alert('Please select a session type')
                 return
             }
-            const bodyAsJSON = JSON.stringify({id: selectedST._id})
+            const bodyAsJSON = JSON.stringify({
+                userData: user,
+                id: selectedST._id
+            })
             
 
             const res = await fetch('http://localhost:5040/sessiontypes', {
@@ -179,6 +185,7 @@ export const ViewSessionTypes = () => {
                 return
             }
             const bodyObj = {
+                userData: user,
                 price: price,
                 name: name,
                 description: description,

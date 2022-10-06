@@ -18,7 +18,7 @@ export const Footer = () => {
 
     return(
         <OuterWrapper>
-        <button onClick={() => console.log(user)}>user</button>
+        <h2>I have no clue what to put here but the green color is nice :)</h2>
 
         </OuterWrapper>
     )

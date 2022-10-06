@@ -239,7 +239,8 @@ const EnterCredentials = () => {
       body: JSONbody,
     })
     const data = await res.json()
-    if(data.emailIsTaken) window.alert('email is already in use. Please login')
+    if(data.emailIsTaken) window.alert('Email is already in use. Please login')
+    else window.alert('Please check your email for a registration link.')
 
   }
   

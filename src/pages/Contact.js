@@ -59,26 +59,13 @@ const HoverMsg = styled.section`
 
 
 const Contact = () => {
-    const [cT, setCT] = useState('')
-    const [dA, sDA] = useState(false)
-    const [tA, sTA] = useState(false)
-    const [pA, sPA] = useState(false)
-    const [mA, sMA] = useState(false)
-    const [gA, sGA] = useState(false)
-
     
-    const [dMsg, sDMsg] = useState(false)
-    const [tMsg, sTMsg] = useState(false)
-    const [pMsg, sPMsg] = useState(false)
-    const [mMsg, sMMsg] = useState(false)
-    const [gMsg, sGMsg] = useState(false)
-
     return(
         <PageWrapper >
             <ContactRow icon={discord} iconA={discordA} text={'Userman#0000'}/>
             <ContactRow icon={telegram} iconA={telegramA} text={'Name Firstname'}/>
             <ContactRow icon={gmail} iconA={gmailA} text={'private@gmail.com'}/>
-            <ContactRow icon={phone} iconA={phoneA} text={'(+41)629 109 927 28'}/>
+            <ContactRow icon={phone} iconA={phoneA} text={'(+41) 629 109 927 28'}/>
         </PageWrapper>
     )
 }

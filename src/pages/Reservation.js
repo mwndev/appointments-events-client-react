@@ -16,6 +16,7 @@ export const Reservation = () => {
             const data = await res.json()
 
             data.reserved ? setContent(<Success />) : setContent(<Failure />)
+            // data.reserved ? setTimeout(window.location.href('http://localhost:3000/user') ,1000)
         }
         fetchData()
 
