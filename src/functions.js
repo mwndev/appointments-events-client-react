@@ -88,7 +88,7 @@ export const cancelAppointment = async(appointmentID, email, password) => {
     if(jres.cancelled) window.alert('success')
 }
 
-export const authenticateUser = async(dataOBJ) => {
+export const authenticateUser = async(dataOBJ, setUser) => {
     console.log('authenticating users')
 
 
