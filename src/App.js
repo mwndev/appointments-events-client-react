@@ -67,7 +67,7 @@ const theme1 = {
   narrowness: '10%'
 }
 
-export const backendURL = 'http://localhost:5040'
+export const backendURL = 'https://appointments-server.onrender.com/'
 
 function App() {
 

@@ -87,3 +87,29 @@ export const cancelAppointment = async(appointmentID, email, password) => {
 
     if(jres.cancelled) window.alert('success')
 }
+
+export const authenticateUser = async(dataOBJ) => {
+    console.log('authenticating users')
+
+
+    const JSONbody = JSON.stringify({
+      email: dataOBJ.email,
+      password: dataOBJ.password,
+    })
+  
+    const res = await fetch(`${backendURL}/login`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSONbody,
+    })
+    const data = await res.json()
+
+
+    if(data.authenticated){
+      await setUser(data.userData)
+
+      saveUserDataToLocalStorage(data.userData)
+    }
+  }

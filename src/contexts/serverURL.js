@@ -1,1 +1,1 @@
-export const thisURL = 'http://localhost:3000'
+export const thisURL = 'https://appointments-client.onrender.com/'
