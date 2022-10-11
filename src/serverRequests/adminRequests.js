@@ -1,10 +1,12 @@
+import { backendURL } from "../App"
+
 const serverGetAppointments = async(bodyAsObj) => {
     try {
         const bodyAsJSON = JSON.stringify(bodyAsObj)
 
         console.log(bodyAsJSON)
         
-        const res = await fetch('http://localhost:5040/appointment/test')
+        const res = await fetch(`${backendURL}/appointment/test`)
         const data = await res.json()
 
         return data
@@ -22,7 +24,7 @@ const serverPostAppointments = async(bodyAsObj) => {
 
         console.log(bodyAsJSON)
         
-        const res = await fetch('http://localhost:5040/appointment/test', {
+        const res = await fetch(`${backendURL}/appointment/test`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +48,7 @@ const serverDeleteAppointments = async(bodyAsObj) => {
 
         console.log(bodyAsJSON)
         
-        const res = await fetch('http://localhost:5040/appointment/test', {
+        const res = await fetch(`${backendURL}/appointment/test`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -70,7 +72,7 @@ const serverUpdateAppointments = async(bodyAsObj) => {
 
         console.log(bodyAsJSON)
         
-        const res = await fetch('http://localhost:5040/appointment/test', {
+        const res = await fetch(`${backendURL}/appointment/test`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",

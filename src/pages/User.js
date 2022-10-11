@@ -2,15 +2,12 @@ import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { UserContext } from '../contexts/UserContext'
-import { BoxHeaderText, FlexWrapper, MidBoxText, PageWrapper, SmallerBoxText } from '../styledComponents/styledComponents1'
-import emailIcon from '../svgs/email.svg'
-import signature from '../svgs/signature.svg'
+import { BoxHeaderText, FlexWrapper, MidBoxText, PageWrapper } from '../styledComponents/styledComponents1'
 import { Dashboard } from '../components/Dashboard'
-import baseURL from '../contexts/serverURL'
 import { EnterLoginCredentials } from '../components/userComponents/Login'
 import { EnterRegisterCredentials } from '../components/userComponents/Register'
 import { saveUserDataToLocalStorage } from '../functions'
-import { useParams } from 'react-router-dom'
+import { backendURL } from '../App'
 
 //!TODO add session to make login persist between reloads
 
@@ -171,9 +168,6 @@ const EnterCredentials = () => {
   const [trigger, pullTrigger] = useState(false)
   const [loginTries, setLoginTries] = useState(-1)
 
-  const [sTs, setSTs] = useState([])
-  const [selectedST, setSelectedST] = useState()
-  const [activeST, setActiveST] = useState(null)
 
   useEffect(() => {
     confirmOnclick()  
@@ -194,7 +188,7 @@ const EnterCredentials = () => {
       password: dataOBJ.password,
     })
   
-    const res = await fetch('http://localhost:5040/login', {
+    const res = await fetch(`${backendURL}/login`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -231,7 +225,7 @@ const EnterCredentials = () => {
       password: dataOBJ.password,
     })
 
-    const res = await fetch('http://localhost:5040/register', {
+    const res = await fetch(`${backendURL}/register`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -286,11 +280,12 @@ const EnterCredentials = () => {
       </DetailWrapper>
       </UserBox>
       <button onClick={() => console.log(loginTries)}>login tries</button>
-      <button onClick={() => fetch(`${baseURL}/users/all`, { method: 'DELETE' })}>delete all users</button>
+      <button onClick={() => fetch(`${backendURL}/users/all`, { method: 'DELETE' })}>delete all users</button>
       </>
     )
   
   }
+  
 
 
 

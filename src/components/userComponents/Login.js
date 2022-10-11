@@ -1,11 +1,6 @@
 import React, {useState, useContext, useEffect} from "react"
-import { UserContext } from "../../contexts/UserContext"
 import { ExternalLink, DetailWrapper } from "../../pages/User"
-import baseURL from "../../contexts/serverURL"
-
-
-
-
+import { backendURL } from "../../App"
 
 
 
@@ -38,7 +33,7 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
       return setWarn(prev => { return { ...prev, email: true } }) 
     }
 
-    const res = await fetch(`${baseURL}/forgot`, { 
+    const res = await fetch(`${backendURL}/forgot`, { 
       method: 'POST', 
       headers: { "Content-Type" : "application/json" }, 
       body: JSON.stringify({ email: data.email }) 

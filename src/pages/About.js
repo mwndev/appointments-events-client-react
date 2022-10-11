@@ -17,13 +17,13 @@ export default function About() {
   return (
     <FlexContainer>
     <Container>
-      <h3>My name is Name Lastname</h3>
+      <h3>Hi I'm Martin!</h3>
 
       <br></br>
       Native languages: Danish, English, German. 
       <br></br><br></br>
 
-      I'm a fullstack web developer, using the ?ERN stack, and learning to use Rocket. If you're primarily interested in my web development abilities, <a>click here</a> to get a test version of the admin page. Mess around as much as you like.
+      I'm a fullstack web developer, using the MERN stack, and learning to use Rocket. If you're primarily interested in my web development abilities, <a onClick={() => console.log('hi')}>click here</a> to get a test version of the admin page. Mess around as much as you like.
       <br></br><br></br>
       The feature for booking and editing appointments isn't really meant seriously. I made this website for a client who suddenly lost interest and figured that I might as well use it for my personal site.
       <br></br><br></br>

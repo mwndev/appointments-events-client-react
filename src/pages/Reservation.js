@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { backendURL } from "../App";
 
 export const Reservation = () => {
 
@@ -11,7 +12,7 @@ export const Reservation = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch(`http://localhost:5040/reserve/${tokenid}`)
+            const res = await fetch(`${backendURL}/reserve/${tokenid}`)
 
             const data = await res.json()
 

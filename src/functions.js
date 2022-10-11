@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill"
+import { backendURL } from "./App"
 
 
 export const getUserDataFromLocalStorage = (setUser) => {
@@ -36,8 +37,7 @@ export const saveUserDataToLocalStorage = (userData) => {
 
 
 export const saveUserDataToServer = async (user) => {
-
-    const res = await fetch(`http://localhost:5040/user`, {
+    const res = await fetch(`${backendURL}/user`, {
         method: 'PUT',
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify({
@@ -78,7 +78,7 @@ export const dateSplice = (s, c) => {
 export const cancelAppointment = async(appointmentID, email, password) => {
     // window.alert('do you wish to cancel this appointment?')
 
-    const res = await fetch('http://localhost:5040/cancel', {
+    const res = await fetch(`${backendURL}/cancel`, {
         method: 'PUT',
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify({id: appointmentID, email: email, password: password }),

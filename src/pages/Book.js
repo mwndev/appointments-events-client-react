@@ -10,8 +10,8 @@ import TextareaBox from '../components/TextareaBox';
 import { UserContext } from '../contexts/UserContext'
 import { v4 as uuidv4 } from 'uuid';
 import { Fragment } from 'react';
-import baseURL from '../contexts/serverURL';
 import { dateSplice, timeAsNumber } from '../functions';
+import { backendURL } from '../App';
 
 
 
@@ -323,7 +323,7 @@ export const Book = () => {
     
     useEffect(() => {
         const serverGetAppointments = async() => {
-            const res = await fetch(`${baseURL}/appointment/available`)
+            const res = await fetch(`${backendURL}/appointment/available`)
             const data = await res.json()
     
             setAppointments(data)
@@ -332,7 +332,7 @@ export const Book = () => {
 
 
         const serverGetSessionTypes = async () => {
-            const res = await fetch(`${baseURL}/sessiontypes`)
+            const res = await fetch(`${backendURL}/sessiontypes`)
             const data = await res.json()
 
             setSTs(data)

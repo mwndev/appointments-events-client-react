@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useContext} from "react";
 import { useParams } from "react-router-dom";
-import baseURL, { thisURL } from "../contexts/serverURL";
+import { thisURL } from "../contexts/serverURL";
 import { UserContext } from "../contexts/UserContext";
 import check from '../svgs/check.svg'
 import dots from '../svgs/dots.svg'
 import styled from "styled-components";
 import {  SectionWrapper } from "../styledComponents/styledComponents1";
+import { backendURL } from "../App";
 
 const Icon = styled.img`
     height: 1cm;
@@ -87,14 +88,13 @@ export const NewPassword = () => {
 
 
     const confirmPassword = async () => {
-        const res = await fetch(`${baseURL}/forgot/${tokenid}`, {  method: 'POST', headers: {"Content-Type" : "application/json"}, body: JSON.stringify({ password: data.pw }),}) 
-
+        const res = await fetch(`${backendURL}/forgot/${tokenid}`, {  method: 'POST', headers: {"Content-Type" : "application/json"}, body: JSON.stringify({ password: data.pw }),}) 
         const jres = await res.json()
 
         if(res.status === 400) if( window.confirm(jres.msg) ) return window.open(`${thisURL}/user`, '_self') 
 
         if(jres.updated  === null) {
-            const res = await fetch(`${baseURL}/forgot/${tokenid}`, {  
+            const res = await fetch(`${backendURL}/forgot/${tokenid}`, {  
                 method: 'POST', 
                 headers: {"Content-Type" : "application/json"}, 
                 body: JSON.stringify({ 
@@ -115,7 +115,7 @@ export const NewPassword = () => {
 
         localStorage.setItem('JMUDUYPTPW', data.pw)
 
-        window.open(`${thisURL}/user`, '_self') 
+        window.open(`${backendURL}/user`, '_self') 
 
     }
 

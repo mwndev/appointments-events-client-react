@@ -4,6 +4,7 @@ import {  BoxBody,  SmallBox, ImportantButton, ButtonWrapper, PageWrapper, Secti
 import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
 import TextareaBox from "./TextareaBox"; 
 import { UserContext } from "../contexts/UserContext";
+import { backendURL } from "../App";
 
 
 
@@ -99,7 +100,7 @@ export const ViewSessionTypes = () => {
     useEffect(() => {
         const fetchSessionTypes = async() => {
             try {
-                const res = await fetch(`http://localhost:5040/sessiontypes`)
+                const res = await fetch(`${backendURL}/sessiontypes`)
                 const data = await res.json()
 
                 setSessionTypesFromServer(data)
@@ -112,12 +113,6 @@ export const ViewSessionTypes = () => {
        
     }, [trigger])
 
-    const serverGetSessionTypes = async () => {
-        const res = await fetch(`http://localhost:5040/sessiontypes`)
-        const data = await res.json()
-
-        setSessionTypesFromServer(data)
-    }
     const serverCreateSessionType = async () => {
         const bodyObj = {
             userData: user,
@@ -132,7 +127,7 @@ export const ViewSessionTypes = () => {
         }
         const bodyAsJSON = JSON.stringify(bodyObj)        
 
-        const res = await fetch('http://localhost:5040/sessiontypes', {
+        const res = await fetch(`${backendURL}/sessiontypes`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -159,7 +154,7 @@ export const ViewSessionTypes = () => {
             })
             
 
-            const res = await fetch('http://localhost:5040/sessiontypes', {
+            const res = await fetch(`${backendURL}/sessiontypes`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type" : "application/json",
@@ -198,7 +193,7 @@ export const ViewSessionTypes = () => {
             const bodyAsJSON = JSON.stringify(bodyObj)        
 
 
-            const res = await fetch('http://localhost:5040/sessiontypes', {
+            const res = await fetch(`${backendURL}/sessiontypes`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type" : "application/json",
@@ -223,7 +218,7 @@ export const ViewSessionTypes = () => {
             const bodyAsJSON = JSON.stringify({id: selectedSessionType})
             
 
-            const res = await fetch('http://localhost:5040/sessiontypes/deactivate', {
+            const res = await fetch(`${backendURL}/sessiontypes/deactivate`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type" : "application/json",

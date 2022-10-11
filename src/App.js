@@ -67,6 +67,8 @@ const theme1 = {
   narrowness: '10%'
 }
 
+export const backendURL = 'http://localhost:5040'
+
 function App() {
 
   const [user, setUser] = useState({password: '', email: '', firstName: '', lastName: '', isAdmin: false,})
@@ -78,7 +80,7 @@ function App() {
     ['/', 'about me', <About />],
     ['/contact', 'contact', <Contact />],
     ['/book', 'book a consultation', <Book />],
-    ['/user', 'my account', <User />], 
+    ['/user', 'account', <User />], 
   ]
 
   if( user.isAdmin ) links.push(['/admin', 'admin', <Admin />])
@@ -91,7 +93,7 @@ function App() {
     getUserDataFromLocalStorage(setUser)
 
     const getSTs = async() => {
-      const res = await fetch('http://localhost:5040/sessiontypes')
+      const res = await fetch(`${backendURL}/sessiontypes`)
       const allSessionTypes = await res.json()
       setSTs(allSessionTypes)
       console.log(allSessionTypes)

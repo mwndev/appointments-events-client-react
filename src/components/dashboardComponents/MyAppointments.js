@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useContext} from "react";
 import { UserContext } from "../../contexts/UserContext";
-import baseURL from "../../contexts/serverURL";
-import { v4 as uuidv4} from "uuid";
 import styled from "styled-components";
-import { AppointmentContainer, SectionWrapper } from "../../styledComponents/styledComponents1";
+import { SectionWrapper } from "../../styledComponents/styledComponents1";
 import { MyIndividualAppointments } from "./MyIndividualAppointments";
+import { backendURL } from "../../App";
 
 const Appointment = styled.div`
     border: ${props => props.theme.bthk};
@@ -28,7 +27,7 @@ export const MyAppointments = () => {
 
     useEffect(() => {
         const serverGetAppointments = async() => {
-            const res = await fetch(`${baseURL}/appointment/user/${user.id}`)
+            const res = await fetch(`${backendURL}/appointment/user/${user.id}`)
             const data = await res.json()
     
             setAppointments(data)
@@ -37,7 +36,7 @@ export const MyAppointments = () => {
 
 
         const serverGetSessionTypes = async () => {
-            const res = await fetch(`${baseURL}/sessiontypes`)
+            const res = await fetch(`${backendURL}/sessiontypes`)
             const data = await res.json()
 
             setSTs(data)

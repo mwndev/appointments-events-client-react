@@ -49,6 +49,7 @@ export const Dashboard = () => {
 
 
     const sidebar = [['My Account', <MyData />], ['My Appointments', <MyAppointments />], ['Privacy', <MyPrivacy />], ['Log out', <LogOut />]]
+        // <button onClick={() => console.log(user)} >user</button>
 
     return(
         <SectionWrapper>

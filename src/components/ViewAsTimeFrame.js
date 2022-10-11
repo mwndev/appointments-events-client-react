@@ -11,6 +11,7 @@ import { UserContext } from '../contexts/UserContext'
 import { IndividualAppointments } from './adminComponents/IndividualAppointments'
 import { temporalDateToNum, timeAsNumber } from '../functions'
 import { CalendarFilter } from './adminComponents/CalendarFilter'
+import { backendURL } from '../App'
 
 
 //!TODO daysofweek isn't working, make it simpler (without converting 5 times)
@@ -43,8 +44,7 @@ export const ViewAsTimeframe = () => {
     useEffect(() => {
 
         const adminGetAppointments = async() => {
-
-            const res = await fetch(`http://localhost:5040/appointment/admin/${user.email}/${user.password}`)
+            const res = await fetch(`${backendURL}/appointment/admin/${user.email}/${user.password}`)
 
 
             const { verified, appointments } = await res.json()
@@ -115,7 +115,7 @@ export const ViewAsTimeframe = () => {
 
 
             
-            const res = await fetch('http://localhost:5040/appointment/admin', {
+            const res = await fetch(`${backendURL}/appointment/admin`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type" : "application/json"
@@ -167,7 +167,7 @@ export const ViewAsTimeframe = () => {
             userData: user
         })
 
-        const res = await fetch('http://localhost:5040/cancel/admin', {
+        const res = await fetch(`${backendURL}/cancel/admin`, {
             method: 'PUT', 
             headers: {
                 "Content-Type" : "application/json",
@@ -208,7 +208,7 @@ export const ViewAsTimeframe = () => {
             userData: user
         })
 
-        const res = await fetch('http://localhost:5040/admin/byid', {
+        const res = await fetch(`${backendURL}/admin/byid`, {
             method: 'DELETE', 
             headers: {
                 "Content-Type" : "application/json",
@@ -232,7 +232,7 @@ export const ViewAsTimeframe = () => {
             userData: user
         })
 
-        const res = await fetch('http://localhost:5040/appointment/admin/byid', {
+        const res = await fetch(`${backendURL}/appointment/admin/byid`, {
             method: 'DELETE', 
             headers: {
                 "Content-Type" : "application/json",
@@ -282,7 +282,7 @@ export const ViewAsTimeframe = () => {
 
             console.log(bodyAsJSON)
             
-            const res = await fetch('http://localhost:5040/appointment/admin', {
+            const res = await fetch(`${backendURL}/appointment/admin`, {
                 method: 'POST',
                 headers: {
                     "Content-Type" : "application/json"
