@@ -1,1 +1,1 @@
-export const thisURL = 'https://appointments-client.onrender.com/'
+export const thisURL = 'https://appointments-client.onrender.com'

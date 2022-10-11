@@ -350,7 +350,7 @@ export const Book = () => {
                 notes: notes,
             }
 
-            const res = await fetch('http://localhost:5040/appointment/user', {
+            const res = await fetch(`${backendURL}/appointment/user`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type" : "application/json",
