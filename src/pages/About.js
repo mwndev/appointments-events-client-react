@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { UserContext } from '../contexts/UserContext'
 import { authenticateUser } from '../functions'
-import { ExternalLink } from './User'
 
 const FlexContainer = styled.div`
   display: flex;
@@ -15,6 +14,10 @@ const Container = styled.div`
   font-size: 1.4em;
   line-height: 1cm;
   margin-bottom: 5cm;
+`
+const L = styled.a`
+  text-decoration: underline;
+  cursor: pointer;
 `
 
 export default function About() {
@@ -30,7 +33,11 @@ export default function About() {
       Native languages: Danish, English, German. 
       <br></br><br></br>
 
-      I'm a fullstack web developer, using the MERN stack, and learning to use Rocket. If you're primarily interested in my web development abilities, <ExternalLink onClick={() => authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)}>click here</ExternalLink> to get a test version of the admin page. Mess around as much as you like.
+      I'm a fullstack web developer, using the MERN stack, and learning to use Rocket.
+       If you're primarily interested in my web development abilities, <L onClick={() => authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)}>click here</L>&nbsp;
+       to get access to the admin page. Mess around as much as you like.
+       <br></br>
+       (The admin page will show up in the navbar)
       <br></br><br></br>
       The feature for booking and editing appointments isn't really meant seriously. I made this website for a client who suddenly lost interest and figured that I might as well use it for my personal site.
       <br></br><br></br>

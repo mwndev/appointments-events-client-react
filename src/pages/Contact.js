@@ -34,7 +34,7 @@ const Row = styled.div`
     gap: 0.5cm;
     span{
         font-size: 1.4em;
-        min-width: calc(5cm + 100px);
+        min-width: calc(6cm + 108px);
     }
 `
 const FirstIcon = styled.img`
@@ -62,10 +62,10 @@ const Contact = () => {
     
     return(
         <PageWrapper >
-            <ContactRow icon={discord} iconA={discordA} text={'Userman#0000'}/>
-            <ContactRow icon={telegram} iconA={telegramA} text={'Name Firstname'}/>
-            <ContactRow icon={gmail} iconA={gmailA} text={'private@gmail.com'}/>
-            <ContactRow icon={phone} iconA={phoneA} text={'(+41) 629 109 927 28'}/>
+            <ContactRow icon={discord} iconA={discordA} text={'Mister Man#2822'}/>
+            <ContactRow icon={telegram} iconA={telegramA} text={'Martin Wiedermann'}/>
+            <ContactRow icon={gmail} iconA={gmailA} text={'mwiedermann.b@gmail.com'}/>
+            <ContactRow icon={phone} iconA={phoneA} text={'(+41) 123 456 789 00'}/>
         </PageWrapper>
     )
 }

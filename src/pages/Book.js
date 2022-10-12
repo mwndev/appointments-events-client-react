@@ -342,7 +342,7 @@ export const Book = () => {
 
     const serverConfirmReservation = async () => {
         try {
-            if(user.id === null) window.alert('no user')
+            if(user.id === null) window.alert('You need to log in before booking anything.')
             const bodyOBJ = {
                 appointment: selectedAppointment,
                 sessionType: selectedST,
