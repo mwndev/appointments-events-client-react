@@ -7,6 +7,7 @@ import greenInfoIcon from '../svgs/info-red.svg'
 import { BoxHeaderText } from "../styledComponents/styledComponents1"
 
 const Box = styled.div`
+    margin: 1cm;
     height: ${props => props.height};
     aspect-ratio: 7 / 7;
     grid-template-columns: repeat(7, 1fr);

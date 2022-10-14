@@ -279,12 +279,12 @@ const EnterCredentials = () => {
         </Confirm>
       </DetailWrapper>
       </UserBox>
-      <button onClick={() => console.log(loginTries)}>login tries</button>
-      <button onClick={() => fetch(`${backendURL}/users/all`, { method: 'DELETE' })}>delete all users</button>
       </>
     )
   
   }
+      // <button onClick={() => console.log(loginTries)}>login tries</button>
+      /* <button onClick={() => fetch(`${backendURL}/users/all`, { method: 'DELETE' })}>delete all users</button> */
   
 
 
