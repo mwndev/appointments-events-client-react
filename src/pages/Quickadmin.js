@@ -10,7 +10,7 @@ export default function Quickadmin() {
         if(user.isAdmin) window.open(`${thisURL}/admin`, "_self")
         let f = () => { 
             authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)
-            window.open(`https://${thisURL}/admin`, "_self")
+            window.open(`${thisURL}/admin`, "_self")
         }
         f()
     })
