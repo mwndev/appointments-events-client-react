@@ -38,12 +38,10 @@ export const ViewAsTimeframe = () => {
 
     const {user, setUser} = useContext(UserContext)
 
-    useEffect(() => console.log('parent noticed dow cvhange'),[daysOfWeek])
-
     
     useEffect(() => {
 
-        const adminGetAppointments = async() => {
+        const initAdminGetAppointments = async() => {
             const res = await fetch(`${backendURL}/appointment/admin/${user.email}/${user.password}`)
 
 
@@ -53,8 +51,17 @@ export const ViewAsTimeframe = () => {
             
             setAppointmentsFromServer(appointments)
         }
-        adminGetAppointments()
+        initAdminGetAppointments()
     },[])
+    const adminGetAppointments = async() => {
+        const res = await fetch(`${backendURL}/appointment/admin/${user.email}/${user.password}`)
+
+        const { verified, appointments } = await res.json()
+
+        if ( !verified ) return window.alert('admin verification failed')
+        
+        setAppointmentsFromServer(appointments)
+    }
 
     const selectAppointments = (id) => {
         if( ! selectedAppointments.includes(id) ) return selectAppointmentsRaw(prev => [...prev, id])
@@ -390,16 +397,28 @@ export const ViewAsTimeframe = () => {
             <h2><span>Server commands</span> </h2>
             <ButtonWrapper>
 
-            <ImportantButton onClick={() => serverPostAppointments()}>
-            <span>send to server</span>
+            <ImportantButton onClick={() => {
+                serverPostAppointments()
+                adminGetAppointments()
+            }}>
+            <span>create new</span>
             </ImportantButton>
-            <ImportantButton onClick={() => serverDeleteAppointments()} >
-            <span>delete from server</span>
+            <ImportantButton onClick={() => {
+                serverDeleteAppointments()
+                adminGetAppointments()
+            }} >
+            <span>delete visible</span>
             </ImportantButton>
-            <ImportantButton onClick={() => deleteSelectedAppointments(selectedAppointments)}>
+            <ImportantButton onClick={() => {
+                deleteSelectedAppointments(selectedAppointments)
+                adminGetAppointments()
+            }}>
             <span>delete selected</span>
             </ImportantButton>
-            <ImportantButton onClick={() => cancelSelectedAppointments(selectedAppointments)}>
+            <ImportantButton onClick={() => {
+                cancelSelectedAppointments(selectedAppointments)
+                adminGetAppointments()
+            }}>
             <span>cancel selected</span>
             </ImportantButton>
 

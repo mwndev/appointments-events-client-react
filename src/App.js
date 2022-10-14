@@ -90,6 +90,11 @@ function App() {
 
 
   useEffect(() => {
+    const pingServer = async() => {
+      return fetch(`${backendURL}/`)
+    }
+    pingServer()
+
     getUserDataFromLocalStorage(setUser)
 
     const getSTs = async() => {
@@ -102,7 +107,6 @@ function App() {
   },[])
 
 
-  //TODO don't forget to modify scrollbar when all is done
 
   return (
     <ThemeProvider theme={theme1}>
