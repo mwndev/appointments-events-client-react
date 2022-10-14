@@ -28,12 +28,12 @@ const H = styled.h3`
 export default function About() {
 
   const { setUser } = useContext(UserContext)
+      // <Me src={"https://cdn.discordapp.com/attachments/801129997884325950/1030433410583363584/IMG_20221014_1051362.jpg"} alt='picture of me' />
 
   return (
     <FlexContainer>
     <Container>
-      <H>Hi I'm Martin!</H>
-      <Me src={"https://cdn.discordapp.com/attachments/801129997884325950/1030433410583363584/IMG_20221014_1051362.jpg"} alt='picture of me' />
+      <h3>Hi I'm Martin!</h3>
       <br></br>
       Native languages: Danish, English, German. 
       <br></br><br></br>
