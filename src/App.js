@@ -1,18 +1,19 @@
-import styled, {ThemeProvider} from 'styled-components'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import About from './pages/About'
-import Contact from './pages/Contact'
-import Admin from './pages/Admin'
-import {Book} from './pages/Book'
-import React, {useState, useEffect} from 'react'
-import User from './pages/User'
-import { UserContext } from './contexts/UserContext'
-import { NewPassword } from './pages/NewPassword'
-import { getUserDataFromLocalStorage } from './functions'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import styled, { ThemeProvider } from 'styled-components'
 import { Footer } from './components/footer/Footer'
-import { Header } from './header/Header'
-import { Reservation } from './pages/Reservation'
 import { SessionTypeContext } from './contexts/SessionTypeContext'
+import { UserContext } from './contexts/UserContext'
+import { getUserDataFromLocalStorage } from './functions'
+import { Header } from './header/Header'
+import About from './pages/About'
+import Admin from './pages/Admin'
+import { Book } from './pages/Book'
+import Contact from './pages/Contact'
+import { NewPassword } from './pages/NewPassword'
+import Quickadmin from './pages/Quickadmin'
+import { Reservation } from './pages/Reservation'
+import User from './pages/User'
 
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
@@ -123,6 +124,7 @@ function App() {
         {links.map((link => ( <Route path={`${link[0]}`} element={link[2]} key={link[0]} /> )))}
         <Route path={'/reserve/:tokenid'} element={<Reservation />} />
         <Route path={'/newpassword/:tokenid'} element={<NewPassword />} key={'123213'} />
+        <Route path={'/admin/quick'} element={<Quickadmin />} key={'a23rjfiod'} />
       </Routes>
 
       </Page>

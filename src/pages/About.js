@@ -1,5 +1,4 @@
-import React from 'react'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { UserContext } from '../contexts/UserContext'
 import { authenticateUser } from '../functions'
@@ -19,16 +18,22 @@ const L = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `
+const Me = styled.img`
+  height: 4cm;
+`
+const H = styled.h3`
+  display: inline-block;
+`
 
 export default function About() {
 
-  const {user, setUser} = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
 
   return (
     <FlexContainer>
     <Container>
-      <h3>Hi I'm Martin!</h3>
-
+      <H>Hi I'm Martin!</H>
+      <Me src={"https://cdn.discordapp.com/attachments/801129997884325950/1030433410583363584/IMG_20221014_1051362.jpg"} alt='picture of me' />
       <br></br>
       Native languages: Danish, English, German. 
       <br></br><br></br>

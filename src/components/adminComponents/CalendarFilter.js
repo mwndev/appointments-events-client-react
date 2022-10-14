@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react"
+import React from "react"
 import styled from "styled-components"
 import circle from '../../svgs/circle.svg'
 import dot from '../../svgs/dot.svg'

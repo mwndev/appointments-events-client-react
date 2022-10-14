@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import {  BoxBody,  SmallBox, ImportantButton, ButtonWrapper, PageWrapper, SectionWrapper, BoxHeaderText, } from "../styledComponents/styledComponents1";
-import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
-import TextareaBox from "./TextareaBox"; 
-import { UserContext } from "../contexts/UserContext";
 import { backendURL } from "../App";
+import { UserContext } from "../contexts/UserContext";
+import { BoxHeaderText, ButtonWrapper, ImportantButton, SectionWrapper, SmallBox } from "../styledComponents/styledComponents1";
+import TextareaBox from "./TextareaBox";
+import { ViewExistingSessionTypes } from "./ViewExistingSessionTypes";
 
 
 

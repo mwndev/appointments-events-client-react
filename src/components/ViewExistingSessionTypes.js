@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
-import x from '../svgs/x.svg'
-import redx from '../svgs/red-x.svg'
-import infoIcon from '../svgs/info.svg'
-import greenInfoIcon from '../svgs/info-red.svg'
 import { BoxHeaderText } from "../styledComponents/styledComponents1"
+import greenInfoIcon from '../svgs/info-red.svg'
+import infoIcon from '../svgs/info.svg'
+import redx from '../svgs/red-x.svg'
+import x from '../svgs/x.svg'
 
 const Box = styled.div`
     margin: 1cm;
