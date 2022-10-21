@@ -1,1 +1,0 @@
-export const thisURL = 'https://appointments-client.onrender.com'

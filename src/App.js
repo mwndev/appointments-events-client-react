@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
-import { Footer } from './components/footer/Footer'
 import { SessionTypeContext } from './contexts/SessionTypeContext'
 import { UserContext } from './contexts/UserContext'
-import { getUserDataFromLocalStorage } from './functions'
-import { Header } from './header/Header'
-import About from './pages/About'
-import Admin from './pages/Admin'
-import { Book } from './pages/Book'
-import Contact from './pages/Contact'
-import { NewPassword } from './pages/NewPassword'
-import Quickadmin from './pages/Quickadmin'
-import { Reservation } from './pages/Reservation'
-import User from './pages/User'
+import { Footer } from './Footer'
+import { getUserDataFromLocalStorage } from './general/functions'
+import { Header } from './Header'
+import About from './pages/About/AboutPage'
+import Admin from './pages/Admin/AdminPage'
+import { Book } from './pages/Book/BookPage'
+import Contact from './pages/Contact/ContactPage'
+import { NewPassword } from './pages/NewPassword/NewPasswordPage'
+import Quickadmin from './pages/Quickadmin/QuickadminPage'
+import { Reservation } from './pages/Reservation/ReservationPage'
+import User from './pages/User/UserPage'
 
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
@@ -69,6 +69,7 @@ const theme1 = {
 }
 
 export const backendURL = process.env.REACT_APP_BACKEND_URL
+export const thisURL = process.env.REACT_APP_THIS_URL
 
 function App() {
 
