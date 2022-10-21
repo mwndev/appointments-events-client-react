@@ -68,7 +68,7 @@ const theme1 = {
   narrowness: '10%'
 }
 
-export const backendURL = 'https://appointments-server.onrender.com'
+export const backendURL = process.env.REACT_APP_BACKEND_URL
 
 function App() {
 
@@ -91,8 +91,9 @@ function App() {
 
 
   useEffect(() => {
+    
     const pingServer = async() => {
-      return fetch(`${backendURL}/`)
+      return await fetch(`${backendURL}/`)
     }
     pingServer()
 

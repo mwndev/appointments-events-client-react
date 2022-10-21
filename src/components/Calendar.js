@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useContext} from 'react'
-import styled from 'styled-components'
-import { Temporal } from '@js-temporal/polyfill'; 
-import arrow from '../svgs/arrowup.svg'
-import calendarCheck from '../svgs/calendarcheck.svg'
-import {AppointmentContext} from '../contexts/AppointmentContext'
+import { Temporal } from '@js-temporal/polyfill';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import arrow from '../svgs/arrowup.svg';
 
 
 //styles and at line 130
@@ -166,7 +164,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     }
     const incrementMonth = () => {
         
-        if(now.month != parentISODate.month ||  now.year === parentISODate.year){setDateForParent(prev=> prev.add({months : 1}))}
+        if(now.month !== parentISODate.month ||  now.year === parentISODate.year){setDateForParent(prev=> prev.add({months : 1}))}
     }
     
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

@@ -8,7 +8,7 @@ export default function Quickadmin() {
 
     useEffect(() => {
         if(user.isAdmin) window.open(`${thisURL}/admin`, "_self")
-        let f = async() => { 
+        let f = async() => {
             await authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)
             window.open(`${thisURL}/admin`, "_self")
         }

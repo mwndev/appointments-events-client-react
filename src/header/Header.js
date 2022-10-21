@@ -1,17 +1,13 @@
-import React, {useContext, useState} from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
-import facebook from '../svgs/facebook.svg'
-import instagram from '../svgs/instagram.svg'
-import facebookgreen from '../svgs/facebookgreen.svg'
-import instagramgreen from '../svgs/instagramgreen.svg'
+import styled from 'styled-components'
+import { v4 as uuidv4 } from 'uuid'
 import github from '../svgs/github.svg'
 import githubgreen from '../svgs/githubgreen.svg'
-import { v4 as uuidv4 } from 'uuid'
 
 const OuterWrapper = styled.div`
     height: calc(2cm + 1vh);
+    min-width: 100%;
     background-color: ${props => props.theme.c3};
     display: flex;
     align-items: center;
@@ -19,13 +15,13 @@ const OuterWrapper = styled.div`
     box-shadow: ${props => props.messageBelowBanner === undefined ?  '0 0 0.5cm' + props.theme.ic7 : 'none'};
     margin-bottom: 1.8cm;
     a{
+        margin: 3vw;
+        padding: 0.4cm 0.2cm;
         color: #000;
         text-decoration: none;
-        padding: 0.4cm 0.2cm;
         flex-shrink: 0;
         font-size: 1.1em;
         cursor: pointer;
-        margin: 1cm;
         border-bottom: 0.08cm solid ${props => props.theme.c3};
         flex-shrink: 1;
         font-weight: 500;
@@ -51,7 +47,7 @@ export const Header = ({ links, messageBelowBanner }) => {
 
   const [gh, setgh] = useState(github)
 
-
+  const ghLink = process.env.REACT_APP_GH_LINK
 
   return (
     <OuterWrapper>
@@ -60,7 +56,7 @@ export const Header = ({ links, messageBelowBanner }) => {
                 {link[1]}
             </Link>
             ))}
-        <SocialIcon onClick={() => window.open('https://github.com/politicallyCorrectName')}
+        <SocialIcon onClick={() => window.open(ghLink || 'set env variable')}
         src={gh} 
         alt="github" 
         onMouseOver={() => setgh(githubgreen)} 

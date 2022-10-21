@@ -1,19 +1,14 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import discord from '../svgs/discord.svg'
-import discordA from '../svgs/discordA.svg'
-import telegram from '../svgs/telegram.svg'
-import telegramA from '../svgs/telegramA.svg'
-import phone from '../svgs/phone.svg'
-import phoneA from '../svgs/phoneA.svg'
-import gmail from '../svgs/gmail.svg'
-import gmailA from '../svgs/gmailA.svg'
-import github from '../svgs/github.svg'
-import githubA from '../svgs/githubA.svg'
-import openNT from '../svgs/openNT.svg'
-import copy from '../svgs/copy.svg'
-import copied from '../svgs/copied.svg'
+import copy from '../svgs/copy.svg';
+import discord from '../svgs/discord.svg';
+import discordA from '../svgs/discordA.svg';
+import gmail from '../svgs/gmail.svg';
+import gmailA from '../svgs/gmailA.svg';
+import phone from '../svgs/phone.svg';
+import phoneA from '../svgs/phoneA.svg';
+import telegram from '../svgs/telegram.svg';
+import telegramA from '../svgs/telegramA.svg';
 
 const PageWrapper = styled.div`
     display: flex;
@@ -59,13 +54,18 @@ const HoverMsg = styled.section`
 
 
 const Contact = () => {
+
+    const dsc = process.env.REACT_APP_DSC
+    const tel= process.env.REACT_APP_TEL
+    const mail = process.env.REACT_APP_MAIL
+    const phn = process.env.REACT_APP_PHONE
     
     return(
         <PageWrapper >
-            <ContactRow icon={discord} iconA={discordA} text={'Mister Man#2822'}/>
-            <ContactRow icon={telegram} iconA={telegramA} text={'Martin Wiedermann'}/>
-            <ContactRow icon={gmail} iconA={gmailA} text={'mwiedermann.b@gmail.com'}/>
-            <ContactRow icon={phone} iconA={phoneA} text={'(+41) 123 456 789 00'}/>
+            <ContactRow icon={discord} iconA={discordA} text={dsc || 'set env variable'}/>
+            <ContactRow icon={telegram} iconA={telegramA} text={tel|| 'set env variable'}/>
+            <ContactRow icon={gmail} iconA={gmailA} text={mail|| 'set env variable'}/>
+            <ContactRow icon={phone} iconA={phoneA} text={phn|| 'set env variable'}/>
         </PageWrapper>
     )
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import styled from 'styled-components'
-import Menu from './Menu';
-import Middle from './Middle'
+import styled from 'styled-components';
+import Middle from './Middle';
 import Socials from './Socials';
 
 const StyledBanner = styled.header`
     height: calc(2cm + 1vh);
     background-color: ${props => props.theme.c3};
+    min-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

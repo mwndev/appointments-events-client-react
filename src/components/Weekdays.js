@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import styled from 'styled-components'
-import plus from '../svgs/calendarplus.svg'
-import minus from '../svgs/calendarminus.svg'
-import check from '../svgs/calendarcheck.svg'
+import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import check from '../svgs/calendarcheck.svg';
+import plus from '../svgs/calendarplus.svg';
 //import { StyledBoxSmall, StyledSmallBoxHeader, StyledAppointment, StyledAppointmentContainer } from "../styledComponents/styledComponents1";
 
 
 
 
 const StyledItem = styled.div`
-    height: 100%;
+    flex-shrink: 1;
+    min-height: 0;
+    height: 12%;
+    flex-grow: 0;
     width: 100%;
     border: 0.07cm solid ${props => props.theme.tc};
     display: flex;
@@ -19,8 +21,8 @@ const StyledItem = styled.div`
     cursor: pointer;
     background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
     span{
-        width: 5cm;
-        height: 1cm;
+        width: 80%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -31,7 +33,7 @@ const StyledItem = styled.div`
         font-size: 1.4rem;
     }
     div{
-        height: 1cm;
+        height: 100%;
         aspect-ratio: 1 / 1;
         border-left: 0.07cm solid ${props => props.theme.tc};
         display: flex;
@@ -73,6 +75,7 @@ const Main = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: scroll;
 `
 
 const Weekdays = ({parentWeekdays, setParentWeekdays, dow, sDOW}) => {

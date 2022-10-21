@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
-import check from '../svgs/calendarcheck.svg'
-import warning from '../svgs/calendarwarning.svg'
-import styled from 'styled-components'
 import { Temporal } from '@js-temporal/polyfill'
-import Calendar from './Calendar'
-import Weekdays from './Weekdays'
-import Period from './Period'
-import { SectionWrapper, ImportantButton, PageWrapper, ButtonWrapper, CommandsWrapper, FlexWrapper } from '../styledComponents/styledComponents1'
-import { UserContext } from '../contexts/UserContext'
-import { IndividualAppointments } from './adminComponents/IndividualAppointments'
-import { temporalDateToNum, timeAsNumber } from '../functions'
-import { CalendarFilter } from './adminComponents/CalendarFilter'
+import React, { useContext, useEffect, useState } from 'react'
 import { backendURL } from '../App'
+import { UserContext } from '../contexts/UserContext'
+import { temporalDateToNum, timeAsNumber } from '../functions'
+import { ButtonWrapper, CommandsWrapper, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../styledComponents/styledComponents1'
+import { CalendarFilter } from './adminComponents/CalendarFilter'
+import { IndividualAppointments } from './adminComponents/IndividualAppointments'
+import Calendar from './Calendar'
+import Period from './Period'
+import Weekdays from './Weekdays'
 
 
 //!TODO daysofweek isn't working, make it simpler (without converting 5 times)
@@ -36,7 +33,7 @@ export const ViewAsTimeframe = () => {
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
 
-    const {user, setUser} = useContext(UserContext)
+    const {user} = useContext(UserContext)
 
     
     useEffect(() => {

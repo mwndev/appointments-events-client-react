@@ -149,12 +149,11 @@ export const ImportantButton = styled.div`
     flex-direction: column;
     flex-grow: 1;
     max-width: 40%;
-    margin: 0 0.4cm;
     padding: 0;
-        margin: 0.4cm;
+    margin: 0.2cm 0.3cm ;
     cursor: pointer;
-    width: 14vw;
-    height: 6vh;
+    width: 40%;
+    height: 30%;
     span{
         color: ${props => props.theme.c3};
         font-weight: 500;

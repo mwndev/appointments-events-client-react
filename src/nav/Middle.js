@@ -1,7 +1,6 @@
-import React, {useContext} from 'react'
-import styled from 'styled-components'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
+import styled from 'styled-components'
 
 const StyledMiddle = styled.div`
     max-width: 60%;
@@ -21,11 +20,11 @@ const StyledMiddle = styled.div`
 
     }
     div > a{
-      padding: 0.4cm 0.2cm;
+      /* margin: 1cm; */
+      /* padding: 0.4cm 0.2cm; */
       flex-shrink: 0;
       font-size: 1.1em;
       cursor: pointer;
-      margin: 1cm;
       border-bottom: 0.08cm solid ${props => props.theme.c3};
       flex-shrink: 1;
       font-weight: 500;
@@ -58,7 +57,6 @@ const StyledMiddle = styled.div`
 // link[0] is the route, link[1] is the name
 export default function Middle({links}) {
 
-  const { user } = useContext(UserContext)
 
   return (
     <StyledMiddle>

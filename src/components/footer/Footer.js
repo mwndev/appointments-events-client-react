@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { UserContext } from "../../contexts/UserContext";
 
 const OuterWrapper = styled.div`
     width: 100%;
@@ -10,15 +9,14 @@ const OuterWrapper = styled.div`
     align-items: center;
     background-color: ${props => props.theme.ic2};
     border-top: ${props => props.theme.bthk};
-
 `
 
 export const Footer = () => {
-    const {user} = useContext(UserContext)
 
+    const eml = process.env.REACT_APP_BUGREPORT_EMAIL
     return(
         <OuterWrapper>
-        <h2>I have no clue what to put here but the green color is nice :)</h2>
+        <div>Please report any bugs to {eml}</div>
 
         </OuterWrapper>
     )

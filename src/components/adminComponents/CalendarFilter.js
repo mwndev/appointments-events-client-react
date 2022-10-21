@@ -32,41 +32,47 @@ const Main = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: scroll;
 `
 const StyledItem = styled.div`
-    height: 100%;
+    flex-shrink: 1;
+    min-height: 0;
+    height: 13%;
+    flex-grow: 1;
     width: 100%;
     border: 0.07cm solid ${props => props.theme.tc};
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: right;
     cursor: pointer;
     background-color: ${props => props.active  ? props.theme.hc1 : 'inherit'};
+    
 
     span{
-        height: 1cm;
+        width: 80%;
+        height: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
         font-size: 1.3rem;
-        margin-left: 0.5cm;
+        margin-left: 0.3cm;
+        
     }
     span > span{
+        display: inline;
         font-size: 1.4rem;
     }
     div{
-        height: 1cm;
+        height: 100%;
         aspect-ratio: 1 / 1;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
     img{
-        height: ${props => props.active ? '50%' : '40%' };
+        height: 35%;
         aspect-ratio: 1 / 1;
     }
-    
 `
 
 
@@ -96,7 +102,7 @@ const FilterBox = ({name, desc, filter, setFilter}) => {
         <StyledItem active={ filter === name} onClick={() => setFilter(name)}>
             <span>{desc}</span>
             <div>
-                <img src={ filter === name ? circle : dot} />
+                <img src={ filter === name ? circle : dot} alt='' />
             </div>
         </StyledItem>
     )
