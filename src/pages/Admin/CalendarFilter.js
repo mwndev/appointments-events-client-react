@@ -7,17 +7,20 @@ import dot from '../../svgs/dot.svg'
 const Box = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     margin: 1cm;
     display: grid;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr 7fr;
 `
 const Header = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
     grid-row: 1 / 2;
+    width: 100%;
+    height: 100%;
     background-color: ${props => props.theme.ic4};
     span{
         font-weight: 500;
@@ -26,7 +29,7 @@ const Header = styled.div`
 `
 const Main = styled.div`
     grid-row: 2 / 3;
-    padding: 0.3cm 0.3cm;
+    padding: 0.3cm 0.2cm 0cm 0.3cm;
     gap: 0.3cm;
     display: flex;
     justify-content: center;
@@ -36,11 +39,13 @@ const Main = styled.div`
 `
 const StyledItem = styled.div`
     flex-shrink: 1;
+    flex-grow: 1;
     min-height: 0;
-    height: 13%;
+    margin: 0 auto;
+    height: 14%;
     flex-grow: 1;
     width: 100%;
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     display: flex;
     align-items: center;
     justify-content: right;
@@ -81,7 +86,7 @@ export const CalendarFilter = ({filter, setFilter}) => {
 
     return(
         <Box>
-            <Header><span>Highlight</span></Header>
+            <Header><span>Filters</span></Header>
             <Main>
                 
                 <FilterBox desc='All' name='all' filter={filter} setFilter={setFilter}/>

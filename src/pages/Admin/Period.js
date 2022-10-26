@@ -5,7 +5,7 @@ import arrowup from '../../svgs/arrowup.svg';
 
 const StyledPeriodContainer = styled.div`
     width: ${props => props.theme.boxHeight};
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
     aspect-ratio: 12 / 5;
     
 `
@@ -16,7 +16,7 @@ const StyledPeriodHeader = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: ${props => props.theme.bthk};
+    border-bottom: ${props => props.theme.bgrid};
     background-color: ${props => props.theme.ic4};
     span{
         font-size: 1.6rem;

@@ -13,7 +13,7 @@ const StyledItem = styled.div`
     height: 12%;
     flex-grow: 0;
     width: 100%;
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     display: flex;
     align-items: center;
     justify-content: right;
@@ -34,7 +34,7 @@ const StyledItem = styled.div`
     div{
         height: 100%;
         aspect-ratio: 1 / 1;
-        border-left: 0.07cm solid ${props => props.theme.tc};
+        border-left: ${props => props.theme.bgrid};
         display: flex;
         align-items: center;
         justify-content: center;
@@ -49,13 +49,14 @@ const StyledItem = styled.div`
 const Box = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     margin: 1cm;
     display: grid;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr 7fr;
 `
 const Header = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;

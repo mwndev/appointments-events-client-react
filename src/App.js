@@ -15,6 +15,28 @@ import Quickadmin from './pages/Quickadmin/QuickadminPage'
 import { Reservation } from './pages/Reservation/ReservationPage'
 import User from './pages/User/UserPage'
 
+                 
+let userAgent = navigator.userAgent;
+let browserName;
+let gridBorder;
+  
+if(userAgent.match(/chrome|chromium|crios/i)){
+    browserName = "chrome";
+  }else if(userAgent.match(/firefox|fxios/i)){
+    browserName = "firefox";
+  }  else if(userAgent.match(/safari/i)){
+    browserName = "safari";
+  }else if(userAgent.match(/opr\//i)){
+    browserName = "opera";
+  } else if(userAgent.match(/edg/i)){
+    browserName = "edge";
+  }else{
+    browserName="No browser detection";
+  }
+  browserName === "chrome" ? gridBorder = '1px solid #000' : gridBorder = '0.07cm solid #000'
+    
+
+
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
 `
@@ -60,9 +82,10 @@ const theme1 = {
   boxRowHeight: 'calc( 200px + 30vh )',
   boxHeaderHeight: '12.3%',
   boxBodyHeight: '85%',
-  bthk: '0.07cm solid #000',
+  bthk:  '0.07cm solid #000',
   bmed: '0.06cm solid #000',
   bthn: '0.05cm solid #000',
+  bgrid: gridBorder,
 
   //this is there to link the width of the left and right sides of the header
   narrowness: '10%'

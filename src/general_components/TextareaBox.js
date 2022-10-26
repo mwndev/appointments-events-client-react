@@ -17,6 +17,7 @@ const LargeBox = styled.div`
         margin: 0 0.5cm 0.5cm 0.5cm;
         font-family: inherit;
         font-size: 1.3em;
+        resize: none;
     }
     textarea:focus{
         outline: none;

@@ -1,11 +1,6 @@
 import styled from "styled-components";
 
 
-/*
-
-from <Book /> Component
-
-*/
 export const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -45,7 +40,7 @@ export const SectionWrapper = styled.section`
 export const SmallBox = styled.div`
     aspect-ratio: 7 / 8;
     height: calc(160px + 26vh);
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: 3px solid ${props => props.theme.tc};
     gap: 0.1cm;
     margin: 1cm;
     display: grid;
@@ -53,7 +48,7 @@ export const SmallBox = styled.div`
     grid-template-rows: repeat(6, 1fr);
 `
 export const SmallBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: 3px solid ${props => props.theme.tc};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +84,7 @@ export const AppointmentContainer = styled.div`
 export const StyledItem = styled.div`
     height: 100%;
     width: 100%;
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: 3px solid ${props => props.theme.tc};
     display: flex;
     align-items: center;
     justify-content: right;
@@ -111,7 +106,7 @@ export const StyledItem = styled.div`
     div{
         height: 1cm;
         aspect-ratio: 1 / 1;
-        border-left: 0.07cm solid ${props => props.theme.tc};
+        border-left: 3px solid ${props => props.theme.tc};
         display: flex;
         align-items: center;
         justify-content: center;
@@ -124,7 +119,7 @@ export const StyledItem = styled.div`
 export const ButtonWrapper = styled.div`
     width: ${props => props.theme.boxHeight};
     aspect-ratio: 12 / 5;
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;

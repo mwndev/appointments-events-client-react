@@ -5,31 +5,24 @@ import { v4 as uuidv4 } from 'uuid';
 import arrow from '../svgs/arrowup.svg';
 
 
-//styles and at line 130
-
-const StyledFlexContainer = styled.div`
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 67%;
-`
+//styles end at line 130
 
 const StyledCalendarBox = styled.div`
     aspect-ratio: 10 / 10;
     height: ${props => props.theme.boxHeight};
-    border: 0.07cm solid ${props => props.theme.tc};
+    border:  ${props => props.theme.bgrid};
     margin: 1cm;
 
 `
 const StyledCalendarBoxBody = styled.div`
-height: 100%;
-width: 100%;
-display: grid;
-grid-template-columns: repeat(7, 1fr);
-grid-template-rows: repeat(8, 1fr);
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(8, 1fr);
 `
 const StyledCalendarBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,7 +87,7 @@ const StyledDayName = styled.div`
     align-items: center;
     justify-content: center;
     flex-shrink: 1;
-    border-bottom: 0.06cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     span{
         font-size: 1.2em;
         font-weight: 500;
@@ -108,38 +101,6 @@ const StyledBlankBox = styled.div`
 
 `
 
-
-const StyledAppointment = styled.div`
-    height: 1cm;
-    width: 80%;
-    border: 0.07cm solid ${props => props.theme.tc};
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    span{
-        width: 5cm;
-        height: 1cm;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    span > span{
-        display: inline;
-        font-size: 1.4rem;
-    }
-    div{
-        width: 1cm;
-        aspect-ratio: 1 / 1;
-        border-left: 0.07cm solid ${props => props.theme.tc};
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    img{
-        height: 60%;
-        aspect-ratio: 1 / 1;
-    }
-`
 
 const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const now = Temporal.Now.plainDateISO()

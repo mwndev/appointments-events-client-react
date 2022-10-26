@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { dateSplice, temporalDateToNum } from "../general/functions";
-import icon from '../svgs/calendarcheck.svg';
-import activeIcon from '../svgs/calendarwarning.svg';
-import { BoxHeaderText } from "./styledComponents1";
+import { dateSplice, temporalDateToNum } from "../../general/functions";
+import { BoxHeaderText } from "../../general_components/styledComponents1";
+import icon from '../../svgs/calendarcheck.svg';
+import activeIcon from '../../svgs/calendarwarning.svg';
 
 const OuterBox = styled.div`
     height: ${props => props.theme.boxHeight};
     aspect-ratio: 1 / 1;
     display: grid;
     grid-template-rows: 1fr 7fr;
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
+    margin: 1cm;
 `
 const BoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom:  ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: ${props => props.theme.ic4};
     grid-row: 1 / 2;
 `
+    // box-shadow: 0 0 0 1px ${props => props.theme.ic4};
 const BoxBody = styled.div`
     overflow-y: scroll;
     grid-row: 2 / 3;
@@ -99,13 +101,13 @@ const StyledBoxItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: right;
-    border: 0.07cm solid #000;
+    border: ${props => props.theme.bgrid};
     background-color: ${props => props.isActive ? props.theme.hc1 : 'inherit' };
     cursor: pointer;
     div{
         height: 100%;
         aspect-ratio: 1 / 1;
-        border-left: 0.07cm solid ${props => props.theme.tc};
+        border-left: ${props => props.theme.bgrid};
         display: flex;
         align-items: center;
         justify-content: center;

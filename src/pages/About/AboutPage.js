@@ -26,10 +26,7 @@ export default function About() {
   return (
     <FlexContainer>
     <Container>
-      <h3>Hi I'm Martin!</h3>
-      <br></br>
-      Native languages: Danish, English, German. 
-      <br></br><br></br>
+      <h3>I'm Martin Wiedermann.</h3>
 
       I'm a fullstack web developer, using the MERN stack, and learning to use Rocket.
       If you're primarily interested in my web development abilities, <L onClick={() => authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)}>click here</L>
