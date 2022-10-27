@@ -17,8 +17,8 @@ import User from './pages/User/UserPage'
 
                  
 let userAgent = navigator.userAgent;
-let browserName;
 let gridBorder;
+export let browserName;
   
 if(userAgent.match(/chrome|chromium|crios/i)){
     browserName = "chrome";

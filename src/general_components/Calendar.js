@@ -14,13 +14,6 @@ const StyledCalendarBox = styled.div`
     margin: 1cm;
 
 `
-const StyledCalendarBoxBody = styled.div`
-    height: 100%;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-`
 const StyledCalendarBoxHeader = styled.div`
     border-bottom: ${props => props.theme.bgrid};
     display: flex;
@@ -32,15 +25,24 @@ const StyledCalendarBoxHeader = styled.div`
 `
 const StyledMonthName = styled.div`
     font-size: 1.8rem;
-    font-weight: 500;
+    font-weight: 400;
     justify-self: left;
     margin-left: 2rem;
 `
-const StyledArrowWrapper = styled.div`
-    width: 3cm;
-    height: 0.9cm;
+const StyledCalendarBoxBody = styled.div`
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+`
+
+const StyledArrowsWrapper = styled.div`
+    height: 50%;
+    aspect-ratio: 5 / 2;
+    margin: 0 1cm;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 
 
@@ -59,6 +61,22 @@ const StyledArrowWrapper = styled.div`
         transform: rotate(180deg)
     }
 `
+const StyledDayName = styled.div`
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 1;
+    border-bottom: ${props => props.theme.bgrid};
+    span{
+        font-size: 1.2em;
+        font-weight: 400;
+        margin: 0;
+        color: ${props => props.theme.tc2};
+    }
+`
 const StyledDay = styled.div`
     width: 100%;
     height: 100%;
@@ -74,25 +92,9 @@ const StyledDay = styled.div`
         background-color: ${props => props.state  ? props.theme.hc5 : props.theme.hc3};
     }
     span{
-        font-size: 1rem;
+        font-size: 1.1rem;
         margin: 0;
-        font-weight: 500;
-    }
-`
-const StyledDayName = styled.div`
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 1;
-    border-bottom: ${props => props.theme.bgrid};
-    span{
-        font-size: 1.2em;
-        font-weight: 500;
-        margin: 0;
-        color: ${props => props.theme.tc2};
+        font-weight: 400;
     }
 `
 const StyledBlankBox = styled.div`
@@ -106,7 +108,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const now = Temporal.Now.plainDateISO()
 
     const [daysArray, setDaysArray] = useState([])
-    const [sn, setsn] = useState([])
+    const [bufferCells, setBufferCells] = useState([])
 
     useEffect(() => {
         let arr = []
@@ -136,7 +138,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
         if(daysArray.length !== 0){
         }
         try {
-            setsn([1, 2, 3, 4 ,5 ,6 ,7].slice(0, daysArray[0].dayOfWeek - 1))
+            setBufferCells([1, 2, 3, 4 ,5 ,6 ,7].slice(0, daysArray[0].dayOfWeek - 1))
         } catch (error) {
         }
 
@@ -153,10 +155,10 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
         <StyledCalendarBoxBody>
         <StyledCalendarBoxHeader>
             <StyledMonthName>{monthNames[parentISODate.month]} {parentISODate.year}</StyledMonthName>
-            <StyledArrowWrapper>
+            <StyledArrowsWrapper>
             <img className='down' src={arrow} alt='down' onClick={decrementMonth} />
             <img src={arrow} alt='up' onClick={incrementMonth} />
-            </StyledArrowWrapper>
+            </StyledArrowsWrapper>
         </StyledCalendarBoxHeader>
         {
             dayNames.filter(e => e !== null).map(
@@ -171,7 +173,7 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
             )
         }
         {
-            sn.map(e=> (<StyledBlankBox key={uuidv4()}/>))
+            bufferCells.map(e=> (<StyledBlankBox key={uuidv4()}/>))
         }
         {daysArray.map(calendarDay => 
             

@@ -1,10 +1,16 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import greenInfoIcon from '../svgs/info-red.svg'
-import infoIcon from '../svgs/info.svg'
+import sGIIcon from '../svgs/infothin-green.svg'
+import sIIcon from '../svgs/infothin.svg'
 import redx from '../svgs/red-x.svg'
 import x from '../svgs/x.svg'
 import { BoxHeaderText } from "./styledComponents1"
+
+let greenInfoIcon 
+let infoIcon
+greenInfoIcon = sGIIcon
+infoIcon = sIIcon
+
 
 const Box = styled.div`
     margin: 1cm;
@@ -12,15 +18,12 @@ const Box = styled.div`
     aspect-ratio: 7 / 7;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    //display: grid;
-
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     grid-auto-rows: 1fr;
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
 
 
     ::-webkit-scrollbar{
@@ -41,7 +44,7 @@ const Box = styled.div`
     }
 `
 const SessionType = styled.div`
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
     height: 15%;
     width: 95%;
     background-color: ${props => props.selectedST === props.thisType ? props.theme.hc2 : 'inherit'};
@@ -68,8 +71,8 @@ const SessionType = styled.div`
         margin-left: 0.2cm;
     }
     img{
-        height: 80%;
-        margin-right: 0.15cm;
+        height: 60%;
+        margin-right: 0.3cm;
         aspect-ratio: 1 / 1;
         cursor: pointer;
     }
@@ -81,16 +84,13 @@ const BoxHeader = styled.div`
     align-items: center;
     width: 100%;
     background-color: ${props => props.theme.ic4};
-    border-bottom: ${props => props.theme.bthk};
+    border-bottom: ${props => props.theme.bgrid};
 `
 
 const BoxWrapper = styled.div`
     height: 83%;
     width: 100%;
     overflow-y: scroll;
-
-
-
     ::-webkit-scrollbar{
     }
     ::-webkit-scrollbar-track{
@@ -102,8 +102,7 @@ const STDescription = styled.div`
     height: 96%;
     width: 92%;
     margin: 0.2cm auto;
-    
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
     position: relative;
     img{
         height: 1cm;
@@ -118,7 +117,7 @@ const STHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.2cm;
-    border-bottom: ${props => props.theme.bmed};
+    border-bottom: ${props => props.theme.bgrid};
     div{
         display: flex;
         justify-content: center;
@@ -126,14 +125,20 @@ const STHeader = styled.div`
         flex-grow: 1;
         span{
             font-size: 1.8em;
-            font-weight: 500;
-            color: ${props => props.theme.ic8};
+            font-weight: 400;
+            color: ${props => props.theme.tc};
  
         }
     }
+    section{
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     img{
-        height: 70%;
-        margin-right: 0.1cm;
+        height: 50%;
         aspect-ratio: 1 / 1;
         cursor: pointer;
     }
@@ -170,13 +175,15 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
                 parentSTs.map((item, index) =>  (
                     <SessionType selectedST={selectedST} thisType={item} index={index} key={index}>
                         <span onClick={() => item === selectedST ? setSelectedST(null) : setSelectedST(item)}><span>{item.name}</span></span>
-                        <img  onClick={() => setActiveST(item)} src={item === sourceInfo ? greenInfoIcon : infoIcon} onMouseOver={() => setSourceInfo(item)} onMouseLeave={() => setSourceInfo('')}/>
+                        <img  onClick={() => setActiveST(item)} src={item === sourceInfo ? greenInfoIcon : infoIcon} onMouseOver={() => setSourceInfo(item)} onMouseLeave={() => setSourceInfo('')} alt='i'/>
                     </SessionType>
                     )
                 ) : 
                 <STDescription>
                     <STHeader><div><span>{activeST.name}</span></div>
-                    <img onClick={() => setActiveST(null)} src={sourceX} onMouseOver={() => setSourceX(redx)} onMouseLeave={() => setSourceX(x)} />
+                    <section>
+                        <img onClick={() => setActiveST(null)} src={sourceX} onMouseOver={() => setSourceX(redx)} onMouseLeave={() => setSourceX(x)} alt='x'/>
+                    </section>
                     </STHeader>
                     <STBody>
 

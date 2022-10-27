@@ -23,13 +23,14 @@ const Header = styled.div`
     height: 100%;
     background-color: ${props => props.theme.ic4};
     span{
-        font-weight: 500;
-        font-size: 1.4em;
+        font-weight: 400;
+        font-size: 1.8em;
     }
 `
 const Main = styled.div`
     grid-row: 2 / 3;
-    padding: 0.3cm 0.2cm 0cm 0.3cm;
+    //scrollbar is 0.5vw
+    padding: 0.3cm 0.1cm 0cm calc(0.5vw + 0.1cm);
     gap: 0.3cm;
     display: flex;
     justify-content: center;
@@ -59,8 +60,8 @@ const StyledItem = styled.div`
         display: flex;
         align-items: center;
         justify-content: left;
-        font-size: 1.3rem;
-        margin-left: 0.3cm;
+        font-size: 1.4rem;
+        margin-left: 0.2cm;
         
     }
     span > span{
@@ -75,7 +76,7 @@ const StyledItem = styled.div`
         justify-content: center;
     }
     img{
-        height: 35%;
+        height: ${props => props.active ? '40%' : '20%' };
         aspect-ratio: 1 / 1;
     }
 `

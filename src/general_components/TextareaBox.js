@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import { BoxHeaderText } from './styledComponents1'
 
 const LargeBox = styled.div`
     aspect-ratio: 11 / 10;
     height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     max-height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     margin: 1cm;
     display: grid;
     grid-template: repeat(6, 1fr) / repeat(10, 1fr);
@@ -25,7 +26,7 @@ const LargeBox = styled.div`
 `
 
 const LargeBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,9 +50,9 @@ export default function TextareaBox({title, parentSetState, height}) {
     return (
         <LargeBox height={height}>
             <LargeBoxHeader>
-                <span>
+                <BoxHeaderText>
                     {title}
-                </span>
+                </BoxHeaderText>
             </LargeBoxHeader>
             <textarea placeholder="enter here" type={'text'} onChange={(e) => handleDesc(e)}/>
         </LargeBox>

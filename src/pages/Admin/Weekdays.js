@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { BoxHeaderText } from "../../general_components/styledComponents1";
 import check from '../../svgs/calendarcheck.svg';
 import plus from '../../svgs/calendarplus.svg';
-
-
 
 
 const StyledItem = styled.div`
     flex-shrink: 1;
     min-height: 0;
-    height: 12%;
-    flex-grow: 0;
+    height: 17%;
+    flex-grow: 1;
     width: 100%;
     border: ${props => props.theme.bgrid};
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: right;
@@ -24,12 +24,9 @@ const StyledItem = styled.div`
         height: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
         font-size: 1.3rem;
-    }
-    span > span{
-        display: inline;
-        font-size: 1.4rem;
+        padding-left: 0.13cm;
     }
     div{
         height: 100%;
@@ -62,14 +59,11 @@ const Header = styled.div`
     align-items: center;
     grid-row: 1 / 2;
     background-color: ${props => props.theme.ic4};
-    span{
-        font-weight: 500;
-        font-size: 1.4em;
-    }
 `
 const Main = styled.div`
     grid-row: 2 / 3;
-    padding: 0.3cm 0.3cm;
+    //scrollbar is 0.5vw
+    padding: 0.3cm 0.1cm 0cm calc(0.1cm + 0.5vw);
     gap: 0.3cm;
     display: flex;
     justify-content: center;
@@ -86,9 +80,9 @@ const Weekdays = ({parentWeekdays, setParentWeekdays, dow, sDOW}) => {
     return(
         <Box key={uuidv4()}>
             <Header>
-            <span>
+            <BoxHeaderText>
                 Weekdays
-            </span>
+            </BoxHeaderText>
             </Header>
             <Main>
             {

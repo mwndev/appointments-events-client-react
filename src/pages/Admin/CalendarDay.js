@@ -1,4 +1,4 @@
-import React from 'react'
+import styled from "styled-components"
 
 const StyledDay = styled.div`
     height: 14%;
@@ -22,5 +22,9 @@ const StyledDay = styled.div`
 
 export default function CalendarDay({appointmentsOnDate, state, day}) {
   return (
+    <StyledDay>
+
+    </StyledDay>
   )
 }
+

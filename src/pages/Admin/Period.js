@@ -1,31 +1,29 @@
 import React from "react";
 import styled from 'styled-components';
+import { BoxHeaderText } from "../../general_components/styledComponents1";
 import arrowdown from '../../svgs/arrowdown.svg';
 import arrowup from '../../svgs/arrowup.svg';
 
 const StyledPeriodContainer = styled.div`
     width: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
-    aspect-ratio: 12 / 5;
+    aspect-ratio: 12 / 5.5;
+    margin: 1cm;
     
 `
 const StyledPeriodHeader = styled.div`
     width: 100%;
-    height: 18%;
+    height: 25%;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: ${props => props.theme.bgrid};
     background-color: ${props => props.theme.ic4};
-    span{
-        font-size: 1.6rem;
-        font-weight: 500;
-    }
 `
 const StyledPeriodBody = styled.div`
     width: 100%;
-    height: 80%;
+    height: 75%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,12 +47,12 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.5em;
 `
 const VeryStrong = styled.strong`
     font-size: 2em;
-    font-weight: 500;
+    font-weight: 400;
 `
 
 
@@ -68,7 +66,7 @@ const Period = ({ startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
     return(
         <StyledPeriodContainer>
         <StyledPeriodHeader>
-            <span>Period</span>
+            <BoxHeaderText>Period</BoxHeaderText>
         </StyledPeriodHeader>
         <StyledPeriodBody>
         <StyledWrapper>

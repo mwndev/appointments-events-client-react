@@ -4,7 +4,7 @@ import { backendURL } from '../../App'
 import { UserContext } from '../../contexts/UserContext'
 import { temporalDateToNum, timeAsNumber } from '../../general/functions'
 import Calendar from '../../general_components/Calendar'
-import { ButtonWrapper, CommandsWrapper, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../../general_components/styledComponents1'
+import { ButtonWrapper, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../../general_components/styledComponents1'
 import { CalendarFilter } from './CalendarFilter'
 import { IndividualAppointments } from './IndividualAppointments'
 import Period from './Period'
@@ -390,7 +390,6 @@ export const ViewAsTimeframe = () => {
                 />
             </SectionWrapper>
 
-            <CommandsWrapper>
             <SectionWrapper>
             <h2><span>Server commands</span> </h2>
             <ButtonWrapper>
@@ -423,7 +422,6 @@ export const ViewAsTimeframe = () => {
             </ButtonWrapper>
             </SectionWrapper>
 
-            </CommandsWrapper>
  
            </FlexWrapper>
             <FlexWrapper>

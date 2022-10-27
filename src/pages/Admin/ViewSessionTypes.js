@@ -10,7 +10,7 @@ import { ViewExistingSessionTypes } from "../../general_components/ViewExistingS
 
 
 const SmallBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,36 +35,37 @@ const ItemContainer = styled.div`
     width: 100%;
     grid-row: ${props => props.index + 2} / ${props => props.index + 3};
     grid-column: 1 / -1 ;
-    padding: 0.15cm;
+    padding: 0.2cm 0.4cm;
 
     
 `
 
 const Item = styled.div`
-    border: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     cursor: pointer;
     background-color: ${props => props.isActive  ? props.theme.hc1 : 'inherit'};
     grid-row: ${props => props.index + 2} / ${props => props.index + 3};
     grid-column: 1 / -1 ;
     span{
-        width: 50%;
         display: flex;
         align-items: center;
         justify-content: left;
-        font-size: 1.3em;
-        font-weight: 500;
+        font-size: 1.4em;
+        font-weight: 400;
         color: ${props => props.theme.ic9};
         margin-left: 0.2cm;
+        flex-shrink: 0;
+        margin-right: 3px;
     }
     input{
-        max-width: 50%;
+        flex-shrink: 1;
+        width: 80%;
         height: 100%;
-        flex-grow: 1;
         font-size: 1.2em;
         border: none;
         font-family: inherit;
@@ -323,7 +324,7 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
                 
                 <ItemContainer index={2}>
                     <Item>
-                        <span>Price &#40;zl&#41; :</span>
+                        <span>Price in USD :</span>
                         <input type={'text'} onChange={(e) => handlePrice(e)} />
                     </Item>
                 </ItemContainer>
@@ -345,7 +346,7 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
         </SectionWrapper>
 
         <SectionWrapper>
-        <h2>Write <span>description</span></h2>
+        <h2><span>Write</span> description</h2>
         <TextareaBox height={'calc(160px + 26vh)'} parentSetState={setDescription} title={'New Description'} />
         </SectionWrapper>
 

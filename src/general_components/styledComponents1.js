@@ -28,8 +28,11 @@ export const SectionWrapper = styled.section`
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    padding-top: 1cm;
     h2{
         font-family: inherit;
+        font-weight: 400;
+        font-size: 1.7em;
 
         span{
             background-color: ${props => props.theme.ic4};
@@ -40,12 +43,13 @@ export const SectionWrapper = styled.section`
 export const SmallBox = styled.div`
     aspect-ratio: 7 / 8;
     height: calc(160px + 26vh);
-    border: 3px solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     gap: 0.1cm;
     margin: 1cm;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(6, 1fr);
+    padding-bottom: 0.4cm !important;
 `
 export const SmallBoxHeader = styled.div`
     border-bottom: 3px solid ${props => props.theme.tc};
@@ -118,12 +122,14 @@ export const StyledItem = styled.div`
 `
 export const ButtonWrapper = styled.div`
     width: ${props => props.theme.boxHeight};
-    aspect-ratio: 12 / 5;
+    aspect-ratio: 12 / 5.5;
     border: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    margin: 1cm;
+    padding: 0.3cm;
 `
 export const CommandsWrapper = styled.div`
     width: 40vw;
@@ -151,7 +157,8 @@ export const ImportantButton = styled.div`
     height: 30%;
     span{
         color: ${props => props.theme.c3};
-        font-weight: 500;
+        font-weight: 400;
+        font-size: 1.15em;
 
     }
     &:hover{
@@ -183,8 +190,8 @@ export const LargeBoxHeader = styled.div`
 
 
 export const BoxHeaderText = styled.span`
-    font-size: 1.45em;
-    font-weight: 500;
+    font-size: 1.8rem;
+    font-weight: 400;
 `
 export const MidBoxText = styled.span`
     font-size: 1.38em;

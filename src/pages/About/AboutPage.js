@@ -30,7 +30,7 @@ export default function About() {
 
       I'm a fullstack web developer, using the MERN stack, and learning to use Rocket.
       If you're primarily interested in my web development abilities, <L onClick={() => authenticateUser({email: 'mwiedermann.b@gmail.com', password: 'aaaaaaaa'}, setUser)}>click here</L>
-      &nbsp;to be logged into an admin account. Mess around as much as you like.
+      &nbsp;to be logged into an admin account. 
       <br></br>
       (The admin page will show up in the navbar)
       <br></br><br></br>
