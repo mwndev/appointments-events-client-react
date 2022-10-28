@@ -81,7 +81,6 @@ const Item = styled.div`
 export const ViewSessionTypes = () => {
 
     const [sessionTypesFromServer, setSessionTypesFromServer] = useState([])
-    const [selectedSessionType, setSelectedSessionType] = useState()
     const [newSession, setNewSession] = useState({})
     const [price, setPrice] = useState(100)
     const [name, setName] = useState('')
@@ -91,7 +90,7 @@ export const ViewSessionTypes = () => {
     const [category, setCategory] = useState('')
     const [trigger, triggerUseEffect] = useState(false)
 
-
+    //ST stands for session type
     const [sTs, setSTs] = useState([])
     const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
@@ -174,70 +173,7 @@ export const ViewSessionTypes = () => {
 
         }
     }
-    const serverUpdateSessionType = async () => {
-        try {
-            if(!typeof selectedSessionType === String){
-                window.alert('Please select a session type')
-                return
-            }
-            const bodyObj = {
-                userData: user,
-                price: price,
-                name: name,
-                description: description,
-                participants: {
-                    min: min,
-                    max: max,
-                },
-                category: category,
-            }
-            const bodyAsJSON = JSON.stringify(bodyObj)        
-
-
-            const res = await fetch(`${backendURL}/sessiontypes`, {
-                method: 'DELETE',
-                headers: {
-                    "Content-Type" : "application/json",
-                },
-                body: bodyAsJSON,
-            })
-            const data = await res.json()
-
-
-            window.alert({data})
-
-        } catch (error) {
-            window.alert(error)
-        }
-    }
-    const serverSetActiveSessionType = async () => {
-        try {
-            if(!typeof selectedSessionType === String){
-                window.alert('Please select a session type')
-                return
-            }
-            const bodyAsJSON = JSON.stringify({id: selectedSessionType})
-            
-
-            const res = await fetch(`${backendURL}/sessiontypes/deactivate`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type" : "application/json",
-                },
-                body: bodyAsJSON,
-            })
-            const data = await res.json()
-
-            window.alert({data})
-
-
-
-        } catch (error) {
-            window.alert(error)
-        }
-    }
- 
-
+    
 
     return(
         <FlexWrapper>
@@ -249,24 +185,22 @@ export const ViewSessionTypes = () => {
 
             
        <CreateSessionType
-        // I seriously regret seperating the components now
-        serverCreateSessionType={serverCreateSessionType}
-        newSession={newSession}    setNewSession={setNewSession}
-        price={price}    setPrice={setPrice}
-        name={name}    setName={setName}
-        description={description}    setDescription={setDescription}
-        max={max}    setMax={setMax}
-        min={min}    setMin={setMin}
-        category={category}    setCategory={setCategory} 
+            // I seriously regret seperating the components now
+            serverCreateSessionType={serverCreateSessionType}
+            newSession={newSession}    setNewSession={setNewSession}
+            price={price}    setPrice={setPrice}
+            name={name}    setName={setName}
+            description={description}    setDescription={setDescription}
+            max={max}    setMax={setMax}
+            min={min}    setMin={setMin}
+            category={category}    setCategory={setCategory} 
 
         />
         <SectionWrapper>
         <h2><span>Server Commands</span></h2>
         <ButtonWrapper>
             <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
-            <ImportantButton onClick={() => serverUpdateSessionType()}><span>update selected</span></ImportantButton>
             <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
-            <ImportantButton onClick={() => serverSetActiveSessionType()}><span>&#40;de&#41;activate </span><span>selected</span></ImportantButton>
         </ButtonWrapper>
         </SectionWrapper>
 

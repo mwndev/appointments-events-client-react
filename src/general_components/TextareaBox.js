@@ -34,10 +34,6 @@ const LargeBoxHeader = styled.div`
     grid-column: 1 / -1;
     grid-row: 1 / 2;
     margin-bottom: 0.2cm;
-    span{
-        font-weight: 500;
-        font-size: 1.7em;
-    }
 `
 
 export default function TextareaBox({title, parentSetState, height}) {

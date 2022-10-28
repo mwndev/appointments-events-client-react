@@ -8,11 +8,11 @@ const Save = styled.button`
     width: 4.5cm;
     font-weight: 500;
     font-size: 1.05em;
-    margin: 0.2cm 3.1cm;
+    margin: 0.2cm 4.1cm;
     color: white;
     background-color: ${props => props.theme.ic9};
     cursor: pointer;
-    border: ${props => props.theme.bthn};
+    border: ${props => props.theme.bgrid};
     &:active{
         background-color: ${props => props.theme.hc4};
     }
@@ -58,16 +58,16 @@ const InnerWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: ${p => p.theme.bthn};
+    border: ${p => p.theme.bgrid};
 `
 
 const Identifier = styled.div`
     display: flex;
     justify-content: left;
     align-items: center;
-    width: 3cm;
-    font-weight: 500;
-    font-size: 1.3em;
+    width: 4cm;
+    font-weight: 400;
+    font-size: 1.4em;
     span{
         color: green;
     }
@@ -78,8 +78,10 @@ const Input = styled.input`
     width: 9cm;
     font-size: 1.1em;
     border: none;
+    font-weight: 400;
     ::placeholder{
         color: black;
+        font-weight: 400;
     }
     &:focus{
         outline: none;
@@ -93,7 +95,7 @@ const EditButton = styled.button`
     font-size: 1.05em;
     font-weight: 500;
     border: none;
-    border-left: ${p => p.theme.bthn};
+    border-left: ${p => p.theme.bgrid};
     cursor: pointer;
     &:hover{
         background-color: ${p => p.theme.hc0};
@@ -107,7 +109,7 @@ const ConfirmButton = styled.button`
     font-size: 1.05em;
     font-weight: 500;
     border: none;
-    border-left: ${p => p.theme.bthn};
+    border-left: ${p => p.theme.bgrid};
     cursor: pointer;
     &:hover{
         background-color: ${p => p.theme.hc0};

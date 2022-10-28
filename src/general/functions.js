@@ -71,7 +71,8 @@ export const timeAsNumber = (plainTime) => {
     return plainTime.hour * 100 + plainTime.minute
 }
 
-export const dateSplice = (s, c) => {
+export const dateSplice = (st, c) => {
+    let s = String(st)
     return s.slice(0, -2) + ':' + s.slice(-2)
 }
 

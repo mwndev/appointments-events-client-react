@@ -13,10 +13,10 @@ const OuterBox = styled.div`
     aspect-ratio: 1 / 1;
     display: grid;
     grid-template-rows: 1fr 7fr;
-    border: ${props => props.theme.bthk};
+    border: ${props => props.theme.bgrid};
 `
 const BoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,6 +34,9 @@ const BoxBody = styled.div`
         /* font-size: 1.3em; */
     }
 `
+const Message = styled.div`
+    font-size: 1.3em;
+`
 
 
 export const MyIndividualAppointments = ({ appointments }) => {
@@ -43,7 +46,6 @@ export const MyIndividualAppointments = ({ appointments }) => {
     const {sTs} = useContext(SessionTypeContext)
 
     
-    const daysOfWeek = [true, true, true, true, true, true, true]
 
     let msg = ''
 
@@ -59,7 +61,7 @@ export const MyIndividualAppointments = ({ appointments }) => {
                 </BoxHeaderText>
             </BoxHeader>
             <BoxBody>
-                {appointments.length === 0 ? <div>You haven't booked any consultations</div> : null }
+                {appointments.length === 0 ? <Message>{msg}</Message> : null }
                 {appointments.map(obj =>  (
                 
                     <SingleDate
@@ -87,7 +89,7 @@ const StyledBoxItem = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: 0.07cm solid #000;
+    border: ${props => props.theme.bgrid};
     background-color: ${props => props.isActive ? props.theme.hc1 : 'inherit' };
     cursor: pointer;
 `
@@ -158,7 +160,7 @@ const Details = styled.span`
 const Cancel = styled.div`
     background-color: ${props => props.theme.wc2};
     height: 80%;
-    border: ${props => props.theme.bthn};
+    border: ${props => props.theme.bgrid};
     aspect-ratio: 3 / 2;
     display: flex;
     justify-content: center;
@@ -199,7 +201,7 @@ const SingleDate = ({ sT, obj }) => {
                
             </Desc>
             <ImgContainer>
-                <img src={active ? activeIcon : icon}  />
+                <img src={active ? activeIcon : icon} alt='.' />
             </ImgContainer>
             </Default>
 

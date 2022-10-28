@@ -46,12 +46,12 @@ const Box = styled.div`
 const SessionType = styled.div`
     border: ${props => props.theme.bgrid};
     height: 15%;
-    width: 95%;
+    width: 100%;
     background-color: ${props => props.selectedST === props.thisType ? props.theme.hc2 : 'inherit'};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0.2cm auto;
+    margin: 0.2cm 0;
     cursor: pointer;
     section{
         height: 50%;
@@ -87,15 +87,17 @@ const BoxHeader = styled.div`
     border-bottom: ${props => props.theme.bgrid};
 `
 
-const BoxWrapper = styled.div`
-    height: 83%;
+const BoxMain = styled.div`
+    //scrollbar is 0.5vw
+    padding: 0.5vw 0.4vw 0.5vw 0.6vw;
+    height: 85%;
     width: 100%;
     overflow-y: scroll;
     ::-webkit-scrollbar{
     }
-    ::-webkit-scrollbar-track{
+    /* ::-webkit-scrollbar-track{
         display: none;
-    }
+    } */
 `
 
 const STDescription = styled.div`
@@ -118,6 +120,7 @@ const STHeader = styled.div`
     align-items: center;
     margin-bottom: 0.2cm;
     border-bottom: ${props => props.theme.bgrid};
+    background-color: ${props => props.theme.ic3};
     div{
         display: flex;
         justify-content: center;
@@ -138,7 +141,7 @@ const STHeader = styled.div`
         align-items: center;
     }
     img{
-        height: 50%;
+        height: 55%;
         aspect-ratio: 1 / 1;
         cursor: pointer;
     }
@@ -168,7 +171,7 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
             <BoxHeader onClick={() => console.log(activeST)}>
                 <BoxHeaderText>Session Types</BoxHeaderText>
             </BoxHeader>
-            <BoxWrapper>
+            <BoxMain>
 
             {
             activeST === null ?
@@ -200,7 +203,7 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
 
                 </STDescription>
             }
-            </BoxWrapper>
+            </BoxMain>
         </Box>
         </>
     )

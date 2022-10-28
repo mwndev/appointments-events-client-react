@@ -1,5 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { backendURL } from '../../App';
@@ -26,7 +26,7 @@ const StyledSectionWrapper = styled.section`
     justify-content: space-evenly;
     h2{
         font-family: inherit;
-
+        font-weight: 400;
         span{
             background-color: ${props => props.theme.ic4};
         }
@@ -36,14 +36,13 @@ const StyledSectionWrapper = styled.section`
 const SmallBox = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
     margin: 1cm;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: 1fr 7fr;
 `
 const SmallBoxHeader = styled.div`
-    border-bottom: 0.07cm solid ${props => props.theme.tc};
+    border-bottom: ${props => props.theme.bgrid};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,43 +55,46 @@ const SmallBoxHeader = styled.div`
     }
     
 `
-const StyledAppointmentContainer = styled.div`
-    height: 100%;
-    width: 100%;
-    padding: 0.3cm 0.3cm 0 0.3cm;
-    grid-column: 1 / -1;
-    grid-row: ${props => props.index + 2} / ${props => props.index + 3};
+
+const Main = styled.div`
+    grid-row: 2 / 3;
+    //scrollbar is 0.5vw
+    padding: 0.5cm 0.1cm 0cm calc(0.1cm + 0.5vw);
+    gap: 0.3cm;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
+    overflow: scroll;
 `
 
+
 const StyledAppointment = styled.div`
-    height: 100%;
+    flex-shrink: 0;
+    min-height: 0;
+    height: 12%;
+    flex-grow: 0;
     width: 100%;
-    border: 0.07cm solid ${props => props.theme.tc};
+    border: ${props => props.theme.bgrid};
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: right;
     cursor: pointer;
     background-color: ${props => props.selectedAppointment === props.appointment ? props.theme.hc1 : 'inherit'};
-
     span{
-        width: 5cm;
-        height: 1cm;
+        width: 80%;
+        height: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
         font-size: 1.3rem;
-    }
-    span > span{
-        display: inline;
-        font-size: 1.4rem;
+        padding-left: 0.13cm;
     }
     div{
-        height: 1cm;
+        height: 100%;
         aspect-ratio: 1 / 1;
-        border-left: 0.07cm solid ${props => props.theme.tc};
+        border-left: ${props => props.theme.bgrid};
         display: flex;
         align-items: center;
         justify-content: center;
@@ -101,6 +103,28 @@ const StyledAppointment = styled.div`
         height: 60%;
         aspect-ratio: 1 / 1;
     }
+`
+const ConfirmationDetail = styled.div`
+    width: 100%;
+    border-bottom: ${props => props.theme.bgrid};
+    padding-bottom: 0.12cm;
+    display: flex;
+    align-items: center;
+    margin: 4.4% 0;
+    span{
+        height: 100%;
+        padding: 0 0.5vw;
+        color: ${props => props.theme.ic9};
+        font-size: 1.3em;
+
+    }
+    div{
+        flex-grow: 1;
+        height: 100%;
+        font-size: 1.3em;
+        text-align: right;
+    }
+
 `
 
 
@@ -112,10 +136,6 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
     
         return(
   
-            <StyledAppointmentContainer 
-            key={index}
-            index={index}>
-
             <StyledAppointment 
             selectedAppointment={ selectedAppointment } 
             appointment={appointment} 
@@ -127,7 +147,6 @@ const SingleAppointmentBox = ({ end, start, index, appointment, selectedAppointm
             <img src={calendarCheck} alt=''/>
             </div>
             </StyledAppointment>
-            </StyledAppointmentContainer>
         )
     
 }
@@ -147,6 +166,8 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
                     Avaliable Appointments
                 </span>
                 </SmallBoxHeader>
+                <Main>
+
                 {appointments.map((item, index) => (
                     <SingleAppointmentBox 
                     key={uuidv4()}
@@ -159,54 +180,39 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
                     dateISO={dateISO} 
                     
                     />))}
+                </Main>
             </SmallBox>
         </>
     )
 }
 
-const StyledDescriptor= styled.div`
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    grid-column: 1 / 3;
-    grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
-    span{
-        font-weight: 500;
-        font-size: 1.2rem;
-        color: ${props => props.theme.tc2};
-        margin-left: 0.18cm;
-    }
 
-`
-const StyledValue = styled.div`
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    grid-column: 3 / -1;
-    grid-row: ${props => `${props.index + 2} / ${props.index + 3}`};
-    span{
-        font-weight: 400;
-        font-size: 1.2rem;
-
-    }
-`
 const StyledConfirmButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: ${props => props.theme.ic4};
-    grid-column: 1 / -1;
     grid-row: -2 / -1;
     cursor: pointer;
-    border-top: 0.07cm solid ${props => props.theme.tc};
+    border-top:  ${props => props.theme.bgrid};
     &:hover{
         background-color: ${props => props.theme.hc2};
-        border: 0.07cm solid ${props => props.theme.tc};
+        border:  ${props => props.theme.bgrid};
     }
     span{
-        font-weight: 500;
-        font-size: 1.3rem;
+        font-weight: 400;
+        font-size: 1.4rem;
     }
+`
+
+
+const GridBox = styled.div`
+    aspect-ratio: 5 / 8;
+    height: ${props => props.theme.boxHeight};
+    border: ${props => props.theme.bgrid};
+    margin: 1cm;
+    display: grid;
+    grid-template-rows: 1fr 6fr 1fr;
 `
 
 const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation }) => {
@@ -221,11 +227,11 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
         try {
             if(selectedAppointment !== []){
                 const relevantInfo = [
-                    ['Weekday: ', `${dayNames[selectedAppointment.date.dayOfWeek]}`],
-                    ['Date: ', `${selectedAppointment.date.day}. ${monthNames[selectedAppointment.date.month]} ${selectedAppointment.date.year}`],
-                    ['Time: ', `${selectedAppointment.period.start} - ${selectedAppointment.period.end}`],
                     ['Type: ', `${data.sessionType.name}`],
-                    ['Price: ', `${data.sessionType.price}zl`],
+                    ['Date: ', `${selectedAppointment.date.day}. ${monthNames[selectedAppointment.date.month]} ${selectedAppointment.date.year}`],
+                    ['Weekday: ', `${dayNames[selectedAppointment.date.dayOfWeek]}`],
+                    ['Time: ', `${dateSplice(selectedAppointment.period.start)} - ${dateSplice(selectedAppointment.period.end)}`],
+                    ['Price: ', `${data.sessionType.price}$`],
                 ]
                 setInfo(relevantInfo)
             }
@@ -241,26 +247,24 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
 
     return(
         <>
-            <SmallBox>
+            <GridBox>
                 <SmallBoxHeader>
                     <span>
                         Confirm Appointment
                     </span>
                 </SmallBoxHeader>
-                {
-                    info.map((item, index) => (
-                        <Fragment  key={uuidv4()}>
-                            <StyledDescriptor key={uuidv4()} index={index}>
-                                <span>
-                                    {item[0]}
-                                </span>
-                            </StyledDescriptor>
-                            <StyledValue index={index} key={uuidv4()}>
-                                <span>{item[1]}</span>
-                            </StyledValue>
-                        </Fragment>
-                    ) )
-                }
+                <Main>
+                    {
+                        //descr: flexgrowbox
+                        info.map((item, index) => (
+                            <ConfirmationDetail>
+                                <span>{item[0]}</span>
+                                <div>{item[1]}</div>
+                            </ConfirmationDetail>
+                        ))
+                    }
+                </Main>
+                
                 <StyledConfirmButton onClick={() => serverConfirmReservation()}>
                     <span>
                         Send Booking
@@ -268,7 +272,7 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
                 </StyledConfirmButton>
                 
                 
-            </SmallBox>
+            </GridBox>
         </>
     )
 }
