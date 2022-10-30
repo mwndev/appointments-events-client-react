@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
+import { AppointmentContext } from './contexts/AppointmentContext'
 import { SessionTypeContext } from './contexts/SessionTypeContext'
 import { UserContext } from './contexts/UserContext'
 import { WindowAlertContext } from './contexts/WindowAlertContext'
@@ -108,6 +109,9 @@ function App() {
   const [user, setUser] = useState({password: '', email: '', firstName: '', lastName: '', isAdmin: false,})
   const [sTs, setSTs] = useState({})
 
+  // for appointment context
+  const [fullyFilteredAppointmentes, setFullyFilteredAppointments] = useState([])
+
   //for window confirm context
   const [active, setActive] = useState(false)
   const [message, setMessage] = useState('Are you sure you want to do this?')
@@ -166,6 +170,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme1}>
+    <AppointmentContext.Provider value={{fullyFilteredAppointmentes, setFullyFilteredAppointments}}>
     <WindowAlertContext.Provider value={{activeA, setActiveA, messageA, windowAlert}}>
     <WindowConfirmContext.Provider value={{ active, setActive, message, fnToConfirm, windowConfirm }}>
     <UserContext.Provider value={{ user, setUser}}>
@@ -196,6 +201,7 @@ function App() {
     </UserContext.Provider>
     </WindowConfirmContext.Provider>
     </WindowAlertContext.Provider>
+    </AppointmentContext.Provider>
     </ThemeProvider>
   );
 }

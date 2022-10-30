@@ -1,3 +1,3 @@
 import { createContext } from 'react'
 
-export const AppointmentContext = createContext({})
+export const AppointmentContext = createContext()

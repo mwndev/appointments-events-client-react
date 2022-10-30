@@ -92,29 +92,17 @@ export const ViewAsTimeframe = () => {
         
         windowConfirm('Are you sure you want to DELETE ALL appointments within the specified timeframe?', async () => {
             try {
+                //I have to repeat this process that also occurs in the IndividualAppointments Component to prevent rendering bug
+                //TODO refactor IndividualAppointments to just use this as data?
+                const fullyFiltered = filteredAppointments.filter(item => (
+                    item.date.dateAsNum >=  temporalDateToNum(startingDate) &&
+                    item.date.dateAsNum <=  temporalDateToNum(finishingDate) &&
+                    daysOfWeek[ item.date.dayOfWeek - 1 ] === true 
+                ))
                 const bodyObj = {
                     userData: user,
-                    startDate: {
-                        day: startingDate.day,
-                        month: startingDate.month,
-                        year: startingDate.year,
-                        dayOfWeek: startingDate.dayOfWeek,
-                        dateISOString: startingDate.toString(),
-                        dateAsNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
-                    },
-                    endDate: {
-                        day: finishingDate.day,
-                        month: finishingDate.month,
-                        year: finishingDate.year,
-                        dayOfWeek: finishingDate.dayOfWeek,
-                        dateISOString: finishingDate.toString(),
-                        dateAsNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
-                    },
-                    period: {
-                        startTime: timeAsNumber(startPeriod),
-                        endTime: timeAsNumber(endPeriod),
-                    },
-                    onDaysOfWeek: daysOfWeek,
+                    idsArray: fullyFiltered.map(item => item._id)
+
                 }
         
 
@@ -276,8 +264,6 @@ export const ViewAsTimeframe = () => {
         }
     }
 
-    const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     const [filteredAppointments, setFilteredAppointments] = useState([])
     const [filter, setFilter] = useState('available')
