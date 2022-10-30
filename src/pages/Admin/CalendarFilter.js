@@ -3,7 +3,6 @@ import styled from "styled-components"
 import circle from '../../svgs/circle.svg'
 import dot from '../../svgs/dot.svg'
 
-
 const Box = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
@@ -30,7 +29,7 @@ const Header = styled.div`
 const Main = styled.div`
     grid-row: 2 / 3;
     //scrollbar is 0.5vw
-    padding: 0.3cm 0.1cm 0cm calc(0.5vw + 0.1cm);
+    padding: 0.3cm ${navigator.userAgent.match(/firefox|fxios/i) ? 'calc(0.5vw + 0.1cm) 0.3cm' : '0.1cm 0'}   calc(0.5vw + 0.1cm);
     gap: 0.3cm;
     display: flex;
     justify-content: center;

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { backendURL } from "../../App"
 import { DetailWrapper, ExternalLink } from "./UserPage"
+import { WindowAlertContext } from '../../contexts/WindowAlertContext'
 
 
 
@@ -9,6 +10,7 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
   //TODO make 'login failed' text actually work
 
   const [warn, setWarn] = useState({password: false, email: false})
+  const { windowAlert } = useContext(WindowAlertContext)
 
   const handleEmail = v => {
     setData(prev => {
@@ -28,7 +30,7 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
   const resetPassword = async () => {
 
     if(data.email === undefined || data.email === null || data.email === ''  ) {
-      window.alert('Please enter your email')
+      windowAlert('Please enter your email')
       return setWarn(prev => { return { ...prev, email: true } }) 
     }
 
@@ -42,10 +44,9 @@ export const EnterLoginCredentials = ({data, setData, loginTries, setAuthenticat
 
     console.log(resData)
 
-    if( !resData.userFound ) return window.alert('This email does not have an account.\n Please register.')
+    if( !resData.userFound ) return windowAlert('This email does not have an account.\n Please register.')
 
-    window.alert('Please check your email account for a confirmation link')
-    console.log('where is window.alert')
+    windowAlert('Please check your email account for a confirmation link')
 
 
   }

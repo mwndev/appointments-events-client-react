@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { backendURL } from '../../App';
 import { UserContext } from '../../contexts/UserContext';
+import { WindowAlertContext } from '../../contexts/WindowAlertContext';
 import { dateSplice } from '../../general/functions';
 import Calendar from '../../general_components/Calendar';
 import TextareaBox from '../../general_components/TextareaBox';
@@ -59,7 +60,7 @@ const SmallBoxHeader = styled.div`
 const Main = styled.div`
     grid-row: 2 / 3;
     //scrollbar is 0.5vw
-    padding: 0.5cm 0.1cm 0cm calc(0.1cm + 0.5vw);
+    padding: 0.5cm ${navigator.userAgent.match(/firefox|fxios/i) ? '0.3cm 0.3cm' : '0.1cm 0'} calc(0.1cm + 0.5vw);
     gap: 0.3cm;
     display: flex;
     justify-content: flex-start;
@@ -293,6 +294,7 @@ export const Book = () => {
     const [notes, setNotes] = useState(null)
 
     const {user, } = useContext(UserContext)
+    const { windowAlert } = useContext(WindowAlertContext)
 
     
     useEffect(() => {
@@ -316,7 +318,7 @@ export const Book = () => {
 
     const serverConfirmReservation = async () => {
         try {
-            if(user.id === null)return window.alert('You need to log in before booking anything.')
+            if(user.id === null)return windowAlert('You need to log in before booking anything.')
             const bodyOBJ = {
                 appointment: selectedAppointment,
                 sessionType: selectedST,
@@ -334,9 +336,9 @@ export const Book = () => {
 
             const jres = await res.json()
 
-            if( typeof jres.msg === String ) return window.alert(jres.msg)
+            if( typeof jres.msg === String ) return windowAlert(jres.msg)
 
-            window.alert('please check your email to confirm the booking')
+            windowAlert('please check your email to confirm the booking')
  
 
         } catch (error) {

@@ -24,6 +24,8 @@ export default function About() {
   const { setUser } = useContext(UserContext)
 
   return (
+    <>
+
     <FlexContainer>
     <Container>
       <h3>I'm Martin Wiedermann.</h3>
@@ -58,5 +60,6 @@ export default function About() {
 
     </Container>
     </FlexContainer>
+    </>
   )
 }

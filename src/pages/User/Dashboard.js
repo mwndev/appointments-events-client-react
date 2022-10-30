@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { UserContext } from "../../contexts/UserContext";
 import { SectionWrapper, SmallerBoxText } from "../../general_components/styledComponents1";
 import { LogOut } from "./LogOut";
 import { MyAppointments } from "./MyAppointments";
@@ -15,6 +14,7 @@ const OuterBox = styled.div`
 const SidebarWrapper = styled.div`
     width: 10cm;
     margin-right: 2cm;
+    margin-top: 0.5cm;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -42,7 +42,6 @@ const ContentWrapper = styled.div`
 
 export const Dashboard = () => {
 
-    const {user, setUser} = useContext(UserContext)
     const [content, setContent] = useState(<MyAppointments/>)
     const [activeIndex, setActiveIndex] = useState(1)
 

@@ -16,9 +16,9 @@ const Admin = () => {
 
     return(
         <PageWrapper>
-        <Header>Administrate Appointments</Header>
+        <Header>Manage Appointments</Header>
         <ViewAsTimeframe />
-        <Header>Administrate Session Types</Header>
+        <Header>Manage Session Types</Header>
         <ViewSessionTypes />
         </PageWrapper>
     )

@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { SessionTypeContext } from './contexts/SessionTypeContext'
 import { UserContext } from './contexts/UserContext'
+import { WindowAlertContext } from './contexts/WindowAlertContext'
+import { WindowConfirmContext } from './contexts/WindowConfirmContext'
 import { Footer } from './Footer'
 import { getUserDataFromLocalStorage } from './general/functions'
+import { Alert, Confirm } from './general_components/WindowPopups'
 import { Header } from './Header'
 import About from './pages/About/AboutPage'
 import Admin from './pages/Admin/AdminPage'
@@ -16,30 +19,33 @@ import { Reservation } from './pages/Reservation/ReservationPage'
 import User from './pages/User/UserPage'
 
                  
-let userAgent = navigator.userAgent;
-let gridBorder;
-export let browserName;
-  
-if(userAgent.match(/chrome|chromium|crios/i)){
-    browserName = "chrome";
+const userAgent = navigator.userAgent;
+
+function getBrowserName() {
+  let bN
+  if(userAgent.match(/chrome|chromium|crios/i)){
+    bN = "chrome";
   }else if(userAgent.match(/firefox|fxios/i)){
-    browserName = "firefox";
+    bN = "firefox";
   }  else if(userAgent.match(/safari/i)){
-    browserName = "safari";
+    bN = "safari";
   }else if(userAgent.match(/opr\//i)){
-    browserName = "opera";
+    bN = "opera";
   } else if(userAgent.match(/edg/i)){
-    browserName = "edge";
+    bN = "edge";
   }else{
-    browserName="No browser detection";
+    bN ="No browser detection";
   }
-  browserName === "chrome" ? gridBorder = '1px solid #000' : gridBorder = '0.07cm solid #000'
-    
+  return bN
+}
 
 
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
 `
+    
+
+
 const theme1 = {
   c1: '#26bb73',
   c2: '#6eda6c',
@@ -76,6 +82,7 @@ const theme1 = {
   wc7: 'rgba(210, 25, 0, 0.8)',
   wc11: 'rgb(100, 10, 0)',
   boxWidth: 'calc(250px + 35vh)',
+  boxHeightSmall: 'calc(150px + 20vh)',
   boxHeight: 'calc(200px + 30vh)',
   boxHeightL: 'calc(250px + 35vh)',
   boxHeightXL: 'calc(300px + 40vh)',
@@ -85,7 +92,7 @@ const theme1 = {
   bthk:  '0.07cm solid #000',
   bmed: '0.06cm solid #000',
   bthn: '0.05cm solid #000',
-  bgrid: gridBorder,
+  bgrid: '1px solid #000',
 
   //this is there to link the width of the left and right sides of the header
   narrowness: '10%'
@@ -96,18 +103,40 @@ export const thisURL = process.env.REACT_APP_THIS_URL
 
 function App() {
 
+  // Declaring Contexts
+
   const [user, setUser] = useState({password: '', email: '', firstName: '', lastName: '', isAdmin: false,})
   const [sTs, setSTs] = useState({})
+
+  //for window confirm context
+  const [active, setActive] = useState(false)
+  const [message, setMessage] = useState('Are you sure you want to do this?')
+  const [fnToConfirm, setFnToConfirm] = useState(() => () => console.log('fntoconfirm'))
+
+  const windowConfirm = (m, f) => {
+    setMessage(m)
+    setFnToConfirm(() => f)
+    setActive(true)
+  }
+  // for window alert context
+  const [activeA, setActiveA] = useState(false)
+  const [messageA, setMessageA] = useState('Something happened.')
+  
+  const windowAlert = (m) => {
+    setMessageA(m)
+    setActiveA(true)
+  }
+  
   
 
-  //the links below the title in the header are generated based on this array
+  // navbar is generated based on this array
   let links = [
     ['/', 'about me', <About />],
     ['/contact', 'contact', <Contact />],
     ['/book', 'book a consultation', <Book />],
     ['/user', 'account', <User />], 
   ]
-
+  //admin page is added if user is admin
   if( user.isAdmin ) links.push(['/admin', 'admin', <Admin />])
   let headerLinks = [];
   links.map((link) => headerLinks.push([link[0], link[1]]))
@@ -115,7 +144,7 @@ function App() {
 
 
   useEffect(() => {
-    
+    //server is "pinged because the backend server should start up asap"
     const pingServer = async() => {
       return await fetch(`${backendURL}/`)
     }
@@ -123,6 +152,7 @@ function App() {
 
     getUserDataFromLocalStorage(setUser)
 
+    // STs are Session Types
     const getSTs = async() => {
       const res = await fetch(`${backendURL}/sessiontypes`)
       const allSessionTypes = await res.json()
@@ -132,14 +162,18 @@ function App() {
     getSTs()
   },[])
 
-
+  
 
   return (
     <ThemeProvider theme={theme1}>
+    <WindowAlertContext.Provider value={{activeA, setActiveA, messageA, windowAlert}}>
+    <WindowConfirmContext.Provider value={{ active, setActive, message, fnToConfirm, windowConfirm }}>
     <UserContext.Provider value={{ user, setUser}}>
     <SessionTypeContext.Provider value={{ sTs, setSTs }}>
 
     <Router>
+      <Alert />
+      <Confirm/>
 
       <Header links={headerLinks} />
 
@@ -160,6 +194,8 @@ function App() {
     </Router>
     </SessionTypeContext.Provider>
     </UserContext.Provider>
+    </WindowConfirmContext.Provider>
+    </WindowAlertContext.Provider>
     </ThemeProvider>
   );
 }

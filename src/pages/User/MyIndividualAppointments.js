@@ -1,9 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import { backendURL } from "../../App";
 import { SessionTypeContext } from "../../contexts/SessionTypeContext";
 import { UserContext } from "../../contexts/UserContext";
-import { cancelAppointment, dateSplice } from "../../general/functions";
+import { WindowAlertContext } from "../../contexts/WindowAlertContext";
+import { WindowConfirmContext } from "../../contexts/WindowConfirmContext";
+import { dateSplice } from "../../general/functions";
 import { BoxHeaderText } from "../../general_components/styledComponents1";
 import icon from '../../svgs/calendarcheck.svg';
 import activeIcon from '../../svgs/calendarwarning.svg';
@@ -44,6 +47,7 @@ export const MyIndividualAppointments = ({ appointments }) => {
     appointments.sort(((a, b) => (a.date.dateAsNum - b.date.dateAsNum) * 10000 - (b.period.start - a.period.start) ))
 
     const {sTs} = useContext(SessionTypeContext)
+
 
     
 
@@ -169,22 +173,31 @@ const Cancel = styled.div`
     
 `
 
-
-
-
-
-
 const SingleDate = ({ sT, obj }) => {
 
     const [active, setActive] = useState(false)
-    const {user, setUser} = useContext(UserContext)
+    const {user} = useContext(UserContext)
+    const { windowAlert } = useContext(WindowAlertContext)
+    const { windowConfirm } = useContext(WindowConfirmContext)
 
     const dayNames = [null, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const monthNames = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     const dayNameShort= dayNames[obj.date.dayOfWeek].substring(0, 3)
     const monthName= monthNames[obj.date.month]
 
-    useEffect(() => console.log(sT), [active])
+
+    const cancelAppointment = async(appointmentID, email, password) => {
+        windowConfirm('Are you sure you want to cancel your appointment?')
+
+        const res = await fetch(`${backendURL}/cancel`, {
+            method: 'PUT',
+            headers: { "Content-Type" : "application/json" },
+            body: JSON.stringify({id: appointmentID, email: email, password: password }),
+        })
+        const jres = await res.json()
+
+        if(jres.cancelled) windowAlert('Successfully cancelled.')
+    }
     
     return(
         <>

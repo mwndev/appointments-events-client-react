@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { backendURL } from "../../App";
 import { UserContext } from "../../contexts/UserContext";
+import { WindowAlertContext } from "../../contexts/WindowAlertContext";
 import { BoxHeaderText, ButtonWrapper, ImportantButton, SectionWrapper, SmallBox } from "../../general_components/styledComponents1";
 import TextareaBox from "../../general_components/TextareaBox";
 import { ViewExistingSessionTypes } from "../../general_components/ViewExistingSessionTypes";
@@ -95,6 +96,7 @@ export const ViewSessionTypes = () => {
     const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
     const {user} = useContext(UserContext)
+    const {windowAlert} = useContext(WindowAlertContext)
 
 
     useEffect(() => {
@@ -135,17 +137,14 @@ export const ViewSessionTypes = () => {
             body: bodyAsJSON,
         })
 
-        const data = await res.json()
-        console.log('triggering useeffect')
+
         triggerUseEffect(prev => !prev)
 
-        console.log({data})
     }
     const serverDeleteSessionType = async () => {
-        console.log(selectedST)
         try {
             if(!typeof selectedST === Object){
-                window.alert('Please select a session type')
+                windowAlert('Please select a session type')
                 return
             }
             const bodyAsJSON = JSON.stringify({
@@ -163,11 +162,9 @@ export const ViewSessionTypes = () => {
             })
             const data = await res.json()
 
-            console.log('triggering useeffect')
             triggerUseEffect(prev => !prev)
 
 
-            console.log(data)
         } catch (error) {
             console.log(error)
 

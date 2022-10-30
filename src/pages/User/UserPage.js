@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { backendURL } from '../../App'
 import { UserContext } from '../../contexts/UserContext'
+import { WindowAlertContext } from '../../contexts/WindowAlertContext'
 import { saveUserDataToLocalStorage } from '../../general/functions'
 import { BoxHeaderText, FlexWrapper, MidBoxText, PageWrapper } from '../../general_components/styledComponents1'
 import { Dashboard } from './Dashboard'
 import { EnterLoginCredentials } from './Login'
 import { EnterRegisterCredentials } from './Register'
+
+const eml = process.env.REACT_APP_BUGREPORT_EMAIL
 
 //!TODO add session to make login persist between reloads
 
@@ -26,7 +29,7 @@ const UserBox = styled.div`
   height: ${props => props.theme.boxHeightL};
   max-height: ${props => props.theme.boxHeightL};
   aspect-ratio: 7 / 9;
-  border: ${props => props.theme.bthk};
+  border: ${props => props.theme.bgrid};
   display: grid;
   grid-template-rows: 20% repeat(6, 1fr);
   gap: 0.4cm;
@@ -107,7 +110,7 @@ const Header = styled.div`
   align-items: center;
   grid-row: 1 / span 1;
   background-color: ${props => props.newUser ? props.theme.ic5 : props.theme.ic3};
-  border: ${props => props.newUser ? props.theme.bthk : 'none'};
+  border: ${props => props.newUser ? props.theme.bgrid: 'none'};
   cursor: pointer;
 `
 const Confirm = styled.div`
@@ -118,7 +121,7 @@ const Confirm = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: ${props => props.theme.bthk};
+  border-top: ${props => props.theme.bgrid};
   cursor: pointer;
   &:hover{
     background-color: ${props => props.theme.hc3};
@@ -158,7 +161,6 @@ export default function User() {
 
 const EnterCredentials = () => {
 
-  const {user, setUser} = useContext(UserContext)
 
   const [regData, setRegData] = useState({})
   const [loginData, setLoginData] = useState({})
@@ -166,6 +168,9 @@ const EnterCredentials = () => {
   const [authenticated, setAuthenticated] = useState(true)
   const [trigger, pullTrigger] = useState(false)
   const [loginTries, setLoginTries] = useState(-1)
+
+  const { windowAlert } = useContext(WindowAlertContext)
+  const { setUser } = useContext(UserContext)
 
 
   useEffect(() => {
@@ -212,7 +217,7 @@ const EnterCredentials = () => {
   const createUser = async(dataOBJ) => {
     const allIsValid = () => dataOBJ.emailValid && dataOBJ.passwordValid && dataOBJ.firstNameValid && dataOBJ.lastNameValid
 
-    if(!allIsValid()) window.alert('not all is valid')
+    if(!allIsValid()) windowAlert('Please check that all your data is valid.')
 
 
 
@@ -232,8 +237,9 @@ const EnterCredentials = () => {
       body: JSONbody,
     })
     const data = await res.json()
-    if(data.emailIsTaken) window.alert('Email is already in use. Please login')
-    else window.alert('Please check your email for a registration link.')
+    if(!data) windowAlert(`There was an issue reaching the server. We would appreciate it if you could report this to ${eml}`)
+    if(data.emailIsTaken) windowAlert('Email is already in use. Please login.')
+    else windowAlert('Please check your email for a registration link.')
 
   }
   

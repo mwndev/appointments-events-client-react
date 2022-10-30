@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import arrow from '../svgs/arrowup.svg';
+import arrowL from '../svgs/arrowupL.svg';
 
 
 //styles end at line 130
@@ -54,9 +55,6 @@ const StyledArrowsWrapper = styled.div`
         margin: 0.03cm;
         padding: 0.03cm;
     }
-    img:hover{
-        background-color: grey; 
-    }
     .down{
         transform: rotate(180deg)
     }
@@ -107,6 +105,8 @@ const StyledBlankBox = styled.div`
 const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
     const now = Temporal.Now.plainDateISO()
 
+    const [arrowSrc, setArSrc] = useState(arrow)
+    const [arrowDSrc, setArDSrc] = useState(arrow)
     const [daysArray, setDaysArray] = useState([])
     const [bufferCells, setBufferCells] = useState([])
 
@@ -156,8 +156,21 @@ const Calendar = ({ parentISODate, setDateForParent, appointments}) => {
         <StyledCalendarBoxHeader>
             <StyledMonthName>{monthNames[parentISODate.month]} {parentISODate.year}</StyledMonthName>
             <StyledArrowsWrapper>
-            <img className='down' src={arrow} alt='down' onClick={decrementMonth} />
-            <img src={arrow} alt='up' onClick={incrementMonth} />
+            <img className='down' 
+                src={arrowDSrc} 
+                alt='down' 
+                onClick={decrementMonth} 
+                onMouseEnter={() => setArDSrc(arrowL)}
+                onMouseLeave={() => setArDSrc(arrow)}
+
+            />
+            <img 
+                src={arrowSrc} 
+                alt='up' 
+                onClick={incrementMonth} 
+                onMouseEnter={() => setArSrc(arrowL)}
+                onMouseLeave={() => setArSrc(arrow)}
+            />
             </StyledArrowsWrapper>
         </StyledCalendarBoxHeader>
         {

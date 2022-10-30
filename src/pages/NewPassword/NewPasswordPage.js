@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { backendURL, thisURL } from "../../App";
-import { UserContext } from "../../contexts/UserContext";
+import { WindowAlertContext } from "../../contexts/WindowAlertContext";
 import { SectionWrapper } from "../../general_components/styledComponents1";
 import check from '../../svgs/check.svg';
 import dots from '../../svgs/dots.svg';
@@ -55,10 +55,10 @@ const Wrapper = styled.div`
 
 export const NewPassword = () => {
 
-    const {user, setUser} = useContext(UserContext)
     const [data, setData] = useState({pw: '', cpw: '', match: false, valid: false, showCPW: false, showPW: false,})
 
     const {tokenid} = useParams()
+    const {windowAlert} = useContext(WindowAlertContext)
 
     //fix
     const passwordValidation = new RegExp('[a-z]')
@@ -104,13 +104,13 @@ export const NewPassword = () => {
                     } 
                 })
             })
-            return window.alert('something went wrong. The developer has been notified')
+            return windowAlert('something went wrong. The developer has been notified')
         }
         console.log(jres.updated)
 
 
 
-        window.alert('Password successfully updated!')
+        windowAlert('Password successfully updated!')
 
         localStorage.setItem('JMUDUYPTPW', data.pw)
 

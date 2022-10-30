@@ -2,6 +2,8 @@ import { Temporal } from '@js-temporal/polyfill'
 import React, { useContext, useEffect, useState } from 'react'
 import { backendURL } from '../../App'
 import { UserContext } from '../../contexts/UserContext'
+import { WindowAlertContext } from '../../contexts/WindowAlertContext'
+import { WindowConfirmContext } from '../../contexts/WindowConfirmContext'
 import { temporalDateToNum, timeAsNumber } from '../../general/functions'
 import Calendar from '../../general_components/Calendar'
 import { ButtonWrapper, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../../general_components/styledComponents1'
@@ -35,7 +37,8 @@ export const ViewAsTimeframe = () => {
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
 
     const {user} = useContext(UserContext)
-
+    const { windowConfirm } = useContext(WindowConfirmContext)
+    const { windowAlert } = useContext(WindowAlertContext) 
     
     useEffect(() => {
 
@@ -45,7 +48,7 @@ export const ViewAsTimeframe = () => {
 
             const { verified, appointments } = await res.json()
 
-            if ( !verified ) return window.alert('admin verification failed')
+            if ( !verified ) return windowAlert('admin verification failed')
             
             setAppointmentsFromServer(appointments)
         }
@@ -56,7 +59,7 @@ export const ViewAsTimeframe = () => {
 
         const { verified, appointments } = await res.json()
 
-        if ( !verified ) return window.alert('admin verification failed')
+        if ( !verified ) return windowAlert('admin verification failed')
         
         setAppointmentsFromServer(appointments)
     }
@@ -86,67 +89,60 @@ export const ViewAsTimeframe = () => {
    
 
     const serverDeleteAppointments = async() => {
-        try {
-            if(!window.confirm('Are you sure you want to DELETE ALL appointments within the specified timeframe?')) return
-
-            const bodyObj = {
-                userData: user,
-                startDate: {
-                    day: startingDate.day,
-                    month: startingDate.month,
-                    year: startingDate.year,
-                    dayOfWeek: startingDate.dayOfWeek,
-                    dateISOString: startingDate.toString(),
-                    dateAsNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
-                },
-                endDate: {
-                    day: finishingDate.day,
-                    month: finishingDate.month,
-                    year: finishingDate.year,
-                    dayOfWeek: finishingDate.dayOfWeek,
-                    dateISOString: finishingDate.toString(),
-                    dateAsNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
-                },
-                period: {
-                    startTime: timeAsNumber(startPeriod),
-                    endTime: timeAsNumber(endPeriod),
-                },
-                onDaysOfWeek: daysOfWeek,
-            }
+        
+        windowConfirm('Are you sure you want to DELETE ALL appointments within the specified timeframe?', async () => {
+            try {
+                const bodyObj = {
+                    userData: user,
+                    startDate: {
+                        day: startingDate.day,
+                        month: startingDate.month,
+                        year: startingDate.year,
+                        dayOfWeek: startingDate.dayOfWeek,
+                        dateISOString: startingDate.toString(),
+                        dateAsNum: startingDate.year * 10000 + startingDate.month * 100 + startingDate.day,
+                    },
+                    endDate: {
+                        day: finishingDate.day,
+                        month: finishingDate.month,
+                        year: finishingDate.year,
+                        dayOfWeek: finishingDate.dayOfWeek,
+                        dateISOString: finishingDate.toString(),
+                        dateAsNum: finishingDate.year * 10000 + finishingDate.month * 100 + finishingDate.day,
+                    },
+                    period: {
+                        startTime: timeAsNumber(startPeriod),
+                        endTime: timeAsNumber(endPeriod),
+                    },
+                    onDaysOfWeek: daysOfWeek,
+                }
         
 
 
-            const bodyAsJSON = JSON.stringify(bodyObj)
+                const bodyAsJSON = JSON.stringify(bodyObj)
 
 
-            
-            const res = await fetch(`${backendURL}/appointment/admin`, {
-                method: 'DELETE',
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: bodyAsJSON
-            })
-            const data = await res.json()
 
-            window.alert(`Number of appointments deleted: ${data.mongoRes.deletedCount}`)
+                const res = await fetch(`${backendURL}/appointment/admin`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: bodyAsJSON
+                })
+                const data = await res.json()
 
-        } catch (error) {
-            console.log(error)
-            window.alert('server error')
-        }
+                windowAlert(`Number of appointments deleted: ${data.mongoRes.deletedCount}`)
+
+            } catch (error) {
+                console.log(error)
+                windowAlert('server error')
+            }
+        })
     }
 
 
 
-
-    // const onClickFunction = (identifier) => {
-    //     if(selectedAppointments.includes(identifier)){
-    //         selectAppointmentsRaw(prev => prev.filter(e => e != identifier))
-    //     }else{
-    //         selectAppointmentsRaw(prev => [...prev, identifier])
-    //     }
-    // }
     const cancelSelectedAppointments = async (objectIDArray) => {
 
         const objectsFromIdArray = filteredAppointments.filter(item => (objectIDArray.includes(item._id))  )
@@ -184,7 +180,7 @@ export const ViewAsTimeframe = () => {
 
         console.log(data)
 
-        window.alert(`${data.msg}`)
+        windowAlert(`${data.msg}`)
 
 
     }
@@ -225,34 +221,11 @@ export const ViewAsTimeframe = () => {
 
         console.log(data)
 
-        window.alert(`${data.msg}`)
+        windowAlert(`${data.msg}`)
 
 
     }
                 
-    const deleteAppointmentsById = async (objectIDArray, object ) => {
-        
-        const bodyAsJSON = JSON.stringify({
-            objectIDArray: objectIDArray, 
-            userData: user
-        })
-
-        const res = await fetch(`${backendURL}/appointment/admin/byid`, {
-            method: 'DELETE', 
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            body: bodyAsJSON,
-        })
-
-        const data = await res.json()
-
-        console.log(data)
-
-        window.alert(`${data.mongoRes.deletedCount} appointments were deleted`)
-
-
-    }
 
     const serverPostAppointments = async() => {
 
@@ -299,7 +272,7 @@ export const ViewAsTimeframe = () => {
 
         } catch (error) {
             console.log(error)
-            window.alert('appointments could not be set')
+            windowAlert('appointments could not be set')
         }
     }
 

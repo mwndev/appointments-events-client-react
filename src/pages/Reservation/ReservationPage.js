@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { backendURL } from "../../App";
+
+const Msg = styled.div`
+    font-size: 1.7em;
+    margin-top: 5cm;
+    text-align: center;
+`
 
 export const Reservation = () => {
 
@@ -32,16 +39,16 @@ export const Reservation = () => {
 const Waiting = () => {
 
     return(
-        <div>Reserving your Appointment ...</div>
+        <Msg>Reserving your Appointment ...</Msg>
     )
 }
 const Success = () => {
     return(
-        <div>Successfully booked.</div>
+        <Msg>Successfully booked.</Msg>
     )
 }
 const Failure = () => {
     return(
-        <div>Failed to book.</div>
+        <Msg>Failed to book. The reservation might have been taken by someone else.</Msg>
     )
 }

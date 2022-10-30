@@ -34,7 +34,6 @@ export const IndividualAppointments = ({ appointments, filters, selectAppointmen
 
 
     const { startDate, endDate, daysOfWeek } = filters
-    console.log(appointments)
 
     const sD = temporalDateToNum(startDate)
     const eD = temporalDateToNum(endDate)

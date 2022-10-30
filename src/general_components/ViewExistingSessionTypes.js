@@ -51,7 +51,7 @@ const SessionType = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0.2cm 0;
+    margin: 0.3cm 0;
     cursor: pointer;
     section{
         height: 50%;
@@ -89,7 +89,7 @@ const BoxHeader = styled.div`
 
 const BoxMain = styled.div`
     //scrollbar is 0.5vw
-    padding: 0.5vw 0.4vw 0.5vw 0.6vw;
+    padding: 0 ${navigator.userAgent.match(/firefox|fxios/i) ? '0.3cm 0.2cm' : '0.1cm 0'} calc(0.1cm + 0.5vw);
     height: 85%;
     width: 100%;
     overflow-y: scroll;

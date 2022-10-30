@@ -76,19 +76,6 @@ export const dateSplice = (st, c) => {
     return s.slice(0, -2) + ':' + s.slice(-2)
 }
 
-export const cancelAppointment = async(appointmentID, email, password) => {
-    // window.alert('do you wish to cancel this appointment?')
-
-    const res = await fetch(`${backendURL}/cancel`, {
-        method: 'PUT',
-        headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({id: appointmentID, email: email, password: password }),
-    })
-    const jres = await res.json()
-
-    if(jres.cancelled) window.alert('success')
-}
-
 export const authenticateUser = async(dataOBJ, setUser) => {
     console.log('authenticating users')
 

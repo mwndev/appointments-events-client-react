@@ -5,7 +5,6 @@ import { BoxHeaderText } from "../../general_components/styledComponents1";
 import check from '../../svgs/calendarcheck.svg';
 import plus from '../../svgs/calendarplus.svg';
 
-
 const StyledItem = styled.div`
     flex-shrink: 1;
     min-height: 0;
@@ -63,7 +62,7 @@ const Header = styled.div`
 const Main = styled.div`
     grid-row: 2 / 3;
     //scrollbar is 0.5vw
-    padding: 0.3cm 0.1cm 0cm calc(0.1cm + 0.5vw);
+    padding: 0.3cm ${navigator.userAgent.match(/firefox|fxios/i) ? '0.3cm 0.3cm' : '0.1cm 0'} calc(0.1cm + 0.5vw);
     gap: 0.3cm;
     display: flex;
     justify-content: center;
@@ -73,6 +72,7 @@ const Main = styled.div`
 `
 
 const Weekdays = ({parentWeekdays, setParentWeekdays, dow, sDOW}) => {
+
     //parentWeekDays === [Boolean 7 times]
     const englishDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']    
 
@@ -84,7 +84,7 @@ const Weekdays = ({parentWeekdays, setParentWeekdays, dow, sDOW}) => {
                 Weekdays
             </BoxHeaderText>
             </Header>
-            <Main>
+            <Main  >
             {
                 englishDays.map((day, index, arr)=> (
                     <SingleWeekday 
