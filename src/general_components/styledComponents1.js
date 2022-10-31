@@ -140,7 +140,7 @@ export const CommandsWrapper = styled.div`
 `
 
 export const ImportantButton = styled.div`
-    border: ${props => props.theme.bthn};
+    border: ${props => props.theme.bgrid};
     border-radius: 0%;
     background-color: ${props => props.theme.ic9};
     display: flex;
