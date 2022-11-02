@@ -46,10 +46,11 @@ const Box = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
-    margin: 1cm;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 1fr 7fr;
+    box-shadow: 0 0 0.3cm grey;
+    margin-bottom: 0.3cm;
 `
 const Header = styled.div`
     border-bottom: ${props => props.theme.bgrid};

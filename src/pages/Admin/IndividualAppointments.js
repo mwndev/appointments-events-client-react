@@ -12,7 +12,8 @@ const OuterBox = styled.div`
     display: grid;
     grid-template-rows: 1fr 7fr;
     border: ${props => props.theme.bgrid};
-    margin: 1cm;
+    box-shadow: 0 0 0.3cm grey;
+    margin-bottom: 0.3cm;
 `
 const BoxHeader = styled.div`
     border-bottom:  ${props => props.theme.bgrid};

@@ -7,6 +7,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { WindowAlertContext } from '../../contexts/WindowAlertContext';
 import { dateSplice } from '../../general/functions';
 import Calendar from '../../general_components/Calendar';
+import { PageWrapper } from '../../general_components/styledComponents1';
 import TextareaBox from '../../general_components/TextareaBox';
 import { ViewExistingSessionTypes } from '../../general_components/ViewExistingSessionTypes';
 import calendarCheck from '../../svgs/calendarcheck.svg';
@@ -344,10 +345,9 @@ export const Book = () => {
         } catch (error) {
             
         }
-   }
-       
+    }
     return(
-        <>
+        <PageWrapper>
         <StyledFlexContainer>
 
         <StyledSectionWrapper>
@@ -391,6 +391,6 @@ export const Book = () => {
         
 
         </StyledFlexContainer>
-        </>
+        </PageWrapper>
     )
 }

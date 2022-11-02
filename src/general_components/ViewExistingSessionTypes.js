@@ -13,8 +13,10 @@ infoIcon = sIIcon
 
 
 const Box = styled.div`
+    box-shadow: 0 0 0.3cm grey;
     margin: 1cm;
     height: ${props => props.height};
+    max-height: ${props => props.height};
     aspect-ratio: 7 / 7;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
@@ -103,6 +105,7 @@ const BoxMain = styled.div`
 const STDescription = styled.div`
     height: 96%;
     width: 92%;
+    max-width: calc(160px + 20vh);
     margin: 0.2cm auto;
     border: ${props => props.theme.bgrid};
     position: relative;
@@ -149,11 +152,12 @@ const STHeader = styled.div`
 const STBody = styled.section`
     font-size: 1.3em;
     section{
-        margin: 0.4cm 0.2cm;
+        white-space: normal;
+        padding: 0.2cm 0.3cm;
+        max-height: 
+        
     }
 `
-
-
 
 
 
@@ -190,7 +194,7 @@ export const ViewExistingSessionTypes = ({height, parentSTs, selectedST, setSele
                     </STHeader>
                     <STBody>
 
-                    <section>{activeST.description}</section>
+                    <section> {activeST.description}</section>
                     <section>
                         Number of clients: &nbsp;
                         {activeST.participants.min === activeST.participants.max ? activeST.participants.min : `${activeST.participants.min} - ${activeST.participants.max}`}

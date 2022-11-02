@@ -4,11 +4,22 @@ import { BoxHeaderText } from "../../general_components/styledComponents1";
 import arrowdown from '../../svgs/arrowdown.svg';
 import arrowup from '../../svgs/arrowup.svg';
 
+const OuterWrapper = styled.div`
+    max-width: 95vw;
+    aspect-ratio: 10 / 10;
+    height: ${props => props.theme.boxHeight};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+`
+
 const StyledPeriodContainer = styled.div`
     width: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
     aspect-ratio: 12 / 5.5;
-    margin: 1cm;
+    margin-bottom: 3cm;
+    box-shadow: 0 0 0.3cm grey;
     
 `
 const StyledPeriodHeader = styled.div`
@@ -64,6 +75,8 @@ const Period = ({ startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
 
 
     return(
+        <OuterWrapper>
+
         <StyledPeriodContainer>
         <StyledPeriodHeader>
             <BoxHeaderText>Period</BoxHeaderText>
@@ -114,6 +127,7 @@ const Period = ({ startPeriod, setStartPeriod, endPeriod, setEndPeriod}) => {
         </StyledWrapper>
         </StyledPeriodBody>
         </StyledPeriodContainer>
+        </OuterWrapper>
     )
 }
 export default Period

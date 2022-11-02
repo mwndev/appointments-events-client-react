@@ -9,10 +9,12 @@ import arrowL from '../svgs/arrowupL.svg';
 //styles end at line 130
 
 const StyledCalendarBox = styled.div`
+    max-width: 95vw;
     aspect-ratio: 10 / 10;
     height: ${props => props.theme.boxHeight};
     border:  ${props => props.theme.bgrid};
-    margin: 1cm;
+    box-shadow: 0 0 0.3cm grey;
+    margin-bottom: 0.3cm;
 
 `
 const StyledCalendarBoxHeader = styled.div`

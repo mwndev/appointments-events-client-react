@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { BoxHeaderText } from './styledComponents1'
 
 const LargeBox = styled.div`
+    box-shadow: 0 0 0.3cm grey;
     aspect-ratio: 11 / 10;
     height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     max-height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};

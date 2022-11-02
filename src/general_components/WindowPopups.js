@@ -5,6 +5,7 @@ import { WindowConfirmContext } from "../contexts/WindowConfirmContext";
 import { BoxHeaderText } from './styledComponents1';
 
 const PageShadow = styled.div`
+    z-index: 2;
     display: ${p => p.active ? 'flex' : 'none'};
     height: 100%;
     width: 100%;

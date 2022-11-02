@@ -6,7 +6,8 @@ import { WindowAlertContext } from '../../contexts/WindowAlertContext'
 import { WindowConfirmContext } from '../../contexts/WindowConfirmContext'
 import { temporalDateToNum, timeAsNumber } from '../../general/functions'
 import Calendar from '../../general_components/Calendar'
-import { ButtonWrapper, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../../general_components/styledComponents1'
+import { ButtonWrapper, Carousel, CarouselButtonL, CarouselButtonR, CarouselInnerBox, CarouselItem, CarouselOuterBox, FlexWrapper, ImportantButton, PageWrapper, SectionWrapper } from '../../general_components/styledComponents1'
+import arrowup from '../../svgs/arrowup.svg'
 import { CalendarFilter } from './CalendarFilter'
 import { IndividualAppointments } from './IndividualAppointments'
 import Period from './Period'
@@ -23,7 +24,7 @@ const time = Temporal.PlainTime.from({
 })
 
 
-export const ViewAsTimeframe = () => {
+export const ViewAsTimeframe = ({ simpleLayout, toggleLayout }) => {
 
 
     const [startingDate, setStartingDate] = useState(now)
@@ -35,6 +36,7 @@ export const ViewAsTimeframe = () => {
     const [period, setPeriod] = useState({start: time, end: time.with({hour: 20})})
     const [startPeriod, setStartPeriodRaw] = useState(time)
     const [endPeriod, setEndPeriodRaw] = useState(time.add({hours: 2}))
+    const [carouselCount, setCount] = useState(0)
 
     const {user} = useContext(UserContext)
     const { windowConfirm } = useContext(WindowConfirmContext)
@@ -299,100 +301,165 @@ export const ViewAsTimeframe = () => {
 
     //TODO add info button on single dates to show reservation details
     return(
-        <PageWrapper>
-            
-            <FlexWrapper>
-            <SectionWrapper>
-                <h2><span>Highlight</span> in calendars</h2>
-                <CalendarFilter filter={filter} setFilter={setFilter} />
-            </SectionWrapper>
+        <>
 
-            <SectionWrapper>
-            <h2><span>Beginning</span> of Timeframe</h2>
-            <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={filteredAppointments} />
-            </SectionWrapper>
-            <SectionWrapper>
-            <h2><span>Ending</span> of Timeframe</h2>
-            <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={filteredAppointments} />
-            </SectionWrapper>
+        {
+            simpleLayout ? (
+                <FlexWrapper>
+                    <CarouselOuterBox>
+                        <CarouselButtonL onClick={() => { if(carouselCount !== 0) setCount(prev => prev - 1) }} ><img  src={arrowup} alt='L'/></CarouselButtonL>
+                        <CarouselInnerBox>
+                        <Carousel index={carouselCount}>
 
-            <SectionWrapper>
-            <h2><span>Filter</span> by Weekdays</h2>
+                            {
+                                [
+                                    [<Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={filteredAppointments} />, <h2>Set <span>starting date</span></h2>],
+                                    [<Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={filteredAppointments} />, <h2>Set <span>finishing date</span></h2>],
+                                    [<CalendarFilter filter={filter} setFilter={setFilter} />, <h2>Set <span>filter</span></h2>],
+                                    [<Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} dow={dow} sDOW={sDOW} trigger={false} /> , <h2><span>Filter</span> by weekdays.</h2>],
+                                    [<IndividualAppointments 
+                                        selectAppointments={selectAppointments} 
+                                        appointments={filteredAppointments} 
+                                        filters={{ 
+                                            startDate: startingDate, 
+                                            endDate : finishingDate, 
+                                            startPeriod: startPeriod, 
+                                            endPeriod: endPeriod, 
+                                            daysOfWeek: daysOfWeek 
+                                        }}
+                                        selectedAppointments={selectedAppointments}
+                                         /> , <h2><span>Select</span> single appointments</h2>],
+                                    [<Period 
+                                        period={period} setPeriod={setPeriod}
+                                        startPeriod={startPeriod} setStartPeriod={setStartPeriod}
+                                        endPeriod={endPeriod} setEndPeriod={setEndPeriod}
+                                        /> , <h2>Set <span>time period</span></h2>],
+                        
+                                    [<ButtonWrapper>
+                                        <ImportantButton onClick={() => {
+                                            serverPostAppointments()
+                                            adminGetAppointments()
+                                        }}>
+                                        <span>create new</span>
+                                        </ImportantButton>
+                                        <ImportantButton onClick={() => {
+                                            serverDeleteAppointments()
+                                            adminGetAppointments()
+                                        }} >
+                                        <span>delete visible</span>
+                                        </ImportantButton>
+                                        <ImportantButton onClick={() => {
+                                            deleteSelectedAppointments(selectedAppointments)
+                                            adminGetAppointments()
+                                        }}>
+                                        <span>delete selected</span>
+                                        </ImportantButton>
+                                        <ImportantButton onClick={() => {
+                                            cancelSelectedAppointments(selectedAppointments)
+                                            adminGetAppointments()
+                                        }}>
+                                        <span>cancel selected</span>
+                                        </ImportantButton>
+                                    </ButtonWrapper> , <h2><span>Commands</span></h2>],
+                        
+                                ].map((item, index) => (
+                                    <CarouselItem index={index}>
+                                        {item[1]}
+                                        {item[0]}
+                                    </CarouselItem>
+                                ))
+                            }
+                        </Carousel>
+                        </CarouselInnerBox>
+                        <CarouselButtonR onClick={() => { if(carouselCount < 6) setCount(prev => prev + 1) }} ><img src={arrowup} alt='R'/></CarouselButtonR>
+                    </CarouselOuterBox>    
+                </FlexWrapper>
+            ) : (
 
-            <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} dow={dow} sDOW={sDOW} trigger={false} />
+                <PageWrapper>
 
-            </SectionWrapper>
+                    <FlexWrapper>
+                    <SectionWrapper>
+                        <h2><span>Highlight</span> in calendars</h2>
+                        <CalendarFilter filter={filter} setFilter={setFilter} />
+                    </SectionWrapper>
 
-            <SectionWrapper>
-            <h2>Current <span>individual</span> appointments</h2>
-            <IndividualAppointments 
-            selectAppointments={selectAppointments} 
-            appointments={filteredAppointments} 
-            filters={{ 
-                startDate: startingDate, 
-                endDate : finishingDate, 
-                startPeriod: startPeriod, 
-                endPeriod: endPeriod, 
-                daysOfWeek: daysOfWeek 
-            }}
-            selectedAppointments={selectedAppointments}
-             />
-            </SectionWrapper>
+                    <SectionWrapper>
+                        <h2><span>Beginning</span> of Timeframe</h2>
+                        <Calendar parentISODate={startingDate} setDateForParent={setStartingDate} appointments={filteredAppointments} />
+                    </SectionWrapper>
+                    <SectionWrapper>
+                        <h2><span>Ending</span> of Timeframe</h2>
+                        <Calendar parentISODate={finishingDate} setDateForParent={setFinishingDate} appointments={filteredAppointments} />
+                    </SectionWrapper>
+
+                    <SectionWrapper>
+                        <h2><span>Filter</span> by Weekdays</h2>
+                        <Weekdays parentWeekdays={daysOfWeek} setParentWeekdays={setDaysOfWeek} dow={dow} sDOW={sDOW} trigger={false} />
+                    </SectionWrapper>
+
+                    <SectionWrapper>
+                        <h2><span>Select</span> single appointments</h2>
+                        <IndividualAppointments 
+                        selectAppointments={selectAppointments} 
+                        appointments={filteredAppointments} 
+                        filters={{ 
+                            startDate: startingDate, 
+                            endDate : finishingDate, 
+                            startPeriod: startPeriod, 
+                            endPeriod: endPeriod, 
+                            daysOfWeek: daysOfWeek 
+                        }}
+                        selectedAppointments={selectedAppointments}
+                         />
+                    </SectionWrapper>
 
 
-            <SectionWrapper>
-                <h2><span>Set</span> time period</h2>
-                <Period 
-                period={period} setPeriod={setPeriod}
-                startPeriod={startPeriod} setStartPeriod={setStartPeriod}
-                endPeriod={endPeriod} setEndPeriod={setEndPeriod}
-                />
-            </SectionWrapper>
+                    <SectionWrapper>
+                        <h2><span>Set</span> time period</h2>
+                        <Period 
+                        period={period} setPeriod={setPeriod}
+                        startPeriod={startPeriod} setStartPeriod={setStartPeriod}
+                        endPeriod={endPeriod} setEndPeriod={setEndPeriod}
+                        />
+                    </SectionWrapper>
 
-            <SectionWrapper>
-            <h2><span>Server commands</span> </h2>
-            <ButtonWrapper>
-
-            <ImportantButton onClick={() => {
-                serverPostAppointments()
-                adminGetAppointments()
-            }}>
-            <span>create new</span>
-            </ImportantButton>
-            <ImportantButton onClick={() => {
-                serverDeleteAppointments()
-                adminGetAppointments()
-            }} >
-            <span>delete visible</span>
-            </ImportantButton>
-            <ImportantButton onClick={() => {
-                deleteSelectedAppointments(selectedAppointments)
-                adminGetAppointments()
-            }}>
-            <span>delete selected</span>
-            </ImportantButton>
-            <ImportantButton onClick={() => {
-                cancelSelectedAppointments(selectedAppointments)
-                adminGetAppointments()
-            }}>
-            <span>cancel selected</span>
-            </ImportantButton>
-
-            </ButtonWrapper>
-            </SectionWrapper>
+                    <SectionWrapper>
+                        <h2><span>Server commands</span> </h2>
+                        <ButtonWrapper>
+                            <ImportantButton onClick={() => {
+                                serverPostAppointments()
+                                adminGetAppointments()
+                            }}>
+                            <span>create new</span>
+                            </ImportantButton>
+                            <ImportantButton onClick={() => {
+                                serverDeleteAppointments()
+                                adminGetAppointments()
+                            }} >
+                            <span>delete filtered</span>
+                            </ImportantButton>
+                            <ImportantButton onClick={() => {
+                                deleteSelectedAppointments(selectedAppointments)
+                                adminGetAppointments()
+                            }}>
+                            <span>delete selected</span>
+                            </ImportantButton>
+                            <ImportantButton onClick={() => {
+                                cancelSelectedAppointments(selectedAppointments)
+                                adminGetAppointments()
+                            }}>
+                            <span>cancel selected</span>
+                            </ImportantButton>
+                        </ButtonWrapper>
+                    </SectionWrapper>
 
  
-           </FlexWrapper>
-            <FlexWrapper>
-            
-
-           
-            </FlexWrapper>
-
-
-            
-
-        </PageWrapper>
+                   </FlexWrapper>
+                </PageWrapper>
+            )
+        }
+        </>
         )
 }
 

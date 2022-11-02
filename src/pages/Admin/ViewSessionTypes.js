@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { backendURL } from "../../App";
 import { UserContext } from "../../contexts/UserContext";
 import { WindowAlertContext } from "../../contexts/WindowAlertContext";
-import { BoxHeaderText, ButtonWrapper, ImportantButton, SectionWrapper, SmallBox } from "../../general_components/styledComponents1";
+import { BoxHeaderText, ButtonWrapper, Carousel, CarouselButtonL, CarouselButtonR, CarouselInnerBox, CarouselItem, CarouselOuterBox, ImportantButton, SectionWrapper, SmallBox } from "../../general_components/styledComponents1";
 import TextareaBox from "../../general_components/TextareaBox";
 import { ViewExistingSessionTypes } from "../../general_components/ViewExistingSessionTypes";
+import arrowup from '../../svgs/arrowup.svg';
 
 
 
@@ -79,7 +80,7 @@ const Item = styled.div`
 
 
 
-export const ViewSessionTypes = () => {
+export const ViewSessionTypes = ({ simpleLayout, toggleLayout }) => {
 
     const [sessionTypesFromServer, setSessionTypesFromServer] = useState([])
     const [newSession, setNewSession] = useState({})
@@ -90,6 +91,7 @@ export const ViewSessionTypes = () => {
     const [min, setMin] = useState(1)
     const [category, setCategory] = useState('')
     const [trigger, triggerUseEffect] = useState(false)
+    const [carouselCount, setCount] = useState(0)
 
     //ST stands for session type
     const [sTs, setSTs] = useState([])
@@ -173,36 +175,106 @@ export const ViewSessionTypes = () => {
     
 
     return(
-        <FlexWrapper>
+        <>
+            {
+                simpleLayout ? (
 
-        <SectionWrapper>
-        <h2><span>Current</span> sessions</h2>
-        <ViewExistingSessionTypes height="calc(160px + 26vh)" parentSTs={sessionTypesFromServer} sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
-        </SectionWrapper>
+                <FlexWrapper>
+                    <CarouselOuterBox>
+                        <CarouselButtonL onClick={() => { if(carouselCount !== 0) setCount(prev => prev - 1) }} ><img  src={arrowup} alt='L'/></CarouselButtonL>
+                        <CarouselInnerBox>
+                        <Carousel index={carouselCount}>
+                        {
 
-            
-       <CreateSessionType
-            // I seriously regret seperating the components now
-            serverCreateSessionType={serverCreateSessionType}
-            newSession={newSession}    setNewSession={setNewSession}
-            price={price}    setPrice={setPrice}
-            name={name}    setName={setName}
-            description={description}    setDescription={setDescription}
-            max={max}    setMax={setMax}
-            min={min}    setMin={setMin}
-            category={category}    setCategory={setCategory} 
+                            [
+                                [<ViewExistingSessionTypes 
+                                    height="calc(160px + 26vh)" 
+                                    parentSTs={sessionTypesFromServer} 
+                                    sTs={sTs} setSTs={setSTs} 
+                                    selectedST={selectedST} 
+                                    setSelectedST={setSelectedST} 
+                                    activeST={activeST} 
+                                    setActiveST={setActiveST}/>  , <h2>View <span>existing</span> sesstion types</h2> ],
+                                [<CreateSessionType
+                                    // I seriously regret seperating the components now
+                                    serverCreateSessionType={serverCreateSessionType}
+                                    newSession={newSession}    setNewSession={setNewSession}
+                                    price={price}    setPrice={setPrice}
+                                    name={name}    setName={setName}
+                                    description={description}    setDescription={setDescription}
+                                    max={max}    setMax={setMax}
+                                    min={min}    setMin={setMin}
+                                    category={category}    setCategory={setCategory} 
 
-        />
-        <SectionWrapper>
-        <h2><span>Server Commands</span></h2>
-        <ButtonWrapper>
-            <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
-            <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
-        </ButtonWrapper>
-        </SectionWrapper>
+                                /> , <h2><span>Create new</span> type</h2> ],
+                                [<TextareaBox 
+                                    height={'calc(160px + 26vh)'} 
+                                    parentSetState={setDescription} 
+                                    title={'New Description'} />, <h2><span>Write</span> description</h2>  ],
+        
+                                [<ButtonWrapper>
+                                    <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
+                                    <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
+                                </ButtonWrapper>, <h2><span>Server commands</span></h2> ],
+                            ].map((item, index) => (
+                                <CarouselItem index={index}>
+                                    {item[1]}
+                                    {item[0]}
+                                </CarouselItem>
+                            ))
+
+                        }
+                        </Carousel>
+                        </CarouselInnerBox>
+                        <CarouselButtonR onClick={() => { if(carouselCount < 3) setCount(prev => prev + 1) }} ><img src={arrowup} alt='R'/></CarouselButtonR>
+                    </CarouselOuterBox>    
+                </FlexWrapper>
+                ) : (
+
+                <FlexWrapper>
+
+                <SectionWrapper>
+                <h2><span>Current</span> sessions</h2>
+                <ViewExistingSessionTypes height="calc(160px + 26vh)" parentSTs={sessionTypesFromServer} sTs={sTs} setSTs={setSTs} selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
+                </SectionWrapper>
+
+                <SectionWrapper>
+                <h2>Enter <span>details</span></h2>
+                <CreateSessionType
+                    // I seriously regret seperating the components now
+                    serverCreateSessionType={serverCreateSessionType}
+                    newSession={newSession}    setNewSession={setNewSession}
+                    price={price}    setPrice={setPrice}
+                    name={name}    setName={setName}
+                    description={description}    setDescription={setDescription}
+                    max={max}    setMax={setMax}
+                    min={min}    setMin={setMin}
+                    category={category}    setCategory={setCategory} 
+
+                />
+                </SectionWrapper>
+                <SectionWrapper>
+                <h2><span>Write</span> description</h2>
+                <TextareaBox 
+                    height={'calc(160px + 26vh)'} 
+                    parentSetState={setDescription} 
+                    title={'New Description'} />
+                </SectionWrapper>
+                <SectionWrapper>
+                <h2><span>Commands</span></h2>
+                <ButtonWrapper>
+                    <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
+                    <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
+                </ButtonWrapper>
+                </SectionWrapper>
 
 
-        </FlexWrapper>
+                </FlexWrapper>
+
+
+                )
+            }
+        </>
     )
 
 }
@@ -233,8 +305,6 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
 
     return(
         <>
-        <SectionWrapper>
-        <h2>Enter <span>details</span></h2>
         <SmallBox>
             <SmallBoxHeader>
                 <BoxHeaderText>New Session Type</BoxHeaderText>
@@ -274,12 +344,7 @@ const CreateSessionType = ({newSession, setNewSession, price, setPrice, name, se
                     </Item>
                 </ItemContainer>
         </SmallBox>
-        </SectionWrapper>
 
-        <SectionWrapper>
-        <h2><span>Write</span> description</h2>
-        <TextareaBox height={'calc(160px + 26vh)'} parentSetState={setDescription} title={'New Description'} />
-        </SectionWrapper>
 
         </>
     )

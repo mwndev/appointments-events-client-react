@@ -6,8 +6,11 @@ import github from './svgs/github.svg'
 import githubgreen from './svgs/githubgreen.svg'
 
 const OuterWrapper = styled.div`
+@media only screen and (max-width: 800px) {
+    display: none !important;
+}
     height: calc(2cm + 1vh);
-    min-width: 100%;
+    width: 100%;
     background-color: ${props => props.theme.c3};
     display: flex;
     align-items: center;

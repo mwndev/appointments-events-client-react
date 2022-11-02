@@ -19,27 +19,7 @@ import Quickadmin from './pages/Quickadmin/QuickadminPage'
 import { Reservation } from './pages/Reservation/ReservationPage'
 import User from './pages/User/UserPage'
 
-                 
-const userAgent = navigator.userAgent;
-
-function getBrowserName() {
-  let bN
-  if(userAgent.match(/chrome|chromium|crios/i)){
-    bN = "chrome";
-  }else if(userAgent.match(/firefox|fxios/i)){
-    bN = "firefox";
-  }  else if(userAgent.match(/safari/i)){
-    bN = "safari";
-  }else if(userAgent.match(/opr\//i)){
-    bN = "opera";
-  } else if(userAgent.match(/edg/i)){
-    bN = "edge";
-  }else{
-    bN ="No browser detection";
-  }
-  return bN
-}
-
+ 
 
 const Page = styled.div`
 min-height: calc(100vh - 2cm - 5vh);
@@ -91,7 +71,7 @@ const theme1 = {
   boxHeaderHeight: '12.3%',
   boxBodyHeight: '85%',
   bthk:  '0.07cm solid #000',
-  bmed: '0.06cm solid #000',
+  bmed: '2px solid #000',
   bthn: '0.05cm solid #000',
   bgrid: '1px solid #000',
 
