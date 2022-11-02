@@ -7,9 +7,10 @@ import { UserContext } from '../../contexts/UserContext';
 import { WindowAlertContext } from '../../contexts/WindowAlertContext';
 import { dateSplice } from '../../general/functions';
 import Calendar from '../../general_components/Calendar';
-import { PageWrapper } from '../../general_components/styledComponents1';
+import { Carousel, CarouselButtonL, CarouselButtonR, CarouselInnerBox, CarouselItem, CarouselOuterBox, FlexWrapper, PageWrapper } from '../../general_components/styledComponents1';
 import TextareaBox from '../../general_components/TextareaBox';
 import { ViewExistingSessionTypes } from '../../general_components/ViewExistingSessionTypes';
+import arrowup from '../../svgs/arrowup.svg';
 import calendarCheck from '../../svgs/calendarcheck.svg';
 
 
@@ -36,7 +37,7 @@ const StyledSectionWrapper = styled.section`
 `
 
 const SmallBox = styled.div`
-    aspect-ratio: 5 / 8;
+    aspect-ratio: 6 / 8;
     height: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
     margin: 1cm;
@@ -52,8 +53,8 @@ const SmallBoxHeader = styled.div`
     grid-column: 1 / -1;
     background-color: ${props => props.theme.ic4};
     span{
-        font-weight: 500;
-        font-size: 1.3em;
+        font-weight: 400;
+        font-size: 1.7rem;
     }
     
 `
@@ -165,7 +166,7 @@ const AppointmentsBox = ({dateISO, appointments, selectedAppointment, setSelecte
             <SmallBox>
                 <SmallBoxHeader>
                 <span>
-                    Avaliable Appointments
+                    Avaliable Timeslots 
                 </span>
                 </SmallBoxHeader>
                 <Main>
@@ -252,7 +253,7 @@ const SendBookingBox = ({ selectedAppointment, data, serverConfirmReservation })
             <GridBox>
                 <SmallBoxHeader>
                     <span>
-                        Confirm Appointment
+                        Appointment Data
                     </span>
                 </SmallBoxHeader>
                 <Main>
@@ -293,6 +294,8 @@ export const Book = () => {
     const [selectedST, setSelectedST] = useState()
     const [activeST, setActiveST] = useState(null)
     const [notes, setNotes] = useState(null)
+    const [simpleLayout, toggleLayout] = useState(true)
+    const [carouselCount, setCount] = useState(0)
 
     const {user, } = useContext(UserContext)
     const { windowAlert } = useContext(WindowAlertContext)
@@ -348,49 +351,102 @@ export const Book = () => {
     }
     return(
         <PageWrapper>
-        <StyledFlexContainer>
+        {
+            simpleLayout ? (
+                <>
 
-        <StyledSectionWrapper>
-            <h2>Select appointment <span>type</span>.</h2>
-            <ViewExistingSessionTypes height="calc(200px + 30vh)" parentSTs={sTs}  selectedST={selectedST} setSelectedST={setSelectedST} activeST={activeST} setActiveST={setActiveST}/>
-        </StyledSectionWrapper>
+                <FlexWrapper>
+                    <CarouselOuterBox>
+                        <CarouselButtonL onClick={() => { if(carouselCount !== 0) setCount(prev => prev - 1) }} ><img  src={arrowup} alt='L'/></CarouselButtonL>
+                        <CarouselInnerBox>
+                        <Carousel index={carouselCount}>
+                        {
+                            [
+                                [ <ViewExistingSessionTypes 
+                                    height="calc(200px + 30vh)" 
+                                    parentSTs={sTs}  
+                                    selectedST={selectedST} 
+                                    setSelectedST={setSelectedST} 
+                                    activeST={activeST} 
+                                    setActiveST={setActiveST}/>, <h2>Select appointment <span>Type</span></h2>],
+                                [<Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/> , <h2>Select a <span>date</span></h2> ],
+                                [<AppointmentsBox 
+                                    selectedAppointment={selectedAppointment} 
+                                    setSelectedAppointment={setSelectedAppointment} 
+                                    dateISO={date} 
+                                    appointments={appointments.filter(e => e.date.dateAsString === date.toString())}
+                                /> , <h2>Select your <span>appointment</span></h2> ],
+                                [<TextareaBox height={'default'} parentSetState={setNotes} title={'Notes'} /> , <h2><span>Write</span> notes &#40;optional&#41;</h2>],
+                                [<SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} serverConfirmReservation={serverConfirmReservation}/>
+                                , <h2><span>Confirm</span> your appointment!</h2> ],
+                            ].map((item, index) => (
+                                <CarouselItem index={index}>
+                                    {item[1]}
+                                    {item[0]}
+                                </CarouselItem>
+                            ))
+                        }
+                        </Carousel>
+                        </CarouselInnerBox>
+                        <CarouselButtonR onClick={() => { if(carouselCount < 4) setCount(prev => prev + 1) }} ><img src={arrowup} alt='R'/></CarouselButtonR>
+                    </CarouselOuterBox>
+                </FlexWrapper>  
+                </>
+            ) : (
+                <>
+                <StyledFlexContainer>
 
-        <StyledSectionWrapper>
+                <StyledSectionWrapper>
+                    <h2>Select appointment <span>type</span></h2>
+                    <ViewExistingSessionTypes 
+                    height="calc(200px + 30vh)" 
+                    parentSTs={sTs}  
+                    selectedST={selectedST} 
+                    setSelectedST={setSelectedST} 
+                    activeST={activeST} 
+                    setActiveST={setActiveST}/>
+                </StyledSectionWrapper>
+
+                <StyledSectionWrapper>
 
 
-        <h2>Select a <span>date</span>.</h2>
+                <h2>Select a <span>date</span></h2>
 
-        <Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/>
+                <Calendar parentISODate={date} setDateForParent={setDate} appointments={appointments}/>
         
-        </StyledSectionWrapper>
-        <StyledSectionWrapper>
+                </StyledSectionWrapper>
+                <StyledSectionWrapper>
 
-        <h2>Select your <span>appointment</span>.</h2>
+                <h2>Select your <span>appointment</span></h2>
 
-        <AppointmentsBox 
-            selectedAppointment={selectedAppointment} 
-            setSelectedAppointment={setSelectedAppointment} 
-            dateISO={date} 
-            appointments={appointments.filter(e => e.date.dateAsString === date.toString())}
-        />
+                <AppointmentsBox 
+                    selectedAppointment={selectedAppointment} 
+                    setSelectedAppointment={setSelectedAppointment} 
+                    dateISO={date} 
+                    appointments={appointments.filter(e => e.date.dateAsString === date.toString())}
+                />
 
-        </StyledSectionWrapper>
+                </StyledSectionWrapper>
         
-        <StyledSectionWrapper>
-            <h2><span>Write</span> notes &#40;optional&#41;</h2>
-            <TextareaBox height={'default'} parentSetState={setNotes} title={'Notes'} />
-        </StyledSectionWrapper>
+                <StyledSectionWrapper>
+                    <h2><span>Write</span> notes &#40;optional&#41;</h2>
+                    <TextareaBox height={'default'} parentSetState={setNotes} title={'Notes'} />
+                </StyledSectionWrapper>
 
-        <StyledSectionWrapper>
-            
-        <h2><span>Confirm</span> your appointment!</h2>
+                <StyledSectionWrapper>
+
+                <h2><span>Confirm</span> your appointment!</h2>
         
-        <SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} serverConfirmReservation={serverConfirmReservation}/>
+                <SendBookingBox selectedAppointment={selectedAppointment} data={{ notes: notes, sessionType: selectedST }} serverConfirmReservation={serverConfirmReservation}/>
 
-        </StyledSectionWrapper>
+                </StyledSectionWrapper>
         
 
-        </StyledFlexContainer>
+                </StyledFlexContainer>
+                </>
+
+            )
+        }
         </PageWrapper>
     )
 }
