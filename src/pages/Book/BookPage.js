@@ -40,7 +40,8 @@ const SmallBox = styled.div`
     aspect-ratio: 6 / 8;
     height: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
-    margin: 1cm;
+    margin-bottom: 0.3cm;
+    box-shadow: 0 0 0.3cm grey;
     display: grid;
     grid-template-rows: 1fr 7fr;
 `
@@ -201,6 +202,7 @@ const StyledConfirmButton = styled.div`
     &:hover{
         background-color: ${props => props.theme.hc2};
         border:  ${props => props.theme.bgrid};
+        border-top: ${p => p.theme.bmed};
     }
     span{
         font-weight: 400;
@@ -213,7 +215,7 @@ const GridBox = styled.div`
     aspect-ratio: 5 / 8;
     height: ${props => props.theme.boxHeight};
     border: ${props => props.theme.bgrid};
-    margin: 1cm;
+    box-shadow: 0 0 0.3cm grey;
     display: grid;
     grid-template-rows: 1fr 6fr 1fr;
 `
@@ -288,10 +290,10 @@ export const Book = () => {
     const now = Temporal.Now.plainDateISO()
     const [date, setDate] = useState(now)
     const [appointments, setAppointments] = useState([])
-    const [selectedAppointment, setSelectedAppointment] = useState([])
+    const [selectedAppointment, setSelectedAppointment] = useState(null)
 
     const [sTs, setSTs] = useState([])
-    const [selectedST, setSelectedST] = useState()
+    const [selectedST, setSelectedST] = useState(null)
     const [activeST, setActiveST] = useState(null)
     const [notes, setNotes] = useState(null)
     const [simpleLayout, toggleLayout] = useState(true)
@@ -323,6 +325,8 @@ export const Book = () => {
     const serverConfirmReservation = async () => {
         try {
             if(user.id === null)return windowAlert('You need to log in before booking anything.')
+            if(selectedST === null)return windowAlert('Please select a session type.')
+            if(selectedAppointment === null) return windowAlert('Please select an appointment timeslot.')
             const bodyOBJ = {
                 appointment: selectedAppointment,
                 sessionType: selectedST,

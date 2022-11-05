@@ -25,11 +25,12 @@ const Row = styled.div`
     justify-content: left;
     align-items: center;
     height: 1.7cm;
-    width: 10cm;
-    gap: 0.5cm;
+    width: 12cm;
     span{
         font-size: 1.4em;
         min-width: calc(6cm + 108px);
+        flex-grow: 1;
+        padding-left: 0.5cm;
     }
 `
 const FirstIcon = styled.img`

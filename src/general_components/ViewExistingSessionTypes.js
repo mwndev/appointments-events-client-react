@@ -14,7 +14,6 @@ infoIcon = sIIcon
 
 const Box = styled.div`
     box-shadow: 0 0 0.3cm grey;
-    margin: 1cm;
     height: ${props => props.height};
     max-height: ${props => props.height};
     aspect-ratio: 7 / 7;
@@ -26,6 +25,7 @@ const Box = styled.div`
     flex-direction: column;
     grid-auto-rows: 1fr;
     border: ${props => props.theme.bgrid};
+    margin-bottom: 0.3cm;
 
 
     ::-webkit-scrollbar{
@@ -154,7 +154,6 @@ const STBody = styled.section`
     section{
         white-space: normal;
         padding: 0.2cm 0.3cm;
-        max-height: 
         
     }
 `

@@ -8,7 +8,7 @@ const LargeBox = styled.div`
     height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     max-height: ${props => props.height === 'default' ? props.theme.boxHeight : props.height};
     border: ${props => props.theme.bgrid};
-    margin: 1cm;
+    margin-bottom: 0.3cm ;
     display: grid;
     grid-template: repeat(6, 1fr) / repeat(10, 1fr);
     grid-gap: 0.2cm;

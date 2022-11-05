@@ -12,6 +12,8 @@ import icon from '../../svgs/calendarcheck.svg';
 import activeIcon from '../../svgs/calendarwarning.svg';
 
 const OuterBox = styled.div`
+    box-shadow: 0 0 0.3cm grey;
+    margin-bottom: 0.3cm;
     height: ${props => props.theme.boxHeight};
     aspect-ratio: 1 / 1;
     display: grid;
