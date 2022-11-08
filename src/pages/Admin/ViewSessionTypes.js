@@ -194,7 +194,7 @@ export const ViewSessionTypes = ({ simpleLayout, toggleLayout }) => {
                                     selectedST={selectedST} 
                                     setSelectedST={setSelectedST} 
                                     activeST={activeST} 
-                                    setActiveST={setActiveST}/>  , <h2>View <span>existing</span> sesstion types</h2> ],
+                                    setActiveST={setActiveST}/>  , <h2>View <span>existing</span> session types</h2> ],
                                 [<CreateSessionType
                                     // I seriously regret seperating the components now
                                     serverCreateSessionType={serverCreateSessionType}
@@ -262,9 +262,9 @@ export const ViewSessionTypes = ({ simpleLayout, toggleLayout }) => {
                 </SectionWrapper>
                 <SectionWrapper>
                 <h2><span>Commands</span></h2>
-                <ButtonWrapper>
-                    <ImportantButton onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
-                    <ImportantButton onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
+                <ButtonWrapper height='calc(160px + 26vh)'>
+                    <ImportantButton height={true} onClick={() => serverCreateSessionType()}><span>create new</span></ImportantButton>
+                    <ImportantButton height={true} onClick={() => serverDeleteSessionType()}><span>delete selected</span></ImportantButton>
                 </ButtonWrapper>
                 </SectionWrapper>
 

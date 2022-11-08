@@ -177,11 +177,11 @@ export const SmallBox = styled.div`
     height: calc(160px + 26vh);
     border: ${props => props.theme.bgrid};
     gap: 0.1cm;
-    margin: 1cm;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(6, 1fr);
     padding-bottom: 0.4cm !important;
+    margin-bottom: 0.3cm;
 `
 export const SmallBoxHeader = styled.div`
     border-bottom: 3px solid ${props => props.theme.tc};
@@ -253,7 +253,7 @@ export const StyledItem = styled.div`
     }
 `
 export const ButtonWrapper = styled.div`
-    height: ${p => p.theme.boxHeight};
+    height: ${p => p.height ? p.height:  p.theme.boxHeight};
     aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
@@ -274,12 +274,12 @@ export const ImportantButton = styled.div`
     align-items: center;
     flex-wrap: wrap;
     flex-direction: column;
-    max-width: 40%;
+    max-width: ${props => props.height ? 'calc(60% - 1.1cm)' : 'calc(50% - 1.1cm)'} !important ;
     padding: 0;
     margin: 0.5cm 0.7cm ;
     cursor: pointer;
     max-width: calc(50% - 1.1cm);
-    width: 50%;
+    width: 70%;
     height: calc(30px + 1cm);
     span{
         color: ${props => props.theme.c3};
