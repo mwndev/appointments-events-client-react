@@ -21,14 +21,22 @@ const PageWrapper = styled.div`
 `
 
 const Row = styled.div`
+@media only screen and (max-width: 800px) {
+    justify-content: center !important;
+    span{
+        display: none !important;
+    }
+}
     display: flex;
     justify-content: left;
     align-items: center;
     height: 1.7cm;
-    width: 12cm;
+    width: 16cm;
+    max-width: 90%;
     span{
         font-size: 1.4em;
-        min-width: calc(6cm + 108px);
+        flex-shrink: 0;
+        width: calc(6cm + 108px);
         flex-grow: 1;
         padding-left: 0.5cm;
     }
@@ -36,21 +44,34 @@ const Row = styled.div`
 const FirstIcon = styled.img`
         height: 70%;
         aspect-ratio: 1 / 1;
+    @media only screen and (max-width: 800px) {
+        margin-left: 1cm;
+    }
 `
 
 const SecondIcon = styled.img`
         height: 27%;
         aspect-ratio: 1 / 1;
         cursor: pointer;
+    @media only screen and (max-width: 800px) {
+        margin: 1cm;
+    }
         
 `
+    // display: ${props => props.show ? 'inline-block' : 'none'};
 const HoverMsg = styled.section`
-    transition: ${props => props.show ? '2s' : '0.1s' };
-    display: ${props => props.show ? 'inline-block' : 'none'};
+    margin-left: 0.2cm;
+    transition: ${props => props.show ? '0.1s' : '2s' };
+    opacity: ${props => props.show ? 1 : 0};
     border: ${props => props.theme.bthn};
+    display: inline-block;
     padding: 0.1cm;
     background-color: #fff;
     z-index: 1;
+    @media only screen and (max-width: 800px) {
+        position: absolute !important;
+        transform: translateX(1cm) translateY(-0.8cm);
+    }
 `
 
 

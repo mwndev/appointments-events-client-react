@@ -9,7 +9,8 @@ const FlexContainer = styled.div`
 `
 
 const Container = styled.div`
-  width: 40%;
+  width: calc(23vw + 8cm);
+  max-width: 90%;
   font-size: 1.4em;
   line-height: 1cm;
   margin-bottom: 5cm;

@@ -69,3 +69,23 @@ export const Header = ({ links, messageBelowBanner }) => {
   )
 }
 
+
+const PhoneMenuWrapper = styled.div`
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transition: 0.3s ease-out;
+    transform: translateX(${p => p.active ? '-100%' : '0%'});
+`
+const PhoneMenu = styled.div`
+    width: 90%;
+    background-color: ${p => p.theme.c3};
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    a{
+        width: 84%;
+        height: 10%;
+    }
+`

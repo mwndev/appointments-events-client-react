@@ -129,10 +129,13 @@ function App() {
 
   useEffect(() => {
     //server is "pinged because the backend server should start up asap"
+    
     const pingServer = async() => {
       return await fetch(`${backendURL}/`)
     }
     pingServer()
+
+    windowAlert('This website is still a work in progress. What\'s currently still missing is: \n -The mobile layout \n')
 
     getUserDataFromLocalStorage(setUser)
 
@@ -146,7 +149,6 @@ function App() {
     getSTs()
   },[])
 
-  
 
   return (
     <ThemeProvider theme={theme1}>
