@@ -135,7 +135,7 @@ function App() {
     }
     pingServer()
 
-    windowAlert('This website is still a work in progress. What\'s currently still missing is: \n -The mobile layout \n')
+    windowAlert('This website is still a work in progress. What\'s currently still missing is the mobile layout.')
 
     getUserDataFromLocalStorage(setUser)
 

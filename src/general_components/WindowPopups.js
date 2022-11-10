@@ -72,7 +72,7 @@ export const Alert = () => {
         <PageShadow active={activeA} >
             <OuterBox >
                 <Header>
-                    <BoxHeaderText>Confirm</BoxHeaderText>
+                    <BoxHeaderText>Message</BoxHeaderText>
                 </Header>
                 <Main>
                     <Message>
